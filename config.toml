@@ -1,0 +1,11 @@
+serial_number = "1.0"
+service_name = "jewelryserver"
+service_displayname = "jewelryserver"
+sercice_desc = "jewelryserver"
+is_dev = true 
+[mysql_info]
+    host = "127.0.0.1"
+    port = 3306
+    username = "root"
+    password = "qwer"
+    database = "oauth_db"
