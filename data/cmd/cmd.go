@@ -1,10 +1,11 @@
 package cmd
 
 import (
-	"data/config"
 	"fmt"
 	"os"
 	"public/tools"
+
+	"github.com/xie1xiao1jun/gorm-tools/data/config"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/go-playground/validator.v9"
@@ -17,7 +18,7 @@ var rootCmd = &cobra.Command{
 	Short: "gorm mysql reflect tools",
 	Long:  `base on gorm tools for mysql database to golang struct`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(tools.GetJsonStr(config.GetMysqlDbInfo()))
+
 		//开始做事情
 	},
 }
@@ -33,7 +34,7 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVarP(&mysqlInfo.Host, "host", "H", "", "数据库地址.")
+	rootCmd.PersistentFlags().StringVarP(&mysqlInfo.Host, "host", "H", "", "数据库地址.(注意-H为大写)")
 	rootCmd.MarkFlagRequired("host")
 	rootCmd.PersistentFlags().StringVarP(&mysqlInfo.Username, "user", "u", "", "用户名.")
 	rootCmd.MarkFlagRequired("user")
@@ -49,18 +50,37 @@ func init() {
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
+	MergeMysqlDbInfo()
 	validate := validator.New()
-	err := validate.Struct(mysqlInfo)
+	err := validate.Struct(config.GetMysqlDbInfo())
 	if err != nil {
-		err1 := validate.Struct(config.GetMysqlDbInfo())
-		if err1 != nil {
-			fmt.Println("Can't read cmd: using （-h, --help) to get more imfo")
-			fmt.Println("error info: ", err, err1)
-			os.Exit(1)
-		} else {
-			fmt.Println("using default config info.")
-		}
+		fmt.Println("Can't read cmd: using （-h, --help) to get more imfo")
+		fmt.Println("error info: ", err, err)
+		os.Exit(1)
 	} else {
-		config.SetMysqlDbInfo(&mysqlInfo)
+		fmt.Println("using config info.")
+		fmt.Println(tools.GetJsonStr(config.GetMysqlDbInfo()))
 	}
+}
+
+//合并
+func MergeMysqlDbInfo() {
+	var tmp = config.GetMysqlDbInfo()
+	if len(mysqlInfo.Database) > 0 {
+		tmp.Database = mysqlInfo.Database
+	}
+	if len(mysqlInfo.Host) > 0 {
+		tmp.Host = mysqlInfo.Host
+	}
+	if len(mysqlInfo.Password) > 0 {
+		tmp.Password = mysqlInfo.Password
+	}
+	if mysqlInfo.Port != 3306 {
+		tmp.Port = mysqlInfo.Port
+	}
+	if len(mysqlInfo.Username) > 0 {
+		tmp.Username = mysqlInfo.Username
+	}
+
+	config.SetMysqlDbInfo(&tmp)
 }
