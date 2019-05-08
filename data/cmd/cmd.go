@@ -3,7 +3,8 @@ package cmd
 import (
 	"fmt"
 	"os"
-	"public/tools"
+
+	"github.com/xie1xiao1jun/public/tools"
 
 	"github.com/xie1xiao1jun/gorm-tools/data/config"
 	"github.com/xie1xiao1jun/gorm-tools/data/view/gtools"
