@@ -6,6 +6,7 @@ import (
 	"public/tools"
 
 	"github.com/xie1xiao1jun/gorm-tools/data/config"
+	"github.com/xie1xiao1jun/gorm-tools/data/view/gtools"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/go-playground/validator.v9"
@@ -18,7 +19,7 @@ var rootCmd = &cobra.Command{
 	Short: "gorm mysql reflect tools",
 	Long:  `base on gorm tools for mysql database to golang struct`,
 	Run: func(cmd *cobra.Command, args []string) {
-
+		gtools.Execute()
 		//开始做事情
 	},
 }
@@ -58,7 +59,7 @@ func initConfig() {
 		fmt.Println("error info: ", err, err)
 		os.Exit(1)
 	} else {
-		fmt.Println("using config info.")
+		fmt.Println("using config info:")
 		fmt.Println(tools.GetJsonStr(config.GetMysqlDbInfo()))
 	}
 }
