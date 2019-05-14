@@ -24,6 +24,7 @@ func Execute() {
 		rows.Scan(&table)
 		tables = append(tables, table)
 	}
+
 	fmt.Println(tables)
 
 }

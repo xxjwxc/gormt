@@ -2,7 +2,9 @@ package config
 
 import (
 	"fmt"
-	"public/tools"
+
+	"github.com/xie1xiao1jun/public/dev"
+	"github.com/xie1xiao1jun/public/tools"
 
 	"github.com/BurntSushi/toml"
 )
@@ -20,6 +22,7 @@ var _map = Config{}
 
 func init() {
 	onInit()
+	dev.OnSetDev(_map.IsDev)
 }
 
 func onInit() {
@@ -29,11 +32,6 @@ func onInit() {
 		fmt.Println("InitFile: ", err.Error())
 		return
 	}
-}
-
-//OnIsDev ... 是否是开发版本
-func OnIsDev() bool {
-	return _map.IsDev
 }
 
 //InitFile ...
