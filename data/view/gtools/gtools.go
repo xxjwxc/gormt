@@ -17,8 +17,10 @@ func Execute() {
 	rows, err := orm.Raw("show tables").Rows()
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 	defer rows.Close()
+
 	for rows.Next() {
 		var table string
 		rows.Scan(&table)
@@ -26,5 +28,4 @@ func Execute() {
 	}
 
 	fmt.Println(tables)
-
 }
