@@ -5,7 +5,9 @@ import "fmt"
 //
 type Config struct {
 	CfgBase
-	MySQLInfo MysqlDbInfo `toml:"mysql_info"`
+	MySQLInfo     MysqlDbInfo `toml:"mysql_info"`
+	OutDir        string      `toml:"out_dir"`
+	SingularTable bool        `toml:"singular_table"`
 }
 
 //mysql 数据库信息
@@ -36,4 +38,24 @@ func GetMysqlConStr() string {
 		_map.MySQLInfo.Port,
 		_map.MySQLInfo.Database,
 	)
+}
+
+//设置输出目录
+func SetOutDir(outDir string) {
+	_map.OutDir = outDir
+}
+
+//获取输出目录
+func GetOutDir() string {
+	return _map.OutDir
+}
+
+//设置禁用表名复数
+func SetSingularTable(b bool) {
+	_map.SingularTable = b
+}
+
+//获取禁用表名复数
+func GetSingularTable() bool {
+	return _map.SingularTable
 }

@@ -1,11 +1,14 @@
-serial_number = "1.0"
-service_name = "jewelryserver"
-service_displayname = "jewelryserver"
-sercice_desc = "jewelryserver"
-is_dev = true 
+serial_number = "1.0"  #版本号
+service_name = "jewelryserver"   #服务名
+service_displayname = "jewelryserver" #服务显示名
+sercice_desc = "jewelryserver"    #服务描述
+is_dev = true  #是否开发者模式
+out_dir = ""  #目录
+singular_table = true  #单表模式:true:禁用表名复数,false:采用表明复数 参考：gorm.SingularTable
 [mysql_info]
     host = "127.0.0.1"
     port = 3306
     username = "root"
     password = "qwer"
     database = "oauth_db"
+
