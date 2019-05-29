@@ -52,7 +52,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&outDir, "outdir", "o", "", "输出目录")
 	rootCmd.MarkFlagRequired("outdir")
 
-	rootCmd.PersistentFlags().StringVarP(&singular_table, "singular", "s", "", "是否禁用表名复数")
+	rootCmd.PersistentFlags().BoolVarP(&singular_table, "singular", "s", false, "是否禁用表名复数")
 	rootCmd.MarkFlagRequired("singular")
 
 	rootCmd.Flags().IntVar(&mysqlInfo.Port, "port", 3306, "端口号")
