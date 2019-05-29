@@ -10,6 +10,6 @@ func Execute() {
 	orm := mysqldb.OnInitDBOrm(config.GetMysqlConStr())
 	defer orm.OnDestoryDB()
 
-	packageInfo := OnGetPackageInfo(orm, OnGetTables(orm))
+	OnGetPackageInfo(orm, OnGetTables(orm))
 
 }

@@ -55,7 +55,7 @@ func OnGetPackageInfo(orm *mysqldb.MySqlDB, tabls map[string]string) generate.Ge
 		sct.SetStructName(OnGetCamelName(tab)) //大驼峰
 		sct.SetNotes(desc)
 		//构造元素
-
+		OnGetTableElement(orm, tab)
 		//--------end
 
 		pkg.AddStruct(sct)
@@ -64,10 +64,26 @@ func OnGetPackageInfo(orm *mysqldb.MySqlDB, tabls map[string]string) generate.Ge
 	return pkg
 }
 
-// //获取表列及注释
-func OnGetTables(orm *mysqldb.MySqlDB, tab string) []generate.GenElement {
+// 获取表列及注释
+func OnGetTableElement(orm *mysqldb.MySqlDB, tab string) []generate.GenElement {
 	var el []generate.GenElement
+	var list []struct {
+		Field string `gorm:"Field"`
+		Type  string `gorm:"Type"`
+		Key   string `gorm:"key"`
+		Desc  string `gorm:"Comment"`
+	}
 
+	//获取表注释
+	orm.Raw("show FULL COLUMNS from ?;", tab).Find(&list)
+	for _, v := range list {
+		var tmp generate.GenElement
+		tmp.SetName(OnGetCamelName(v.Field))
+		tmp.SetNotes(v.Desc)
+		tmp.SetType(v.Type)
+	}
+
+	return el
 }
 
 //大驼峰或者首字母大写
