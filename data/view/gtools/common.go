@@ -68,14 +68,14 @@ func OnGetPackageInfo(orm *mysqldb.MySqlDB, tabls map[string]string) generate.Ge
 func OnGetTableElement(orm *mysqldb.MySqlDB, tab string) []generate.GenElement {
 	var el []generate.GenElement
 	var list []struct {
-		Field string `gorm:"Field"`
-		Type  string `gorm:"Type"`
-		Key   string `gorm:"key"`
-		Desc  string `gorm:"Comment"`
+		Field string `gorm:"column:Field"`
+		Type  string `gorm:"column:Type"`
+		Key   string `gorm:"column:key"`
+		Desc  string `gorm:"column:Comment"`
 	}
 
 	//获取表注释
-	orm.Raw("show FULL COLUMNS from ?;", tab).Find(&list)
+	orm.Raw("show FULL COLUMNS from " + tab).Find(&list)
 	for _, v := range list {
 		var tmp generate.GenElement
 		tmp.SetName(OnGetCamelName(v.Field))
