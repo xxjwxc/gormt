@@ -196,6 +196,7 @@ type UserInfoTbl struct {
 
 ![图片描述](/image/gormt/4.jpg)
 
+[下载地址](https://github.com/xie1xiao1jun/gormt/releases/download/v1.0.0.1/v1.0.zip)
 
 ## 7. 下一步计划
 
