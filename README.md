@@ -1,5 +1,5 @@
 
-# [gorm-tools](https://github.com/xie1xiao1jun/gorm-tools)
+# [gormt](https://github.com/xie1xiao1jun/gormt)
 ###  mysql database to goang struct conversion tools base on [gorm](https://github.com/jinzhu/gorm)，You can automatically generate golang sturct from MySQL database.
 
 ### big Camel-Case Name Rule
