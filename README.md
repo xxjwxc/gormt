@@ -189,4 +189,4 @@ type UserInfoTbl struct {
 
 - 加入外键支持(ForeignKey)
 
-- ###### [传送门](https://github.com/xie1xiao1jun/gorm-tools)
+- ###### [传送门](https://xie1xiao1jun.github.io/post/gormtools/)
