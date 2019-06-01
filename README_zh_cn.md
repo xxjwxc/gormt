@@ -188,13 +188,13 @@ type UserInfoTbl struct {
 ```
 ## 6. 提供一个windows 可视化工具
 
-![图片描述](https://github.com/xie1xiao1jun/xie1xiao1jun.github.io/tree/master/image/gormt/1.png)
+![图片描述](/image/gormt/1.png)
 
-![图片描述](https://github.com/xie1xiao1jun/xie1xiao1jun.github.io/tree/master/image/gormt/2.png)
+![图片描述](/image/gormt/2.png)
 
-![图片描述](https://github.com/xie1xiao1jun/xie1xiao1jun.github.io/tree/master/image/gormt/3.png)
+![图片描述](/image/gormt/3.png)
 
-![图片描述](https://github.com/xie1xiao1jun/xie1xiao1jun.github.io/tree/master/image/gormt/4.png)
+![图片描述](/image/gormt/4.png)
 
 
 ## 7. 下一步计划
