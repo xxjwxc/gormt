@@ -185,7 +185,7 @@ type UserInfoTbl struct {
 }
 ```
 
-1. 下一步计划
+## 6. 下一步计划
 
 - 加入外键支持(ForeignKey)
 
