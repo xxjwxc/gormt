@@ -5,7 +5,7 @@
 ### big Camel-Case Name Rule
 ### JSON tag 
 
-[中文版](README_zh_cn.md)
+[中文文档](README_zh_cn.md)
 
 --------
 
@@ -190,7 +190,17 @@ type UserInfoTbl struct {
 }
 ```
 
-## 6. Next step 
+## 6. one windows gui tools
+
+![1](/image/gormt/1.png)
+
+![2](/image/gormt/2.jpg)
+
+![3](/image/gormt/3.jpg)
+
+![4](/image/gormt/4.jpg)
+
+## 7. Next step 
 
 - support (ForeignKey)
 

@@ -190,11 +190,11 @@ type UserInfoTbl struct {
 
 ![图片描述](/image/gormt/1.png)
 
-![图片描述](/image/gormt/2.png)
+![图片描述](/image/gormt/2.jpg)
 
-![图片描述](/image/gormt/3.png)
+![图片描述](/image/gormt/3.jpg)
 
-![图片描述](/image/gormt/4.png)
+![图片描述](/image/gormt/4.jpg)
 
 
 ## 7. 下一步计划
