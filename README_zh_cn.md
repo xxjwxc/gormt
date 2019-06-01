@@ -2,6 +2,8 @@
 # [gorm-tools](https://github.com/xie1xiao1jun/gorm-tools)
 ### [gorm](https://github.com/jinzhu/gorm) mysql数据库转 struct 工具,可以将mysql数据库自动生成golang sturct结构，带大驼峰命名规则。带json标签
 
+
+[English](README_zh-CN.md)
 --------
 
 ## 1. 通过当前目录config.toml文件配置默认配置项
@@ -184,8 +186,18 @@ type UserInfoTbl struct {
 	Headurl    string //
 }
 ```
+## 6. 提供一个windows 可视化工具
 
-## 6. 下一步计划
+![图片描述](https://github.com/xie1xiao1jun/xie1xiao1jun.github.io/tree/master/image/gormt/1.png)
+
+![图片描述](https://github.com/xie1xiao1jun/xie1xiao1jun.github.io/tree/master/image/gormt/2.png)
+
+![图片描述](https://github.com/xie1xiao1jun/xie1xiao1jun.github.io/tree/master/image/gormt/3.png)
+
+![图片描述](https://github.com/xie1xiao1jun/xie1xiao1jun.github.io/tree/master/image/gormt/4.png)
+
+
+## 7. 下一步计划
 
 - 加入外键支持(ForeignKey)
 
