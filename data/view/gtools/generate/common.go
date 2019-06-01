@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/xie1xiao1jun/gormt/data/config"
+
 	"github.com/xie1xiao1jun/public/tools"
 )
 
@@ -47,11 +49,12 @@ func (e *GenElement) AddTag(k string, v string) {
 //获取结果数据
 func (e *GenElement) Generate() string {
 	tag := ""
+	var tags []string
 	if e.Tags != nil {
 		for k, v := range e.Tags {
-			tag += fmt.Sprintf(`%v:"%v"`, k, strings.Join(v, ","))
+			tags = append(tags, fmt.Sprintf(`%v:"%v"`, k, strings.Join(v, ";")))
 		}
-		tag = fmt.Sprintf("`%v`", tag)
+		tag = fmt.Sprintf("`%v`", strings.Join(tags, " "))
 	}
 
 	var p PrintAtom
@@ -63,6 +66,11 @@ func (e *GenElement) Generate() string {
 // struct
 //////////////////////////////////////////////////////////////////////////////
 
+//设置创建语句，备份使用
+func (s *GenStruct) SetCreatTableStr(sql string) {
+	s.SqlBuildStr = sql
+}
+
 //获取结果数据
 func (s *GenStruct) SetStructName(name string) {
 	s.Name = name
@@ -73,14 +81,19 @@ func (e *GenStruct) SetNotes(notes string) {
 	e.Notes = notes
 }
 
-//添加一个元素
-func (s *GenStruct) AddElement(e GenElement) {
-	s.Em = append(s.Em, e)
+//添加一个/或多个元素
+func (s *GenStruct) AddElement(e ...GenElement) {
+	s.Em = append(s.Em, e...)
 }
 
 //获取结果数据
 func (s *GenStruct) Generate() []string {
 	var p PrintAtom
+	if !config.GetSimple() {
+		p.Add("/******sql******")
+		p.Add(s.SqlBuildStr)
+		p.Add("******sql******/")
+	}
 	p.Add("//", s.Notes)
 	p.Add("type", s.Name, "struct {")
 	for _, v := range s.Em {

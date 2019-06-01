@@ -2,9 +2,11 @@ package gtools
 
 import (
 	"fmt"
+	"regexp"
+	"strings"
 
-	"github.com/xie1xiao1jun/gorm-tools/data/config"
-	"github.com/xie1xiao1jun/gorm-tools/data/view/gtools/generate"
+	"github.com/xie1xiao1jun/gormt/data/config"
+	"github.com/xie1xiao1jun/gormt/data/view/gtools/generate"
 	"github.com/xie1xiao1jun/public/mybigcamel"
 	"github.com/xie1xiao1jun/public/mysqldb"
 )
@@ -40,7 +42,6 @@ func OnGetTables(orm *mysqldb.MySqlDB) map[string]string {
 	for rows.Next() {
 		var table, desc string
 		rows.Scan(&table, &desc)
-		tables = append(tables, table)
 		tbDesc[table] = desc
 	}
 
@@ -55,8 +56,20 @@ func OnGetPackageInfo(orm *mysqldb.MySqlDB, tabls map[string]string) generate.Ge
 		sct.SetStructName(OnGetCamelName(tab)) //大驼峰
 		sct.SetNotes(desc)
 		//构造元素
-		OnGetTableElement(orm, tab)
+		ems := OnGetTableElement(orm, tab)
 		//--------end
+		sct.AddElement(ems...)
+		//获取表注释
+		rows, err := orm.Raw("show create table " + tab).Rows()
+		defer rows.Close()
+		if err == nil {
+			if rows.Next() {
+				var table, CreateTable string
+				rows.Scan(&table, &CreateTable)
+				sct.SetCreatTableStr(CreateTable)
+			}
+		}
+		//----------end
 
 		pkg.AddStruct(sct)
 	}
@@ -67,23 +80,142 @@ func OnGetPackageInfo(orm *mysqldb.MySqlDB, tabls map[string]string) generate.Ge
 // 获取表列及注释
 func OnGetTableElement(orm *mysqldb.MySqlDB, tab string) []generate.GenElement {
 	var el []generate.GenElement
+
+	keyNums := make(map[string]int)
+	//获取keys
+	var Keys []struct {
+		NonUnique  int    `gorm:"column:Non_unique"`
+		KeyName    string `gorm:"column:Key_name"`
+		ColumnName string `gorm:"column:Column_name"`
+	}
+	orm.Raw("show keys from " + tab).Find(&Keys)
+	for _, v := range Keys {
+		keyNums[v.KeyName]++
+	}
+	//----------end
+
 	var list []struct {
 		Field string `gorm:"column:Field"`
 		Type  string `gorm:"column:Type"`
-		Key   string `gorm:"column:key"`
+		Key   string `gorm:"column:Key"`
 		Desc  string `gorm:"column:Comment"`
+		Null  string `gorm:"column:Null"`
 	}
 
 	//获取表注释
 	orm.Raw("show FULL COLUMNS from " + tab).Find(&list)
+	//过滤 gorm.Model
+	if OnHaveModel(&list) {
+		var tmp generate.GenElement
+		tmp.SetType("gorm.Model")
+		el = append(el, tmp)
+	}
+	//-----------------end
+
 	for _, v := range list {
 		var tmp generate.GenElement
 		tmp.SetName(OnGetCamelName(v.Field))
 		tmp.SetNotes(v.Desc)
-		tmp.SetType(v.Type)
+		tmp.SetType(OnGetTypeName(v.Type))
+
+		if strings.EqualFold(v.Key, "PRI") { //设置主键
+			tmp.AddTag(_tag_gorm, "primary_key")
+		} else if strings.EqualFold(v.Key, "UNI") { //unique
+			tmp.AddTag(_tag_gorm, "unique")
+		} else {
+			//index
+			for _, v1 := range Keys {
+				if strings.EqualFold(v1.ColumnName, v.Field) {
+					_val := ""
+					if v1.NonUnique == 1 { //index
+						_val += "index"
+					} else {
+						_val += "unique_index"
+					}
+					if keyNums[v1.KeyName] > 1 { //复合索引？
+						_val += ":" + v1.KeyName
+					}
+
+					tmp.AddTag(_tag_gorm, _val)
+				}
+			}
+		}
+
+		//simple output
+		if !config.GetSimple() {
+			tmp.AddTag(_tag_gorm, "column:"+v.Field)
+			tmp.AddTag(_tag_gorm, "type:"+v.Type)
+			if strings.EqualFold(v.Null, "NO") {
+				tmp.AddTag(_tag_gorm, "not null")
+			}
+		}
+
+		//json tag
+		if config.GetIsJsonTag() {
+			if strings.EqualFold(v.Field, "id") {
+				tmp.AddTag(_tag_json, "-")
+			} else {
+				tmp.AddTag(_tag_json, v.Field)
+			}
+		}
+
+		el = append(el, tmp)
 	}
 
 	return el
+}
+
+//过滤 gorm.Model
+func OnHaveModel(list *[]struct {
+	Field string `gorm:"column:Field"`
+	Type  string `gorm:"column:Type"`
+	Key   string `gorm:"column:Key"`
+	Desc  string `gorm:"column:Comment"`
+	Null  string `gorm:"column:Null"`
+}) bool {
+	var _temp []struct {
+		Field string `gorm:"column:Field"`
+		Type  string `gorm:"column:Type"`
+		Key   string `gorm:"column:Key"`
+		Desc  string `gorm:"column:Comment"`
+		Null  string `gorm:"column:Null"`
+	}
+
+	num := 0
+	for _, v := range *list {
+		if strings.EqualFold(v.Field, "id") ||
+			strings.EqualFold(v.Field, "created_at") ||
+			strings.EqualFold(v.Field, "updated_at") ||
+			strings.EqualFold(v.Field, "deleted_at") {
+			num++
+		} else {
+			_temp = append(_temp, v)
+		}
+	}
+
+	if num >= 4 {
+		*list = _temp
+		return true
+	}
+
+	return false
+}
+
+//类型获取过滤
+func OnGetTypeName(name string) string {
+	//先精确匹配
+	if v, ok := TypeDicMp[name]; ok {
+		return v
+	}
+
+	//模糊正则匹配
+	for k, v := range TypeMatchMp {
+		if ok, _ := regexp.MatchString(k, name); ok {
+			return v
+		}
+	}
+
+	panic(fmt.Sprintf("type (%v) not match in any way.", name))
 }
 
 //大驼峰或者首字母大写

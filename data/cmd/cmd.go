@@ -6,8 +6,8 @@ import (
 
 	"github.com/xie1xiao1jun/public/tools"
 
-	"github.com/xie1xiao1jun/gorm-tools/data/config"
-	"github.com/xie1xiao1jun/gorm-tools/data/view/gtools"
+	"github.com/xie1xiao1jun/gormt/data/config"
+	"github.com/xie1xiao1jun/gormt/data/view/gtools"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/go-playground/validator.v9"
@@ -94,7 +94,11 @@ func MergeMysqlDbInfo() {
 
 	config.SetMysqlDbInfo(&tmp)
 
-	config.SetOutDir(outDir)
-	config.SetSingularTable(singular_table)
+	if len(outDir) > 0 {
+		config.SetOutDir(outDir)
+	}
 
+	if singular_table {
+		config.SetSingularTable(singular_table)
+	}
 }

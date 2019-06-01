@@ -7,6 +7,8 @@ type Config struct {
 	CfgBase
 	MySQLInfo     MysqlDbInfo `toml:"mysql_info"`
 	OutDir        string      `toml:"out_dir"`
+	Simple        bool        `toml:"simple"`
+	IsJsonTag     bool        `toml:"isJsonTag"`
 	SingularTable bool        `toml:"singular_table"`
 }
 
@@ -58,4 +60,14 @@ func SetSingularTable(b bool) {
 //获取禁用表名复数
 func GetSingularTable() bool {
 	return _map.SingularTable
+}
+
+//简单输出
+func GetSimple() bool {
+	return _map.Simple
+}
+
+//json标记
+func GetIsJsonTag() bool {
+	return _map.IsJsonTag
 }

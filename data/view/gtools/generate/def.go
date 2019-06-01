@@ -14,6 +14,9 @@ type IPackage interface {
 
 //结构体类
 type IStruct interface {
+	//设置创建语句，备份使用
+	SetCreatTableStr(string)
+
 	//设置结构体名字
 	SetStructName(string)
 
@@ -21,7 +24,7 @@ type IStruct interface {
 	SetNotes(string)
 
 	//添加一个元素
-	AddElement(IElement)
+	AddElement(...IElement)
 
 	//获取结果数据
 	Generate() []string
@@ -58,9 +61,10 @@ type GenElement struct {
 
 //结构体
 type GenStruct struct {
-	Name  string       //名字
-	Notes string       //注释
-	Em    []GenElement //元素组合
+	SqlBuildStr string       //创建sql语句
+	Name        string       //名字
+	Notes       string       //注释
+	Em          []GenElement //元素组合
 }
 
 //包体
@@ -74,77 +78,9 @@ type GenPackage struct {
 var _interval = "\t"
 
 var EImportsHead = map[string]string{
-	"stirng": "string",
-}
-
-var isGoKeyword = map[string]bool{
-	"break":       true,
-	"case":        true,
-	"chan":        true,
-	"const":       true,
-	"continue":    true,
-	"default":     true,
-	"else":        true,
-	"defer":       true,
-	"fallthrough": true,
-	"for":         true,
-	"func":        true,
-	"go":          true,
-	"goto":        true,
-	"if":          true,
-	"import":      true,
-	"interface":   true,
-	"map":         true,
-	"package":     true,
-	"range":       true,
-	"return":      true,
-	"select":      true,
-	"struct":      true,
-	"switch":      true,
-	"type":        true,
-	"var":         true,
-}
-
-var isGoPredeclaredIdentifier = map[string]bool{
-	"append":     true,
-	"bool":       true,
-	"byte":       true,
-	"cap":        true,
-	"close":      true,
-	"complex":    true,
-	"complex128": true,
-	"complex64":  true,
-	"copy":       true,
-	"delete":     true,
-	"error":      true,
-	"false":      true,
-	"float32":    true,
-	"float64":    true,
-	"imag":       true,
-	"int":        true,
-	"int16":      true,
-	"int32":      true,
-	"int64":      true,
-	"int8":       true,
-	"iota":       true,
-	"len":        true,
-	"make":       true,
-	"new":        true,
-	"nil":        true,
-	"panic":      true,
-	"print":      true,
-	"println":    true,
-	"real":       true,
-	"recover":    true,
-	"rune":       true,
-	"string":     true,
-	"true":       true,
-	"uint":       true,
-	"uint16":     true,
-	"uint32":     true,
-	"uint64":     true,
-	"uint8":      true,
-	"uintptr":    true,
+	"stirng":     `"string"`,
+	"time.Time":  `"time"`,
+	"gorm.Model": `"github.com/jinzhu/gorm"`,
 }
 
 type PrintAtom struct {
