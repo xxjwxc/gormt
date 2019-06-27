@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/xie1xiao1jun/gormt/data/config"
+	"github.com/xxjwxc/gormt/data/config"
 
-	"github.com/xie1xiao1jun/public/tools"
+	"github.com/xxjwxc/public/tools"
 )
 
 // 打印

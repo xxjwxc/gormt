@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/xie1xiao1jun/gormt/data/cmd"
+	"github.com/xxjwxc/gormt/data/cmd"
 )
 
 func main() {

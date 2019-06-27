@@ -5,10 +5,10 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/xie1xiao1jun/gormt/data/config"
-	"github.com/xie1xiao1jun/gormt/data/view/gtools/generate"
-	"github.com/xie1xiao1jun/public/mybigcamel"
-	"github.com/xie1xiao1jun/public/mysqldb"
+	"github.com/xxjwxc/gormt/data/config"
+	"github.com/xxjwxc/gormt/data/view/gtools/generate"
+	"github.com/xxjwxc/public/mybigcamel"
+	"github.com/xxjwxc/public/mysqldb"
 )
 
 //获取表列及注释

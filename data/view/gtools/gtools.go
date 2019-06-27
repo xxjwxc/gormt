@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os/exec"
 
-	"github.com/xie1xiao1jun/gormt/data/config"
-	"github.com/xie1xiao1jun/public/mysqldb"
-	"github.com/xie1xiao1jun/public/tools"
+	"github.com/xxjwxc/gormt/data/config"
+	"github.com/xxjwxc/public/mysqldb"
+	"github.com/xxjwxc/public/tools"
 )
 
 //开始执行

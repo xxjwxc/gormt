@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/xie1xiao1jun/public/tools"
+	"github.com/xxjwxc/public/tools"
 
-	"github.com/xie1xiao1jun/gormt/data/config"
-	"github.com/xie1xiao1jun/gormt/data/view/gtools"
+	"github.com/xxjwxc/gormt/data/config"
+	"github.com/xxjwxc/gormt/data/view/gtools"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/go-playground/validator.v9"

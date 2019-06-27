@@ -1,5 +1,5 @@
 
-# [gormt](https://github.com/xie1xiao1jun/gormt)
+# [gormt](https://github.com/xxjwxc/gormt)
 ###  mysql database to goang struct conversion tools base on [gorm](https://github.com/jinzhu/gorm)，You can automatically generate golang sturct from MySQL database.
 
 ### big Camel-Case Name Rule
@@ -200,10 +200,10 @@ type UserInfoTbl struct {
 
 ![4](/image/gormt/4.jpg)
 
-[Download](https://github.com/xie1xiao1jun/gormt/releases/download/v1.0.0.1/v1.0.zip)
+[Download](https://github.com/xxjwxc/gormt/releases/download/v1.0.0.1/v1.0.zip)
 
 ## 7. Next step 
 
 - support (ForeignKey)
 
-- ###### [link](https://xie1xiao1jun.github.io/post/gormtools/)
+- ###### [link](https://xxjwxc.github.io/post/gormtools/)
