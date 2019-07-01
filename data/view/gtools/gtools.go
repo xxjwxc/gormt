@@ -21,10 +21,10 @@ func Execute() {
 	// fmt.Println(tt)
 
 	pkg := OnGetPackageInfo(orm, OnGetTables(orm))
-	pkg.SetPackage(config.GetMysqlDbInfo().Database)
+	pkg.SetPackage("model")
 	str := pkg.Generate()
 
-	path := config.GetOutDir() + "/" + config.GetMysqlDbInfo().Database + "/" + config.GetMysqlDbInfo().Database + ".go"
+	path := config.GetOutDir() + "/" + config.GetMysqlDbInfo().Database + ".go"
 	tools.WriteFile(path,
 		[]string{str}, true)
 
