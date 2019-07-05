@@ -15,6 +15,7 @@ var TypeDicMp = map[string]string{
 	"tinyint(1) unsigned": "bool",
 	"json":                "string",
 	"text":                "string",
+	"timestamp":           "time.Time",
 }
 
 //模糊匹配类型
