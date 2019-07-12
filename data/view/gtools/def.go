@@ -10,7 +10,8 @@ var TypeDicMp = map[string]string{
 	"int":                 "int",
 	"bigint":              "int64",
 	"varchar":             "string",
-	"datetime":            "time.Time",
+	"varchar":             "string",
+	"char":                "time.Time",
 	"tinyint(1)":          "bool",
 	"tinyint(1) unsigned": "bool",
 	"json":                "string",
@@ -23,4 +24,5 @@ var TypeMatchMp = map[string]string{
 	`int[(]\d+[)]`:     "int",
 	`bigint[(]\d+[)]`:  "int64",
 	`varchar[(]\d+[)]`: "string",
+	`char[(]\d+[)]`: "string",
 }
