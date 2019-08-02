@@ -24,5 +24,5 @@ var TypeMatchMp = map[string]string{
 	`int[(]\d+[)]`:     "int",
 	`bigint[(]\d+[)]`:  "int64",
 	`varchar[(]\d+[)]`: "string",
-	`char[(]\d+[)]`: "string",
+	`char[(]\d+[)]`:    "string",
 }

@@ -12,7 +12,7 @@ require (
 	github.com/jinzhu/gorm v1.9.10 // indirect
 	github.com/leodido/go-urn v1.1.0 // indirect
 	github.com/spf13/cobra v0.0.5
-	github.com/xxjwxc/public v1.0.1
+	github.com/xxjwxc/public v1.0.2
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v9 v9.29.1
 )
