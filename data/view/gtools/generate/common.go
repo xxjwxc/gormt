@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"gormt/data/config"
+	"github.com/xxjwxc/gormt/data/config"
 
 	"github.com/xxjwxc/public/tools"
 )
