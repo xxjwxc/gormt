@@ -1,11 +1,11 @@
 package gtools
 
 const (
-	_tag_gorm = "gorm"
-	_tag_json = "json"
+	_tagGorm = "gorm"
+	_tagJSON = "json"
 )
 
-//精确匹配类型
+//TypeDicMp 精确匹配类型
 var TypeDicMp = map[string]string{
 	"int":                 "int",
 	"bigint":              "int64",
@@ -19,7 +19,7 @@ var TypeDicMp = map[string]string{
 	"timestamp":           "time.Time",
 }
 
-//模糊匹配类型
+//TypeMatchMp 模糊匹配类型
 var TypeMatchMp = map[string]string{
 	`int[(]\d+[)]`:     "int",
 	`bigint[(]\d+[)]`:  "int64",

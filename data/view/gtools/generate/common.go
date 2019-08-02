@@ -9,7 +9,7 @@ import (
 	"github.com/xxjwxc/public/tools"
 )
 
-// 打印
+//Add 打印
 func (p *PrintAtom) Add(str ...interface{}) {
 	var tmp string
 	for _, v := range str {
@@ -18,27 +18,27 @@ func (p *PrintAtom) Add(str ...interface{}) {
 	p.lines = append(p.lines, tmp)
 }
 
-// 打印
+//Generate 打印
 func (p *PrintAtom) Generate() []string {
 	return p.lines
 }
 
-//设置元素名字
+//SetName 设置元素名字
 func (e *GenElement) SetName(name string) {
 	e.Name = name
 }
 
-//设置元素类型
+//SetType 设置元素类型
 func (e *GenElement) SetType(tp string) {
 	e.Type = tp
 }
 
-//设置注释
+//SetNotes 设置注释
 func (e *GenElement) SetNotes(notes string) {
 	e.Notes = notes
 }
 
-//添加一个tag标记
+//AddTag 添加一个tag标记
 func (e *GenElement) AddTag(k string, v string) {
 	if e.Tags == nil {
 		e.Tags = make(map[string][]string)
@@ -46,7 +46,7 @@ func (e *GenElement) AddTag(k string, v string) {
 	e.Tags[k] = append(e.Tags[k], v)
 }
 
-//获取结果数据
+//Generate 获取结果数据
 func (e *GenElement) Generate() string {
 	tag := ""
 	var tags []string
@@ -66,32 +66,32 @@ func (e *GenElement) Generate() string {
 // struct
 //////////////////////////////////////////////////////////////////////////////
 
-//设置创建语句，备份使用
+//SetCreatTableStr 设置创建语句，备份使用
 func (s *GenStruct) SetCreatTableStr(sql string) {
-	s.SqlBuildStr = sql
+	s.SQLBuildStr = sql
 }
 
-//获取结果数据
+//SetStructName 获取结果数据
 func (s *GenStruct) SetStructName(name string) {
 	s.Name = name
 }
 
-//设置注释
-func (e *GenStruct) SetNotes(notes string) {
-	e.Notes = notes
+//SetNotes 设置注释
+func (s *GenStruct) SetNotes(notes string) {
+	s.Notes = notes
 }
 
-//添加一个/或多个元素
+//AddElement 添加一个/或多个元素
 func (s *GenStruct) AddElement(e ...GenElement) {
 	s.Em = append(s.Em, e...)
 }
 
-//获取结果数据
+//Generate 获取结果数据
 func (s *GenStruct) Generate() []string {
 	var p PrintAtom
 	if !config.GetSimple() {
 		p.Add("/******sql******")
-		p.Add(s.SqlBuildStr)
+		p.Add(s.SQLBuildStr)
 		p.Add("******sql******/")
 	}
 	p.Add("//", s.Notes)
@@ -108,12 +108,12 @@ func (s *GenStruct) Generate() []string {
 // package
 //////////////////////////////////////////////////////////////////////////////
 
-//定义包名
+//SetPackage 定义包名
 func (p *GenPackage) SetPackage(pname string) {
 	p.Name = pname
 }
 
-//通过类型添加import
+//AddImport 通过类型添加import
 func (p *GenPackage) AddImport(imp string) {
 	if p.Imports == nil {
 		p.Imports = make(map[string]string)
@@ -121,12 +121,12 @@ func (p *GenPackage) AddImport(imp string) {
 	p.Imports[imp] = imp
 }
 
-//添加一个结构体
+//AddStruct 添加一个结构体
 func (p *GenPackage) AddStruct(st GenStruct) {
 	p.Structs = append(p.Structs, st)
 }
 
-//获取结果数据
+//Generate 获取结果数据
 func (p *GenPackage) Generate() string {
 	p.genimport() //补充 import
 

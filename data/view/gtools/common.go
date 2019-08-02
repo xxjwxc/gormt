@@ -12,7 +12,7 @@ import (
 	"github.com/xxjwxc/public/mysqldb"
 )
 
-//获取表列及注释
+//OnGetTables 获取表列及注释
 func OnGetTables(orm *mysqldb.MySqlDB) map[string]string {
 	tbDesc := make(map[string]string)
 
@@ -49,7 +49,7 @@ func OnGetTables(orm *mysqldb.MySqlDB) map[string]string {
 	return tbDesc
 }
 
-//获取包信息
+//OnGetPackageInfo 获取包信息
 func OnGetPackageInfo(orm *mysqldb.MySqlDB, tabls map[string]string) generate.GenPackage {
 	var pkg generate.GenPackage
 	for tab, desc := range tabls {
@@ -78,7 +78,7 @@ func OnGetPackageInfo(orm *mysqldb.MySqlDB, tabls map[string]string) generate.Ge
 	return pkg
 }
 
-// 获取表列及注释
+//OnGetTableElement 获取表列及注释
 func OnGetTableElement(orm *mysqldb.MySqlDB, tab string) []generate.GenElement {
 	var el []generate.GenElement
 
@@ -120,9 +120,9 @@ func OnGetTableElement(orm *mysqldb.MySqlDB, tab string) []generate.GenElement {
 		tmp.SetType(OnGetTypeName(v.Type))
 
 		if strings.EqualFold(v.Key, "PRI") { //设置主键
-			tmp.AddTag(_tag_gorm, "primary_key")
+			tmp.AddTag(_tagGorm, "primary_key")
 		} else if strings.EqualFold(v.Key, "UNI") { //unique
-			tmp.AddTag(_tag_gorm, "unique")
+			tmp.AddTag(_tagGorm, "unique")
 		} else {
 			//index
 			for _, v1 := range Keys {
@@ -137,26 +137,26 @@ func OnGetTableElement(orm *mysqldb.MySqlDB, tab string) []generate.GenElement {
 						_val += ":" + v1.KeyName
 					}
 
-					tmp.AddTag(_tag_gorm, _val)
+					tmp.AddTag(_tagGorm, _val)
 				}
 			}
 		}
 
 		//simple output
 		if !config.GetSimple() {
-			tmp.AddTag(_tag_gorm, "column:"+v.Field)
-			tmp.AddTag(_tag_gorm, "type:"+v.Type)
+			tmp.AddTag(_tagGorm, "column:"+v.Field)
+			tmp.AddTag(_tagGorm, "type:"+v.Type)
 			if strings.EqualFold(v.Null, "NO") {
-				tmp.AddTag(_tag_gorm, "not null")
+				tmp.AddTag(_tagGorm, "not null")
 			}
 		}
 
 		//json tag
-		if config.GetIsJsonTag() {
+		if config.GetIsJSONTag() {
 			if strings.EqualFold(v.Field, "id") {
-				tmp.AddTag(_tag_json, "-")
+				tmp.AddTag(_tagJSON, "-")
 			} else {
-				tmp.AddTag(_tag_json, v.Field)
+				tmp.AddTag(_tagJSON, v.Field)
 			}
 		}
 
@@ -166,7 +166,7 @@ func OnGetTableElement(orm *mysqldb.MySqlDB, tab string) []generate.GenElement {
 	return el
 }
 
-//过滤 gorm.Model
+//OnHaveModel 过滤 gorm.Model
 func OnHaveModel(list *[]struct {
 	Field string `gorm:"column:Field"`
 	Type  string `gorm:"column:Type"`
@@ -202,7 +202,7 @@ func OnHaveModel(list *[]struct {
 	return false
 }
 
-//类型获取过滤
+//OnGetTypeName 类型获取过滤
 func OnGetTypeName(name string) string {
 	//先精确匹配
 	if v, ok := TypeDicMp[name]; ok {
@@ -219,7 +219,7 @@ func OnGetTypeName(name string) string {
 	panic(fmt.Sprintf("type (%v) not match in any way.", name))
 }
 
-//大驼峰或者首字母大写
+//OnGetCamelName 大驼峰或者首字母大写
 func OnGetCamelName(name string) string {
 	if config.GetSingularTable() { //如果全局禁用表名复数
 		return TitleCase(name)
@@ -228,9 +228,7 @@ func OnGetCamelName(name string) string {
 	return mybigcamel.Marshal(name)
 }
 
-/*
-	首字母大写
-*/
+//TitleCase 首字母大写
 func TitleCase(name string) string {
 	vv := []rune(name)
 	if len(vv) > 0 {

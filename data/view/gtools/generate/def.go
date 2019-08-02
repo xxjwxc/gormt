@@ -1,6 +1,6 @@
 package generate
 
-//包类
+//IPackage 包类
 type IPackage interface {
 	//定义包名
 	SetPackage(string)
@@ -12,7 +12,7 @@ type IPackage interface {
 	Generate() string
 }
 
-//结构体类
+//IStruct 结构体类
 type IStruct interface {
 	//设置创建语句，备份使用
 	SetCreatTableStr(string)
@@ -30,7 +30,7 @@ type IStruct interface {
 	Generate() []string
 }
 
-//元素类
+//IElement 元素类
 type IElement interface {
 	//设置元素名字
 	SetName(string)
@@ -51,7 +51,7 @@ type IElement interface {
 //
 //////////////////////////////////////////////////////////////////////////////
 
-//元素类
+//GenElement 元素类
 type GenElement struct {
 	Name  string              //元素名
 	Type  string              //类型标记
@@ -59,15 +59,15 @@ type GenElement struct {
 	Tags  map[string][]string //标记
 }
 
-//结构体
+//GenStruct 结构体
 type GenStruct struct {
-	SqlBuildStr string       //创建sql语句
+	SQLBuildStr string       //创建sql语句
 	Name        string       //名字
 	Notes       string       //注释
 	Em          []GenElement //元素组合
 }
 
-//包体
+//GenPackage 包体
 type GenPackage struct {
 	Name    string            //名字
 	Imports map[string]string //元素组合
@@ -77,12 +77,14 @@ type GenPackage struct {
 //间隔
 var _interval = "\t"
 
+//EImportsHead .
 var EImportsHead = map[string]string{
 	"stirng":     `"string"`,
 	"time.Time":  `"time"`,
 	"gorm.Model": `"github.com/jinzhu/gorm"`,
 }
 
+//PrintAtom .
 type PrintAtom struct {
 	lines []string
 }

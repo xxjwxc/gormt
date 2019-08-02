@@ -9,7 +9,7 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
-//
+//CfgBase .
 type CfgBase struct {
 	SerialNumber       string `json:"serial_number" toml:"serial_number"`             //版本号
 	ServiceName        string `json:"service_name" toml:"service_name"`               //service名字
@@ -44,7 +44,7 @@ func InitFile(filename string) error {
 	return nil
 }
 
-//获取service配置信息
+//GetServiceConfig 获取service配置信息
 func GetServiceConfig() (name, displayName, desc string) {
 	name = _map.ServiceName
 	displayName = _map.ServiceDisplayname

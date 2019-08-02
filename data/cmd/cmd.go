@@ -15,7 +15,7 @@ import (
 
 var mysqlInfo config.MysqlDbInfo
 var outDir string
-var singular_table bool
+var singularTable bool
 
 var rootCmd = &cobra.Command{
 	Use:   "main",
@@ -52,7 +52,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&outDir, "outdir", "o", "", "输出目录")
 	rootCmd.MarkFlagRequired("outdir")
 
-	rootCmd.PersistentFlags().BoolVarP(&singular_table, "singular", "s", false, "是否禁用表名复数")
+	rootCmd.PersistentFlags().BoolVarP(&singularTable, "singular", "s", false, "是否禁用表名复数")
 	rootCmd.MarkFlagRequired("singular")
 
 	rootCmd.Flags().IntVar(&mysqlInfo.Port, "port", 3306, "端口号")
@@ -73,7 +73,7 @@ func initConfig() {
 	}
 }
 
-//合并
+//MergeMysqlDbInfo 合并
 func MergeMysqlDbInfo() {
 	var tmp = config.GetMysqlDbInfo()
 	if len(mysqlInfo.Database) > 0 {
@@ -98,7 +98,7 @@ func MergeMysqlDbInfo() {
 		config.SetOutDir(outDir)
 	}
 
-	if singular_table {
-		config.SetSingularTable(singular_table)
+	if singularTable {
+		config.SetSingularTable(singularTable)
 	}
 }

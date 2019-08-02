@@ -10,7 +10,7 @@ import (
 	"github.com/xxjwxc/public/tools"
 )
 
-//开始执行
+//Execute 开始执行
 func Execute() {
 
 	orm := mysqldb.OnInitDBOrm(config.GetMysqlConStr())
