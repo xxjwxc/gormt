@@ -2,6 +2,7 @@ package generate
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/xxjwxc/gormt/data/config"
@@ -49,10 +50,17 @@ func (e *GenElement) AddTag(k string, v string) {
 //Generate 获取结果数据
 func (e *GenElement) Generate() string {
 	tag := ""
-	var tags []string
+
 	if e.Tags != nil {
-		for k, v := range e.Tags {
-			tags = append(tags, fmt.Sprintf(`%v:"%v"`, k, strings.Join(v, ";")))
+		var ks []string
+		for k := range e.Tags {
+			ks = append(ks, k)
+		}
+		sort.Strings(ks)
+
+		var tags []string
+		for _, v := range ks {
+			tags = append(tags, fmt.Sprintf(`%v:"%v"`, v, strings.Join(e.Tags[v], ";")))
 		}
 		tag = fmt.Sprintf("`%v`", strings.Join(tags, " "))
 	}
