@@ -35,7 +35,7 @@ func (e *GenElement) SetType(tp string) {
 
 //SetNotes 设置注释
 func (e *GenElement) SetNotes(notes string) {
-	e.Notes = notes
+	e.Notes = strings.Replace(notes, "\n", "", -1)
 }
 
 //AddTag 添加一个tag标记
@@ -78,7 +78,15 @@ func (s *GenStruct) SetStructName(name string) {
 
 //SetNotes 设置注释
 func (s *GenStruct) SetNotes(notes string) {
-	s.Notes = notes
+	a := strings.Split(notes, "\n")
+	var text []string
+
+	for _, v := range a {
+		if len(v) > 0 {
+			text = append(text, "//"+v)
+		}
+	}
+	s.Notes = strings.Join(text, "\r\n")
 }
 
 //AddElement 添加一个/或多个元素
@@ -94,7 +102,7 @@ func (s *GenStruct) Generate() []string {
 		p.Add(s.SQLBuildStr)
 		p.Add("******sql******/")
 	}
-	p.Add("//", s.Notes)
+	p.Add(s.Notes)
 	p.Add("type", s.Name, "struct {")
 	for _, v := range s.Em {
 		p.Add(v.Generate())
