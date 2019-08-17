@@ -21,8 +21,8 @@ var TypeDicMp = map[string]string{
 
 //TypeMatchMp 模糊匹配类型
 var TypeMatchMp = map[string]string{
-	`int[(]\d+[)]`:     "int",
-	`bigint[(]\d+[)]`:  "int64",
-	`varchar[(]\d+[)]`: "string",
-	`char[(]\d+[)]`:    "string",
+	`^(int)[(]\d+[)]`:     "int",
+	`^(bigint)[(]\d+[)]`:  "int64",
+	`^(char)[(]\d+[)]`:    "string",
+	`^(varchar)[(]\d+[)]`: "string",
 }
