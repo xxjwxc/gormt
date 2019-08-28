@@ -14,6 +14,7 @@ var TypeDicMp = map[string]string{
 	"datetime":            "time.Time",
 	"tinyint(1)":          "bool",
 	"tinyint(1) unsigned": "bool",
+	"tinyint(4)":          "int8",
 	"json":                "string",
 	"text":                "string",
 	"timestamp":           "time.Time",
