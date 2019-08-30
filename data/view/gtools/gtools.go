@@ -29,6 +29,12 @@ func Execute() {
 	tools.WriteFile(path,
 		[]string{str}, true)
 
-	cmd, _ := exec.Command("gofmt", "-l", "-w", path).Output()
+	fmt.Println("formatting differs from goimport's:")
+	cmd, _ := exec.Command("goimports", "-l", "-w", path).Output()
 	fmt.Println(string(cmd))
+
+	fmt.Println("formatting differs from gofmt's:")
+	cmd, _ = exec.Command("gofmt", "-l", "-w", path).Output()
+	fmt.Println(string(cmd))
+
 }
