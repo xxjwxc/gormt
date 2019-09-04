@@ -190,7 +190,9 @@ type UserInfoTbl struct {
 }
 ```
 
-## 6. one windows gui tools
+## 6.You can enrich data types in [def](https://github.com/xxjwxc/gormt/blob/master/data/view/gtools/def.go)
+
+## 7. one windows gui tools
 
 ![1](/image/gormt/1.png)
 
