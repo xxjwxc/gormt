@@ -60,6 +60,8 @@ Flags:
 - INDEX	创建具有或不带名称的索引, 如果多个索引同名则创建复合索引
 - UNIQUE_INDEX	和 INDEX 类似，只不过创建的是唯一索引
 
+### 您可以在这里丰富数据映射类型 [def](https://github.com/xxjwxc/gormt/blob/master/data/view/gtools/def.go) 。
+
 ## 5. 示例展示
 
 - sql:
