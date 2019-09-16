@@ -66,7 +66,19 @@ Flags:
 ### You can enrich data types in [def](https://github.com/xxjwxc/gormt/blob/master/data/view/gtools/def.go)
 
 
-## 5. Demonstration
+## 5. build
+```
+make windows
+make linux
+make mac
+```
+or
+
+```
+go generate
+```
+
+## 6. Demonstration
 
 - sql:
 ```
@@ -171,18 +183,6 @@ type UserInfoTbl struct {
 	Nickname   string //
 	Headurl    string //
 }
-```
-
-## 6. 构建
-```
-make windows
-make linux
-make mac
-```
-or
-
-```
-go generate
 ```
 
 
