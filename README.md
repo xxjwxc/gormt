@@ -108,26 +108,6 @@ type UserAccountTbl struct {
 }
 ```
 
-- param :singular_table = true simple = false 
-
-###### --->erived results
-
-```
-type User_account_tbl struct {
-	Id           int       `gorm:"primary_key;column:id;type:int(11);not null" json:"-"`                                                   //
-	Account      string    `gorm:"unique;column:account;type:varchar(64);not null" json:"account"`                                         //
-	Password     string    `gorm:"column:password;type:varchar(64);not null" json:"password"`                                              //
-	Account_type int       `gorm:"column:account_type;type:int(11);not null" json:"account_type"`                                          //	帐号类型:0手机号，1邮件
-	App_key      string    `gorm:"unique_index:UNIQ_5696AD037D3656A4;column:app_key;type:varchar(255);not null" json:"app_key"`            //	authbucket_oauth2_client表的id
-	User_info_id int       `gorm:"unique_index:UNIQ_5696AD037D3656A4;index;column:user_info_id;type:int(11);not null" json:"user_info_id"` //
-	Reg_time     time.Time `gorm:"column:reg_time;type:datetime" json:"reg_time"`                                                          //
-	Reg_ip       string    `gorm:"column:reg_ip;type:varchar(15)" json:"reg_ip"`                                                           //
-	Bundle_id    string    `gorm:"column:bundle_id;type:varchar(255)" json:"bundle_id"`                                                    //
-	Describ      string    `gorm:"column:describ;type:varchar(255)" json:"describ"`                                                        //
-}
-```
-- param :singular_table = false simple = true isJsonTag = true
-
 ###### --->erived results
 
 ```
@@ -193,7 +173,20 @@ type UserInfoTbl struct {
 }
 ```
 
-## 6. one windows gui tools
+## 6. 构建
+```
+make windows
+make linux
+make mac
+```
+or
+
+```
+go generate
+```
+
+
+## 7. one windows gui tools
 
 ![1](/image/gormt/1.png)
 
@@ -205,7 +198,7 @@ type UserInfoTbl struct {
 
 [Download](https://github.com/xxjwxc/gormt/releases/download/v1.0.0.1/v1.0.zip)
 
-## 7. Next step 
+## 8. Next step 
 
 - support (ForeignKey)
 
