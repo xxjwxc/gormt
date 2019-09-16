@@ -188,7 +188,19 @@ type UserInfoTbl struct {
 	Headurl    string //
 }
 ```
-## 6. 提供一个windows 可视化工具
+## 6. 构建
+```
+make windows
+make linux
+make mac
+```
+or
+
+```
+go generate
+```
+
+## 7. 提供一个windows 可视化工具
 
 ![图片描述](/image/gormt/1.png)
 
