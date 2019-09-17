@@ -11,6 +11,8 @@ var TypeDicMp = map[string]string{
 	"bigint":              "int64",
 	"varchar":             "string",
 	"char":                "string",
+	"decimal(18,2)":       "float64",
+	"date":                "time.Time",
 	"datetime":            "time.Time",
 	"bit(1)":              "bool",
 	"tinyint(1)":          "bool",
