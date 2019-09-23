@@ -11,7 +11,6 @@ var TypeDicMp = map[string]string{
 	"bigint":              "int64",
 	"varchar":             "string",
 	"char":                "string",
-	"decimal(18,2)":       "float64",
 	"date":                "time.Time",
 	"datetime":            "time.Time",
 	"bit(1)":              "bool",
@@ -25,8 +24,9 @@ var TypeDicMp = map[string]string{
 
 //TypeMatchMp 模糊匹配类型
 var TypeMatchMp = map[string]string{
-	`^(int)[(]\d+[)]`:     "int",
-	`^(bigint)[(]\d+[)]`:  "int64",
-	`^(char)[(]\d+[)]`:    "string",
-	`^(varchar)[(]\d+[)]`: "string",
+	`^(int)[(]\d+[)]`:         "int",
+	`^(bigint)[(]\d+[)]`:      "int64",
+	`^(char)[(]\d+[)]`:        "string",
+	`^(varchar)[(]\d+[)]`:     "string",
+	`^(decimal)[(]\d+,\d+[)]`: "float64",
 }

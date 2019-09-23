@@ -3,6 +3,7 @@ package gtools
 import (
 	"fmt"
 	"os/exec"
+	"strings"
 
 	"github.com/xxjwxc/gormt/data/config"
 
@@ -22,7 +23,7 @@ func Execute() {
 	// fmt.Println(tt)
 
 	pkg := OnGetPackageInfo(orm, OnGetTables(orm))
-	pkg.SetPackage("model")
+	pkg.SetPackage(getPkgName())
 	str := pkg.Generate()
 
 	path := config.GetOutDir() + "/" + config.GetMysqlDbInfo().Database + ".go"
@@ -36,5 +37,29 @@ func Execute() {
 	fmt.Println("formatting differs from gofmt's:")
 	cmd, _ = exec.Command("gofmt", "-l", "-w", path).Output()
 	fmt.Println(string(cmd))
+}
 
+// 通过config outdir 配置获取报名
+func getPkgName() string {
+	dir := config.GetOutDir()
+	dir = strings.Replace(dir, "\\", "/", -1)
+	if len(dir) > 0 {
+		if dir[len(dir)-1] == '/' {
+			dir = dir[:(len(dir) - 1)]
+		}
+	}
+	var pkgName string
+	list := strings.Split(dir, "/")
+	if len(list) > 0 {
+		pkgName = list[len(list)-1]
+	}
+
+	if len(pkgName) == 0 || pkgName == "." {
+		list = strings.Split(tools.GetModelPath(), "/")
+		if len(list) > 0 {
+			pkgName = list[len(list)-1]
+		}
+	}
+
+	return pkgName
 }

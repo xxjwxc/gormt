@@ -36,7 +36,7 @@ func (e *GenElement) SetType(tp string) {
 
 //SetNotes 设置注释
 func (e *GenElement) SetNotes(notes string) {
-	e.Notes = strings.Replace(notes, "\n", "", -1)
+	e.Notes = strings.Replace(notes, "\n", ",", -1)
 }
 
 //AddTag 添加一个tag标记
@@ -66,7 +66,12 @@ func (e *GenElement) Generate() string {
 	}
 
 	var p PrintAtom
-	p.Add(e.Name, e.Type, tag, "//", e.Notes)
+	if len(e.Notes) > 0 {
+		p.Add(e.Name, e.Type, tag, "// "+e.Notes)
+	} else {
+		p.Add(e.Name, e.Type, tag)
+	}
+
 	return p.Generate()[0]
 }
 
@@ -91,7 +96,7 @@ func (s *GenStruct) SetNotes(notes string) {
 
 	for _, v := range a {
 		if len(v) > 0 {
-			text = append(text, "//"+v)
+			text = append(text, "// "+v)
 		}
 	}
 	s.Notes = strings.Join(text, "\r\n")
