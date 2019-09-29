@@ -196,7 +196,7 @@ type UserInfoTbl struct {
 
 ![4](/image/gormt/4.jpg)
 
-[Download](https://github.com/xxjwxc/gormt/releases/download/v1.0.0.1/v1.0.zip)
+[Download](https://github.com/xxjwxc/gormt/releases/download/v1.1.0/v1.0.zip)
 
 ## 8. Next step 
 
