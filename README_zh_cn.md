@@ -210,7 +210,7 @@ go generate
 
 ![图片描述](/image/gormt/4.jpg)
 
-[下载地址](https://github.com/xxjwxc/gormt/releases/download/v1.0.0.1/v1.0.zip)
+[下载地址](https://github.com/xxjwxc/gormt/releases/download/v1.1.0/v1.0.zip)
 
 ## 7. 下一步计划
 
