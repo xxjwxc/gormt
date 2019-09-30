@@ -1,4 +1,4 @@
-package gtools
+package genmysql
 
 import (
 	"fmt"
@@ -6,17 +6,25 @@ import (
 	"strings"
 
 	"github.com/xxjwxc/gormt/data/config"
-	"github.com/xxjwxc/gormt/data/view/gtools/generate"
-
+	"github.com/xxjwxc/gormt/data/view/cnf"
+	"github.com/xxjwxc/gormt/data/view/genstruct"
 	"github.com/xxjwxc/public/mybigcamel"
 	"github.com/xxjwxc/public/mysqldb"
 )
 
-//OnGetTables 获取表列及注释
+// GenMysql 开始mysql解析
+func GenMysql() genstruct.GenPackage {
+	orm := mysqldb.OnInitDBOrm(config.GetMysqlConStr())
+	defer orm.OnDestoryDB()
+
+	return OnGetPackageInfo(orm, OnGetTables(orm))
+}
+
+// OnGetTables Get columns and comments.获取表列及注释
 func OnGetTables(orm *mysqldb.MySqlDB) map[string]string {
 	tbDesc := make(map[string]string)
 
-	//获取列名
+	// Get column names.获取列名
 	var tables []string
 	rows, err := orm.Raw("show tables").Rows()
 	if err != nil {
@@ -32,7 +40,7 @@ func OnGetTables(orm *mysqldb.MySqlDB) map[string]string {
 		tbDesc[table] = ""
 	}
 
-	//获取表注释
+	// Get table annotations.获取表注释
 	rows, err = orm.Raw("SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.TABLES WHERE table_schema=?;",
 		config.GetMysqlDbInfo().Database).Rows()
 	if err != nil {
@@ -49,18 +57,18 @@ func OnGetTables(orm *mysqldb.MySqlDB) map[string]string {
 	return tbDesc
 }
 
-//OnGetPackageInfo 获取包信息
-func OnGetPackageInfo(orm *mysqldb.MySqlDB, tabls map[string]string) generate.GenPackage {
-	var pkg generate.GenPackage
+// OnGetPackageInfo getpackage info.获取包信息
+func OnGetPackageInfo(orm *mysqldb.MySqlDB, tabls map[string]string) genstruct.GenPackage {
+	var pkg genstruct.GenPackage
 	for tab, desc := range tabls {
-		var sct generate.GenStruct
-		sct.SetStructName(OnGetCamelName(tab)) //大驼峰
+		var sct genstruct.GenStruct
+		sct.SetStructName(OnGetCamelName(tab)) // Big hump.大驼峰
 		sct.SetNotes(desc)
-		//构造元素
+		// build element.构造元素
 		ems := OnGetTableElement(orm, tab)
-		//--------end
+		// --------end
 		sct.AddElement(ems...)
-		//获取表注释
+		// Get table annotations.获取表注释
 		rows, err := orm.Raw("show create table " + tab).Rows()
 		defer rows.Close()
 		if err == nil {
@@ -70,7 +78,7 @@ func OnGetPackageInfo(orm *mysqldb.MySqlDB, tabls map[string]string) generate.Ge
 				sct.SetCreatTableStr(CreateTable)
 			}
 		}
-		//----------end
+		// ----------end
 
 		pkg.AddStruct(sct)
 	}
@@ -78,12 +86,12 @@ func OnGetPackageInfo(orm *mysqldb.MySqlDB, tabls map[string]string) generate.Ge
 	return pkg
 }
 
-//OnGetTableElement 获取表列及注释
-func OnGetTableElement(orm *mysqldb.MySqlDB, tab string) []generate.GenElement {
-	var el []generate.GenElement
+// OnGetTableElement Get table columns and comments.获取表列及注释
+func OnGetTableElement(orm *mysqldb.MySqlDB, tab string) []genstruct.GenElement {
+	var el []genstruct.GenElement
 
 	keyNums := make(map[string]int)
-	//获取keys
+	// get keys
 	var Keys []struct {
 		NonUnique  int    `gorm:"column:Non_unique"`
 		KeyName    string `gorm:"column:Key_name"`
@@ -93,47 +101,40 @@ func OnGetTableElement(orm *mysqldb.MySqlDB, tab string) []generate.GenElement {
 	for _, v := range Keys {
 		keyNums[v.KeyName]++
 	}
-	//----------end
+	// ----------end
 
-	var list []struct {
-		Field string `gorm:"column:Field"`
-		Type  string `gorm:"column:Type"`
-		Key   string `gorm:"column:Key"`
-		Desc  string `gorm:"column:Comment"`
-		Null  string `gorm:"column:Null"`
-	}
-
-	//获取表注释
+	var list []GenColumns
+	// Get table annotations.获取表注释
 	orm.Raw("show FULL COLUMNS from " + tab).Find(&list)
-	//过滤 gorm.Model
+	// filter gorm.Model.过滤 gorm.Model
 	if OnHaveModel(&list) {
-		var tmp generate.GenElement
+		var tmp genstruct.GenElement
 		tmp.SetType("gorm.Model")
 		el = append(el, tmp)
 	}
-	//-----------------end
+	// -----------------end
 
 	for _, v := range list {
-		var tmp generate.GenElement
+		var tmp genstruct.GenElement
 		tmp.SetName(OnGetCamelName(v.Field))
 		tmp.SetNotes(v.Desc)
 		tmp.SetType(OnGetTypeName(v.Type))
 
-		if strings.EqualFold(v.Key, "PRI") { //设置主键
+		if strings.EqualFold(v.Key, "PRI") { // Set primary key.设置主键
 			tmp.AddTag(_tagGorm, "primary_key")
-		} else if strings.EqualFold(v.Key, "UNI") { //unique
+		} else if strings.EqualFold(v.Key, "UNI") { // unique
 			tmp.AddTag(_tagGorm, "unique")
 		} else {
-			//index
+			// index
 			for _, v1 := range Keys {
 				if strings.EqualFold(v1.ColumnName, v.Field) {
 					_val := ""
-					if v1.NonUnique == 1 { //index
+					if v1.NonUnique == 1 { // index
 						_val += "index"
 					} else {
 						_val += "unique_index"
 					}
-					if keyNums[v1.KeyName] > 1 { //复合索引？
+					if keyNums[v1.KeyName] > 1 { // Composite index.复合索引
 						_val += ":" + v1.KeyName
 					}
 
@@ -142,7 +143,7 @@ func OnGetTableElement(orm *mysqldb.MySqlDB, tab string) []generate.GenElement {
 			}
 		}
 
-		//simple output
+		// simple output
 		if !config.GetSimple() {
 			tmp.AddTag(_tagGorm, "column:"+v.Field)
 			tmp.AddTag(_tagGorm, "type:"+v.Type)
@@ -151,7 +152,7 @@ func OnGetTableElement(orm *mysqldb.MySqlDB, tab string) []generate.GenElement {
 			}
 		}
 
-		//json tag
+		// json tag
 		if config.GetIsJSONTag() {
 			if strings.EqualFold(v.Field, "id") {
 				tmp.AddTag(_tagJSON, "-")
@@ -159,28 +160,14 @@ func OnGetTableElement(orm *mysqldb.MySqlDB, tab string) []generate.GenElement {
 				tmp.AddTag(_tagJSON, v.Field)
 			}
 		}
-
 		el = append(el, tmp)
 	}
-
 	return el
 }
 
-//OnHaveModel 过滤 gorm.Model
-func OnHaveModel(list *[]struct {
-	Field string `gorm:"column:Field"`
-	Type  string `gorm:"column:Type"`
-	Key   string `gorm:"column:Key"`
-	Desc  string `gorm:"column:Comment"`
-	Null  string `gorm:"column:Null"`
-}) bool {
-	var _temp []struct {
-		Field string `gorm:"column:Field"`
-		Type  string `gorm:"column:Type"`
-		Key   string `gorm:"column:Key"`
-		Desc  string `gorm:"column:Comment"`
-		Null  string `gorm:"column:Null"`
-	}
+// OnHaveModel filter.过滤 gorm.Model
+func OnHaveModel(list *[]GenColumns) bool {
+	var _temp []GenColumns
 
 	num := 0
 	for _, v := range *list {
@@ -202,37 +189,37 @@ func OnHaveModel(list *[]struct {
 	return false
 }
 
-//OnGetTypeName 类型获取过滤
+// OnGetTypeName Type acquisition filtering.类型获取过滤
 func OnGetTypeName(name string) string {
-	//先精确匹配
-	if v, ok := TypeDicMp[name]; ok {
+	// Precise matching first.先精确匹配
+	if v, ok := cnf.TypeMysqlDicMp[name]; ok {
 		return v
 	}
 
-	//模糊正则匹配
-	for k, v := range TypeMatchMp {
+	// Fuzzy Regular Matching.模糊正则匹配
+	for k, v := range cnf.TypeMysqlMatchMp {
 		if ok, _ := regexp.MatchString(k, name); ok {
 			return v
 		}
 	}
 
-	panic(fmt.Sprintf("type (%v) not match in any way.", name))
+	panic(fmt.Sprintf("type (%v) not match in any way.maybe need to add on ()", name))
 }
 
-//OnGetCamelName 大驼峰或者首字母大写
+// OnGetCamelName Big Hump or Capital Letter.大驼峰或者首字母大写
 func OnGetCamelName(name string) string {
-	if config.GetSingularTable() { //如果全局禁用表名复数
+	if config.GetSingularTable() { // If the table name plural is globally disabled.如果全局禁用表名复数
 		return TitleCase(name)
 	}
 
 	return mybigcamel.Marshal(name)
 }
 
-//TitleCase 首字母大写
+// TitleCase title case.首字母大写
 func TitleCase(name string) string {
 	vv := []rune(name)
 	if len(vv) > 0 {
-		if bool(vv[0] >= 'a' && vv[0] <= 'z') { //首字母大写
+		if bool(vv[0] >= 'a' && vv[0] <= 'z') { // title case.首字母大写
 			vv[0] -= 32
 		}
 	}

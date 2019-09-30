@@ -1,4 +1,4 @@
-package generate
+package genstruct
 
 import (
 	"fmt"
@@ -6,40 +6,26 @@ import (
 	"strings"
 
 	"github.com/xxjwxc/gormt/data/config"
-
-	"github.com/xxjwxc/public/tools"
+	"github.com/xxjwxc/gormt/data/view/cnf"
+	"github.com/xxjwxc/gormt/data/view/generate"
 )
 
-//Add 打印
-func (p *PrintAtom) Add(str ...interface{}) {
-	var tmp string
-	for _, v := range str {
-		tmp += tools.AsString(v) + _interval
-	}
-	p.lines = append(p.lines, tmp)
-}
-
-//Generate 打印
-func (p *PrintAtom) Generate() []string {
-	return p.lines
-}
-
-//SetName 设置元素名字
+// SetName Setting element name.设置元素名字
 func (e *GenElement) SetName(name string) {
 	e.Name = name
 }
 
-//SetType 设置元素类型
+// SetType Setting element type.设置元素类型
 func (e *GenElement) SetType(tp string) {
 	e.Type = tp
 }
 
-//SetNotes 设置注释
+// SetNotes Setting element notes.设置注释
 func (e *GenElement) SetNotes(notes string) {
 	e.Notes = strings.Replace(notes, "\n", ",", -1)
 }
 
-//AddTag 添加一个tag标记
+// AddTag Add a tag .添加一个tag标记
 func (e *GenElement) AddTag(k string, v string) {
 	if e.Tags == nil {
 		e.Tags = make(map[string][]string)
@@ -47,7 +33,7 @@ func (e *GenElement) AddTag(k string, v string) {
 	e.Tags[k] = append(e.Tags[k], v)
 }
 
-//Generate 获取结果数据
+// Generate Get the result data.获取结果数据
 func (e *GenElement) Generate() string {
 	tag := ""
 
@@ -65,31 +51,31 @@ func (e *GenElement) Generate() string {
 		tag = fmt.Sprintf("`%v`", strings.Join(tags, " "))
 	}
 
-	var p PrintAtom
+	var p generate.PrintAtom
 	if len(e.Notes) > 0 {
 		p.Add(e.Name, e.Type, tag, "// "+e.Notes)
 	} else {
 		p.Add(e.Name, e.Type, tag)
 	}
 
-	return p.Generate()[0]
+	return p.Generates()[0]
 }
 
 //////////////////////////////////////////////////////////////////////////////
 // struct
 //////////////////////////////////////////////////////////////////////////////
 
-//SetCreatTableStr 设置创建语句，备份使用
+// SetCreatTableStr Set up SQL create statement, backup use setup create statement, backup use.设置创建语句，备份使用
 func (s *GenStruct) SetCreatTableStr(sql string) {
 	s.SQLBuildStr = sql
 }
 
-//SetStructName 获取结果数据
+// SetStructName Setting the name of struct.设置struct名字
 func (s *GenStruct) SetStructName(name string) {
 	s.Name = name
 }
 
-//SetNotes 设置注释
+// SetNotes set the notes.设置注释
 func (s *GenStruct) SetNotes(notes string) {
 	a := strings.Split(notes, "\n")
 	var text []string
@@ -102,14 +88,14 @@ func (s *GenStruct) SetNotes(notes string) {
 	s.Notes = strings.Join(text, "\r\n")
 }
 
-//AddElement 添加一个/或多个元素
+// AddElement Add one or more elements.添加一个/或多个元素
 func (s *GenStruct) AddElement(e ...GenElement) {
 	s.Em = append(s.Em, e...)
 }
 
-//Generate 获取结果数据
-func (s *GenStruct) Generate() []string {
-	var p PrintAtom
+// Generates Get the result data.获取结果数据
+func (s *GenStruct) Generates() []string {
+	var p generate.PrintAtom
 	if !config.GetSimple() {
 		p.Add("/******sql******")
 		p.Add(s.SQLBuildStr)
@@ -122,19 +108,19 @@ func (s *GenStruct) Generate() []string {
 	}
 	p.Add("}")
 
-	return p.Generate()
+	return p.Generates()
 }
 
 //////////////////////////////////////////////////////////////////////////////
 // package
 //////////////////////////////////////////////////////////////////////////////
 
-//SetPackage 定义包名
+// SetPackage Defining package names.定义包名
 func (p *GenPackage) SetPackage(pname string) {
 	p.Name = pname
 }
 
-//AddImport 通过类型添加import
+// AddImport Add import by type.通过类型添加import
 func (p *GenPackage) AddImport(imp string) {
 	if p.Imports == nil {
 		p.Imports = make(map[string]string)
@@ -142,18 +128,18 @@ func (p *GenPackage) AddImport(imp string) {
 	p.Imports[imp] = imp
 }
 
-//AddStruct 添加一个结构体
+// AddStruct Add a structure.添加一个结构体
 func (p *GenPackage) AddStruct(st GenStruct) {
 	p.Structs = append(p.Structs, st)
 }
 
-//Generate 获取结果数据
+// Generate Get the result data.获取结果数据
 func (p *GenPackage) Generate() string {
-	p.genimport() //补充 import
+	p.genimport() // auto add import .补充 import
 
-	var pa PrintAtom
+	var pa generate.PrintAtom
 	pa.Add("package", p.Name)
-	//add import
+	// add import
 	if p.Imports != nil {
 		pa.Add("import (")
 		for _, v := range p.Imports {
@@ -161,29 +147,29 @@ func (p *GenPackage) Generate() string {
 		}
 		pa.Add(")")
 	}
-	//-----------end
-	//add struct
+	// -----------end
+	// add struct
 	for _, v := range p.Structs {
-		for _, v1 := range v.Generate() {
+		for _, v1 := range v.Generates() {
 			pa.Add(v1)
 		}
 	}
-	//-----------end
+	// -----------end
 
-	//输出
+	// output.输出
 	strOut := ""
-	for _, v := range pa.Generate() {
+	for _, v := range pa.Generates() {
 		strOut += v + "\n"
 	}
 
 	return strOut
 }
 
-//获取结果数据
+// compensate and import .获取结果数据
 func (p *GenPackage) genimport() {
 	for _, v := range p.Structs {
 		for _, v1 := range v.Em {
-			if v2, ok := EImportsHead[v1.Type]; ok {
+			if v2, ok := cnf.EImportsHead[v1.Type]; ok {
 				if len(v2) > 0 {
 					p.AddImport(v2)
 				}

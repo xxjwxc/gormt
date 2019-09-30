@@ -24,7 +24,7 @@ var rootCmd = &cobra.Command{
 	Long:  `base on gorm tools for mysql database to golang struct`,
 	Run: func(cmd *cobra.Command, args []string) {
 		gtools.Execute()
-		//开始做事情
+		// Start doing things.开始做事情
 	},
 }
 
@@ -74,7 +74,7 @@ func initConfig() {
 	}
 }
 
-//MergeMysqlDbInfo 合并
+// MergeMysqlDbInfo merge parm
 func MergeMysqlDbInfo() {
 	var tmp = config.GetMysqlDbInfo()
 	if len(mysqlInfo.Database) > 0 {

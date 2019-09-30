@@ -6,23 +6,20 @@ import (
 	"strings"
 
 	"github.com/xxjwxc/gormt/data/config"
+	"github.com/xxjwxc/gormt/data/view/model/genmysql"
 
-	"github.com/xxjwxc/public/mysqldb"
 	"github.com/xxjwxc/public/tools"
 )
 
-//Execute 开始执行
+// Execute
 func Execute() {
-
-	orm := mysqldb.OnInitDBOrm(config.GetMysqlConStr())
-	defer orm.OnDestoryDB()
 
 	// var tt oauth_db.UserInfoTbl
 	// tt.Nickname = "ticket_001"
 	// orm.Where("nickname = ?", "ticket_001").Find(&tt)
 	// fmt.Println(tt)
 
-	pkg := OnGetPackageInfo(orm, OnGetTables(orm))
+	pkg := genmysql.GenMysql()
 	pkg.SetPackage(getPkgName())
 	str := pkg.Generate()
 
@@ -39,7 +36,7 @@ func Execute() {
 	fmt.Println(string(cmd))
 }
 
-// 通过config outdir 配置获取报名
+// Getting package names through config outdir configuration.通过config outdir 配置获取包名
 func getPkgName() string {
 	dir := config.GetOutDir()
 	dir = strings.Replace(dir, "\\", "/", -1)

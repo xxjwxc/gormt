@@ -1,12 +1,14 @@
-package gtools
+package cnf
 
-const (
-	_tagGorm = "gorm"
-	_tagJSON = "json"
-)
+// EImportsHead imports head options. import包含选项
+var EImportsHead = map[string]string{
+	"stirng":     `"string"`,
+	"time.Time":  `"time"`,
+	"gorm.Model": `"github.com/jinzhu/gorm"`,
+}
 
-//TypeDicMp 精确匹配类型
-var TypeDicMp = map[string]string{
+// TypeMysqlDicMp Accurate matching type.精确匹配类型
+var TypeMysqlDicMp = map[string]string{
 	"int":                 "int",
 	"bigint":              "int64",
 	"varchar":             "string",
@@ -22,8 +24,8 @@ var TypeDicMp = map[string]string{
 	"timestamp":           "time.Time",
 }
 
-//TypeMatchMp 模糊匹配类型
-var TypeMatchMp = map[string]string{
+// TypeMysqlMatchMp Fuzzy Matching Types.模糊匹配类型
+var TypeMysqlMatchMp = map[string]string{
 	`^(int)[(]\d+[)]`:         "int",
 	`^(bigint)[(]\d+[)]`:      "int64",
 	`^(char)[(]\d+[)]`:        "string",

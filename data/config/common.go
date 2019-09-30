@@ -9,13 +9,13 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
-//CfgBase .
+// CfgBase base config struct
 type CfgBase struct {
-	SerialNumber       string `json:"serial_number" toml:"serial_number"`             //版本号
-	ServiceName        string `json:"service_name" toml:"service_name"`               //service名字
-	ServiceDisplayname string `json:"service_displayname" toml:"service_displayname"` //显示名
-	SerciceDesc        string `json:"sercice_desc" toml:"sercice_desc"`               //service描述
-	IsDev              bool   `json:"is_dev" toml:"is_dev"`                           //是否是开发版本
+	SerialNumber       string `json:"serial_number" toml:"serial_number"`             // version.版本号
+	ServiceName        string `json:"service_name" toml:"service_name"`               // service name .service名字
+	ServiceDisplayname string `json:"service_displayname" toml:"service_displayname"` // display name .显示名
+	SerciceDesc        string `json:"sercice_desc" toml:"sercice_desc"`               // sercice desc .service描述
+	IsDev              bool   `json:"is_dev" toml:"is_dev"`                           // Is it a development version?是否是开发版本
 }
 
 var _map = Config{}
@@ -34,7 +34,7 @@ func onInit() {
 	}
 }
 
-//InitFile ...
+// InitFile default value from file .
 func InitFile(filename string) error {
 	if _, err := toml.DecodeFile(filename, &_map); err != nil {
 		fmt.Println("read toml error: ", err.Error())
@@ -44,7 +44,7 @@ func InitFile(filename string) error {
 	return nil
 }
 
-//GetServiceConfig 获取service配置信息
+// GetServiceConfig Get service configuration information
 func GetServiceConfig() (name, displayName, desc string) {
 	name = _map.ServiceName
 	displayName = _map.ServiceDisplayname
