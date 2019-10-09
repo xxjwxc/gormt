@@ -36,7 +36,6 @@ func (e *GenElement) AddTag(k string, v string) {
 // Generate Get the result data.获取结果数据
 func (e *GenElement) Generate() string {
 	tag := ""
-
 	if e.Tags != nil {
 		var ks []string
 		for k := range e.Tags {
