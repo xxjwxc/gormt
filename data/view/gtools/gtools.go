@@ -3,10 +3,10 @@ package gtools
 import (
 	"fmt"
 	"os/exec"
-	"strings"
+
+	"github.com/xxjwxc/gormt/data/view/model"
 
 	"github.com/xxjwxc/gormt/data/config"
-	"github.com/xxjwxc/gormt/data/view/model/genmysql"
 
 	"github.com/xxjwxc/public/tools"
 )
@@ -19,11 +19,12 @@ func Execute() {
 	// orm.Where("nickname = ?", "ticket_001").Find(&tt)
 	// fmt.Println(tt)
 
-	pkg := genmysql.GenMysql()
-	pkg.SetPackage(getPkgName())
-	str := pkg.Generate()
+	modeldb := GetModel()
+	pkg := modeldb.GenModel()
+	pkg.PackageName = modeldb.GetPkgName()
+	str := model.Generate(pkg)
 
-	path := config.GetOutDir() + "/" + config.GetMysqlDbInfo().Database + ".go"
+	path := config.GetOutDir() + "/" + modeldb.GetDbName() + ".go"
 	tools.WriteFile(path,
 		[]string{str}, true)
 
@@ -34,29 +35,4 @@ func Execute() {
 	fmt.Println("formatting differs from gofmt's:")
 	cmd, _ = exec.Command("gofmt", "-l", "-w", path).Output()
 	fmt.Println(string(cmd))
-}
-
-// Getting package names through config outdir configuration.通过config outdir 配置获取包名
-func getPkgName() string {
-	dir := config.GetOutDir()
-	dir = strings.Replace(dir, "\\", "/", -1)
-	if len(dir) > 0 {
-		if dir[len(dir)-1] == '/' {
-			dir = dir[:(len(dir) - 1)]
-		}
-	}
-	var pkgName string
-	list := strings.Split(dir, "/")
-	if len(list) > 0 {
-		pkgName = list[len(list)-1]
-	}
-
-	if len(pkgName) == 0 || pkgName == "." {
-		list = strings.Split(tools.GetModelPath(), "/")
-		if len(list) > 0 {
-			pkgName = list[len(list)-1]
-		}
-	}
-
-	return pkgName
 }
