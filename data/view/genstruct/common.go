@@ -76,9 +76,9 @@ func (s *GenStruct) SetStructName(name string) {
 
 // SetNotes set the notes.设置注释
 func (s *GenStruct) SetNotes(notes string) {
-	// if len(notes) > 0 {
-	// 	notes = s.Name + " " + notes
-	// }
+	if len(notes) > 0 {
+		notes = s.Name + " " + notes
+	}
 
 	a := strings.Split(notes, "\n")
 	var text []string
