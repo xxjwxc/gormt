@@ -6,18 +6,19 @@
 [English](README.md)
 --------
 
-## 1. 通过当前目录config.toml文件配置默认配置项
+## 1. 通过当前目录 config.yml 文件配置默认配置项
 ```
-out_dir = "."  # 输出目录
-singular_table = false  # 表名复数,是否大驼峰构建 参考:gorm.SingularTable
-simple = false #简单输出
-isJsonTag = true #是否打json标记
-[mysql_info]
-    host = "127.0.0.1"
-    port = 3306
-    username = "root"
-    password = "qwer"
-    database = "oauth_db"
+out_dir : "."  # 输出目录
+singular_table : false  # 表名复数,是否大驼峰构建 参考:gorm.SingularTable
+simple : false #简单输出
+isJsonTag : true #是否打json标记
+mysql_info :
+    host : "127.0.0.1"
+    port : 3306
+    username : "root"
+    password : "qwer"
+    database : "oauth_db"
+    
 
 ```
 ## 2. 可以使用命令行工具更新配置项

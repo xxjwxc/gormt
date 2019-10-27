@@ -9,18 +9,19 @@
 
 --------
 
-## 1. Configure default configuration items through the current directory config. toml file
+## 1. Configure default configuration items through the current directory config.yml file
 ```
-out_dir = "."  # out dir
-singular_table = false  # Table name plural (big Camel-Case):gorm.SingularTable
-simple = false #simple output
-isJsonTag = true # Whether to mark JSON or not
+out_dir : "."  # out dir
+singular_table : false  # Table name plural (big Camel-Case):gorm.SingularTable
+simple : false #simple output
+is_json_tag : true # Whether to mark JSON or not
+is_foreign_key : true # Whether to mark foreign key or not
 [mysql_info]
-    host = "127.0.0.1"
-    port = 3306
-    username = "root"
-    password = "qwer"
-    database = "oauth_db"
+    host : "127.0.0.1"
+    port : 3306
+    username : "root"
+    password : "qwer"
+    database : "oauth_db"
 
 ```
 ## 2. get help
