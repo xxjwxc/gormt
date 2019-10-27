@@ -58,7 +58,7 @@ func init() {
 	rootCmd.MarkFlagRequired("singular")
 
 	rootCmd.PersistentFlags().BoolVarP(&foreignKey, "foreign", "f", false, "是否导出外键关联")
-	rootCmd.MarkFlagRequired("foreign")
+	rootCmd.MarkFlagRequired("foreign key")
 
 	rootCmd.Flags().IntVar(&mysqlInfo.Port, "port", 3306, "端口号")
 }

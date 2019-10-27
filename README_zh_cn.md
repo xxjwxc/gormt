@@ -54,7 +54,7 @@ Flags:
 - 数据库表,列字段注释支持
 - singular_table 表名复数(大驼峰)
 - json tag json标签输出
-- gorm.Model 基本模型   [简单带外键模式导出>>>](doc/export_cn.md)
+- gorm.Model 基本模型   [支持gorm.Model模式导出>>>](doc/export_cn.md)
 - PRIMARY_KEY	将列指定为主键
 - UNIQUE	将列指定为唯一
 - NOT NULL	将列指定为非 NULL
