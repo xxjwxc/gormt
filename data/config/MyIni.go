@@ -4,12 +4,13 @@ import "fmt"
 
 // Config custom config struct
 type Config struct {
-	CfgBase
-	MySQLInfo     MysqlDbInfo `toml:"mysql_info"`
-	OutDir        string      `toml:"out_dir"`
-	Simple        bool        `toml:"simple"`
-	IsJSONTag     bool        `toml:"isJsonTag"`
-	SingularTable bool        `toml:"singular_table"`
+	CfgBase       `yaml:"base"`
+	MySQLInfo     MysqlDbInfo `yaml:"mysql_info"`
+	OutDir        string      `yaml:"out_dir"`
+	Simple        bool        `yaml:"simple"`
+	IsJSONTag     bool        `yaml:"is_json_tag"`
+	SingularTable bool        `yaml:"singular_table"`
+	IsForeignKey  bool        `yaml:"is_foreign_key"`
 }
 
 // MysqlDbInfo mysql database information. mysql 数据库信息
@@ -70,4 +71,14 @@ func GetSimple() bool {
 // GetIsJSONTag json tag.json标记
 func GetIsJSONTag() bool {
 	return _map.IsJSONTag
+}
+
+// GetIsForeignKey if is foreign key
+func GetIsForeignKey() bool {
+	return _map.IsForeignKey
+}
+
+// SetForeignKey Set if is foreign key.设置是否外键关联
+func SetForeignKey(b bool) {
+	_map.IsForeignKey = b
 }

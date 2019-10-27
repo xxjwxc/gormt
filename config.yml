@@ -1,0 +1,17 @@
+base :
+   serial_number : "1.0" #版本号
+   service_name :     #服务名
+   service_displayname :  #服务显示名
+   sercice_desc :    #服务描述
+   is_dev : false  # 是否开发者模式
+out_dir : ./model  # 输出目录
+singular_table : false  # 单表模式:true:禁用表名复数,false:采用表明复数 参考:gorm.SingularTable
+simple : true #简单输出
+is_json_tag : false #是否打json标记
+is_foreign_key : true #是否导出外键关联
+mysql_info:
+    host : 127.0.0.1
+    port : 3306
+    username : root
+    password : qwer
+    database : oauth_db

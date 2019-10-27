@@ -37,13 +37,16 @@ type TabInfo struct {
 // ColumusInfo Columus list .表列信息
 type ColumusInfo struct {
 	BaseInfo
-	Type string // Type.类型标记
-	//Index   string     // index or unique_index or ''
-	Index  []KList // index list.index列表
-	IsNull bool    // null if db is set null
+	Type           string       // Type.类型标记
+	Index          []KList      // index list.index列表
+	IsNull         bool         // null if db is set null
+	ForeignKeyList []ForeignKey // Foreign key list . 表的外键信息
+}
 
-	//
-	// Tags map[string][]string // tages.标记
+// ForeignKey Foreign key of db info . 表的外键信息
+type ForeignKey struct {
+	TableName  string // Affected tables . 该索引受影响的表
+	ColumnName string // Which column of the affected table.该索引受影响的表的哪一列
 }
 
 // KList database index /unique_index list.数据库index /unique_index 列表

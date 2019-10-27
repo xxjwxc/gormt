@@ -1,6 +1,10 @@
 package genmysql
 
-import "strings"
+import (
+	"strings"
+
+	"github.com/xxjwxc/gormt/data/view/model"
+)
 
 // filterModel filter.过滤 gorm.Model
 func filterModel(list *[]genColumns) bool {
@@ -24,4 +28,16 @@ func filterModel(list *[]genColumns) bool {
 	}
 
 	return false
+}
+
+// fixForeignKey fix foreign key.过滤外键
+func fixForeignKey(list []genForeignKey, columuName string, result *[]model.ForeignKey) {
+	for _, v := range list {
+		if strings.EqualFold(v.ColumnName, columuName) { // find it .找到了
+			*result = append(*result, model.ForeignKey{
+				TableName:  v.ReferencedTableName,
+				ColumnName: v.ReferencedColumnName,
+			})
+		}
+	}
 }

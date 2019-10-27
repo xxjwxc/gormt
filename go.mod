@@ -12,4 +12,6 @@ require (
 	github.com/xxjwxc/public v0.0.0-20190915135914-aefa9155c004
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v9 v9.29.1
+	gopkg.in/yaml.v2 v2.2.2
+	gopkg.in/yaml.v3 v3.0.0-20191026110619-0b21df46bc1d
 )

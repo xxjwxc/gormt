@@ -105,6 +105,12 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) 
 	}
 	// -----------------end
 
+	// ForeignKey
+	var foreignKeyList []genForeignKey
+	orm.Raw(`select table_schema,table_name,column_name,referenced_table_schema,referenced_table_name,referenced_column_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+	where table_schema = ? AND REFERENCED_TABLE_NAME IS NOT NULL AND TABLE_NAME = ? `, config.GetMysqlDbInfo().Database, tab).Find(&foreignKeyList)
+	// ------------------end
+
 	for _, v := range list {
 		var tmp model.ColumusInfo
 		tmp.Name = v.Field
@@ -138,6 +144,10 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) 
 		}
 
 		tmp.IsNull = strings.EqualFold(v.Null, "YES")
+
+		// ForeignKey
+		fixForeignKey(foreignKeyList, tmp.Name, &tmp.ForeignKeyList)
+		// -----------------end
 		el = append(el, tmp)
 	}
 	return
