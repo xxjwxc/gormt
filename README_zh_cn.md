@@ -54,13 +54,13 @@ Flags:
 - 数据库表,列字段注释支持
 - singular_table 表名复数(大驼峰)
 - json tag json标签输出
-- gorm.Model 基本模型 [详信息请看>>>](doc/export_cn.md#151)
+- gorm.Model 基本模型   [简单带外键模式导出>>>](doc/export_cn.md)
 - PRIMARY_KEY	将列指定为主键
 - UNIQUE	将列指定为唯一
 - NOT NULL	将列指定为非 NULL
 - INDEX	创建具有或不带名称的索引, 如果多个索引同名则创建复合索引
 - UNIQUE_INDEX	和 INDEX 类似，只不过创建的是唯一索引
-- 支持外键相关属性 [详信息请看>>>](doc/export_cn.md#114)
+- 支持外键相关属性 [简单带外键模式导出>>>](doc/export_cn.md)
 
 ### 您可以在这里丰富数据映射类型 [def](data/view/cnf/def.go) 。
 

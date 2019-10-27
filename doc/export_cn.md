@@ -1,4 +1,15 @@
-## 5. 导出
+## 目录
+ - [sql 原语](#sql-原语)
+	- [复杂不带外键导出](#复杂不带外键导出)
+	- [复杂单表模式导出](#复杂单表模式导出)
+	- [简单带json导出](#简单带json导出)
+	- [简单不带json导出](#简单不带json导出)
+	- [简单带外键模式导出](#简单带外键模式导出)
+ - [sql2](#sql2)
+ 	- [支持gorm.Model模式导出](#支持gorm.Model模式导出)
+
+
+### sql 原语
 
 - sql:
 ```
@@ -23,6 +34,8 @@ CREATE TABLE `user_account_tbl` (
 
 -------------
 
+### 复杂不带外键导出
+
 - 参数:singular_table = false simple = false  is_foreign_key = false
 
 ###### --->导出结果
@@ -44,6 +57,8 @@ type UserAccountTbl struct {
 ```
 
 -------------
+
+### 复杂单表模式导出
 
 - 参数:singular_table = true simple = false  is_foreign_key = false
 
@@ -67,6 +82,8 @@ type User_account_tbl struct {
 
 -------------
 
+### 简单带json导出
+
 - 参数:singular_table = false simple = true is_json_tag = true  is_foreign_key = false
 
 ###### --->导出结果
@@ -89,6 +106,8 @@ type UserAccountTbl struct {
 ```
 --------------
 
+### 简单不带json导出
+
 - 参数:singular_table = false simple = true is_json_tag = false  is_foreign_key = false
 
 ###### --->导出结果
@@ -110,6 +129,8 @@ type UserAccountTbl struct {
 ```
 
 --------------
+
+### 简单带外键模式导出
 
 - 参数:singular_table = false simple = true is_json_tag = false  is_foreign_key = true
 
@@ -134,7 +155,7 @@ type UserAccountTbl struct {
 
 --------------
 
-- sql:
+## sql2
 ```
 CREATE TABLE `user_info_tbl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -147,6 +168,8 @@ CREATE TABLE `user_info_tbl` (
   KEY `id` (`id`,`created_at`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='用户信息'
 ```
+
+### 支持gorm.Model模式导出
 
 - 参数:singular_table = false simple = true is_json_tag = false 
 
