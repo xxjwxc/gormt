@@ -61,13 +61,13 @@ Flags:
 - Database tables, column field annotation support
 - singular_table, Table name plural (big Camel-Case)
 - json tag json tag output
-- gorm.Model [Support export gorm.model>>>](doc/export_cn.md)
+- gorm.Model [Support export gorm.model>>>](doc/export.md)
 - PRIMARY_KEY	Specifies column as primary key
 - UNIQUE	Specifies column as unique
 - NOT NULL	Specifies column as NOT NULL
 - INDEX	Create index with or without name, same name creates composite indexes
 - UNIQUE_INDEX	Like INDEX, create unique index
-- Support foreign key related properties [Support export gorm.model>>>](doc/export_cn.md)
+- Support foreign key related properties [Support export gorm.model>>>](doc/export.md)
 
 ### You can enrich data types in [def](data/view/cnf/def.go) 
 
