@@ -1,9 +1,13 @@
 
-# [gorm-tools](https://github.com/xxjwxc/gorm-tools)
-### [gorm](https://github.com/jinzhu/gorm) mysql数据库转 struct 工具,可以将mysql数据库自动生成golang sturct结构，带大驼峰命名规则。带json标签
+# [gorm-tools](https://github.com/xxjwxc/gormt)
+
+--------
+
+#### mysql数据库转 struct 工具,可以将mysql数据库自动生成golang sturct结构，带大驼峰命名规则。带json标签
 
 
 [English](README.md)
+
 --------
 
 ## 1. 通过当前目录 config.yml 文件配置默认配置项
@@ -19,14 +23,16 @@ mysql_info :
     username : "root"
     password : "qwer"
     database : "oauth_db"
-    
-
 ```
+
 ## 2. 可以使用命令行工具更新配置项
+
 ```
 ./gormt -H=127.0.0.1 -d=oauth_db -p=qwer -u=root --port=3306
 ```
+
 ## 3. 查看帮助
+
 ```
 ./gormt --help
 or
@@ -56,13 +62,13 @@ Flags:
 - 数据库表,列字段注释支持
 - singular_table 表名复数(大驼峰)
 - json tag json标签输出
-- gorm.Model 基本模型   [支持gorm.Model模式导出>>>](doc/export_cn.md)
+- gorm.Model 基本模型   [支持gorm.Model模式导出>>>](https://github.com/xxjwxc/gormt/tree/master/doc/export_cn.md)
 - PRIMARY_KEY	将列指定为主键
 - UNIQUE	将列指定为唯一
 - NOT NULL	将列指定为非 NULL
 - INDEX	创建具有或不带名称的索引, 如果多个索引同名则创建复合索引
 - UNIQUE_INDEX	和 INDEX 类似，只不过创建的是唯一索引
-- 支持外键相关属性 [简单带外键模式导出>>>](doc/export_cn.md)
+- 支持外键相关属性 [简单带外键模式导出>>>](https://github.com/xxjwxc/gormt/tree/master/doc/export_cn.md)
 
 ### 您可以在这里丰富数据映射类型 [def](data/view/cnf/def.go) 。
 
@@ -106,7 +112,7 @@ type UserAccountTbl struct {
 }
 ```
 
-### [更多>>>](doc/export_cn.md)
+### [更多>>>](https://github.com/xxjwxc/gormt/tree/master/doc/export_cn.md)
 
 ## 6. 构建
 ```
