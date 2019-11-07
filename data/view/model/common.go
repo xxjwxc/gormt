@@ -44,5 +44,5 @@ func getTypeName(name string) string {
 		}
 	}
 
-	panic(fmt.Sprintf("type (%v) not match in any way.maybe need to add on ()", name))
+	panic(fmt.Sprintf("type (%v) not match in any way.maybe need to add on (https://github.com/xxjwxc/gormt/blob/master/data/view/cnf/def.go)", name))
 }
