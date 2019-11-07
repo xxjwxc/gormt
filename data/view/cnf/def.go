@@ -18,8 +18,6 @@ var TypeMysqlDicMp = map[string]string{
 	"bit(1)":              "bool",
 	"tinyint(1)":          "bool",
 	"tinyint(1) unsigned": "bool",
-	"tinyint(4)":          "int8",
-	"smallint(6)":         "int8",
 	"json":                "string",
 	"text":                "string",
 	"timestamp":           "time.Time",
@@ -27,6 +25,8 @@ var TypeMysqlDicMp = map[string]string{
 
 // TypeMysqlMatchMp Fuzzy Matching Types.模糊匹配类型
 var TypeMysqlMatchMp = map[string]string{
+	`^(tinyint)[(]\d+[)]`:     "int8",
+	`^(smallint)[(]\d+[)]`:    "int8",
 	`^(int)[(]\d+[)]`:         "int",
 	`^(bigint)[(]\d+[)]`:      "int64",
 	`^(char)[(]\d+[)]`:        "string",
