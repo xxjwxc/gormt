@@ -15,6 +15,7 @@
 out_dir : "."  # 输出目录
 singular_table : false  # 表名复数,是否大驼峰构建 参考:gorm.SingularTable
 simple : false #简单输出
+is_out_sql : false # 是否输出 sql 原信息
 is_json_tag : false #是否打json标记
 is_foreign_key : true #是否导出外键关联
 mysql_info :
