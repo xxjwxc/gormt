@@ -11,6 +11,7 @@ type Config struct {
 	IsJSONTag     bool        `yaml:"is_json_tag"`
 	SingularTable bool        `yaml:"singular_table"`
 	IsForeignKey  bool        `yaml:"is_foreign_key"`
+	IsOutSQL      bool        `yaml:"is_out_sql"`
 }
 
 // MysqlDbInfo mysql database information. mysql 数据库信息
@@ -81,4 +82,9 @@ func GetIsForeignKey() bool {
 // SetForeignKey Set if is foreign key.设置是否外键关联
 func SetForeignKey(b bool) {
 	_map.IsForeignKey = b
+}
+
+// GetIsOutSQL if is output sql .
+func GetIsOutSQL() bool {
+	return _map.IsOutSQL
 }

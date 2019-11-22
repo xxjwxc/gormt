@@ -112,7 +112,7 @@ type UserAccountTbl struct {
 }
 ```
 
-### [更多>>>](doc/export.md)
+### [more>>>](doc/export.md)
 
 ## 6. build
 ```
