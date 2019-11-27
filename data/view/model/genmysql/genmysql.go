@@ -65,7 +65,7 @@ func getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 
 		// Get create SQL statements.获取创建sql语句
 		rows, err := orm.Raw("show create table " + tabName).Rows()
-		defer rows.Close()
+		//defer rows.Close()
 		if err == nil {
 			if rows.Next() {
 				var table, CreateTable string
@@ -73,6 +73,7 @@ func getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 				tab.SQLBuildStr = CreateTable
 			}
 		}
+		// rows.Close()
 		// ----------end
 
 		// build element.构造元素
@@ -88,7 +89,7 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) 
 	keyNums := make(map[string]int)
 	// get keys
 	var Keys []keys
-	orm.Raw("show keys from " + tab).Find(&Keys)
+	orm.Raw("show keys from " + tab).Scan(&Keys)
 	for _, v := range Keys {
 		keyNums[v.KeyName]++
 	}
@@ -96,7 +97,7 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) 
 
 	var list []genColumns
 	// Get table annotations.获取表注释
-	orm.Raw("show FULL COLUMNS from " + tab).Find(&list)
+	orm.Raw("show FULL COLUMNS from " + tab).Scan(&list)
 	// filter gorm.Model.过滤 gorm.Model
 	if filterModel(&list) {
 		el = append(el, model.ColumusInfo{
@@ -107,8 +108,8 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) 
 
 	// ForeignKey
 	var foreignKeyList []genForeignKey
-	orm.Raw(`select table_schema,table_name,column_name,referenced_table_schema,referenced_table_name,referenced_column_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-	where table_schema = ? AND REFERENCED_TABLE_NAME IS NOT NULL AND TABLE_NAME = ? `, config.GetMysqlDbInfo().Database, tab).Find(&foreignKeyList)
+	orm.Raw(fmt.Sprintf(`select table_schema,table_name,column_name,referenced_table_schema,referenced_table_name,referenced_column_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+	where table_schema = '%v' AND REFERENCED_TABLE_NAME IS NOT NULL AND TABLE_NAME = '%v'`, config.GetMysqlDbInfo().Database, tab)).Scan(&foreignKeyList)
 	// ------------------end
 
 	for _, v := range list {
@@ -159,12 +160,13 @@ func getTables(orm *mysqldb.MySqlDB) map[string]string {
 
 	// Get column names.获取列名
 	var tables []string
+
 	rows, err := orm.Raw("show tables").Rows()
 	if err != nil {
 		fmt.Println(err)
 		return tbDesc
 	}
-	defer rows.Close()
+	// defer rows.Close()
 
 	for rows.Next() {
 		var table string
@@ -174,16 +176,16 @@ func getTables(orm *mysqldb.MySqlDB) map[string]string {
 	}
 
 	// Get table annotations.获取表注释
-	rows, err = orm.Raw("SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.TABLES WHERE table_schema=?;",
-		config.GetMysqlDbInfo().Database).Rows()
+	rows1, err := orm.Raw("SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.TABLES WHERE table_schema= '" + config.GetMysqlDbInfo().Database + "'").Rows()
+	// defer rows1.Close()
 	if err != nil {
 		fmt.Println(err)
 		return tbDesc
 	}
 
-	for rows.Next() {
+	for rows1.Next() {
 		var table, desc string
-		rows.Scan(&table, &desc)
+		rows1.Scan(&table, &desc)
 		tbDesc[table] = desc
 	}
 

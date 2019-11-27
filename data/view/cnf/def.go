@@ -21,6 +21,7 @@ var TypeMysqlDicMp = map[string]string{
 	"json":                "string",
 	"text":                "string",
 	"timestamp":           "time.Time",
+	"double":              "float64",
 }
 
 // TypeMysqlMatchMp Fuzzy Matching Types.模糊匹配类型
