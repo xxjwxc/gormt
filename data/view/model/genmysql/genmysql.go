@@ -63,18 +63,20 @@ func getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 		tab.Name = tabName
 		tab.Notes = notes
 
-		// Get create SQL statements.获取创建sql语句
-		rows, err := orm.Raw("show create table " + tabName).Rows()
-		//defer rows.Close()
-		if err == nil {
-			if rows.Next() {
-				var table, CreateTable string
-				rows.Scan(&table, &CreateTable)
-				tab.SQLBuildStr = CreateTable
+		if config.GetIsOutSQL() {
+			// Get create SQL statements.获取创建sql语句
+			rows, err := orm.Raw("show create table " + tabName).Rows()
+			//defer rows.Close()
+			if err == nil {
+				if rows.Next() {
+					var table, CreateTable string
+					rows.Scan(&table, &CreateTable)
+					tab.SQLBuildStr = CreateTable
+				}
 			}
+			// rows.Close()
+			// ----------end
 		}
-		// rows.Close()
-		// ----------end
 
 		// build element.构造元素
 		tab.Em = getTableElement(orm, tabName)
@@ -108,8 +110,10 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) 
 
 	// ForeignKey
 	var foreignKeyList []genForeignKey
-	orm.Raw(fmt.Sprintf(`select table_schema,table_name,column_name,referenced_table_schema,referenced_table_name,referenced_column_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-	where table_schema = '%v' AND REFERENCED_TABLE_NAME IS NOT NULL AND TABLE_NAME = '%v'`, config.GetMysqlDbInfo().Database, tab)).Scan(&foreignKeyList)
+	if config.GetIsForeignKey() {
+		orm.Raw(fmt.Sprintf(`select table_schema,table_name,column_name,referenced_table_schema,referenced_table_name,referenced_column_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+		where table_schema = '%v' AND REFERENCED_TABLE_NAME IS NOT NULL AND TABLE_NAME = '%v'`, config.GetMysqlDbInfo().Database, tab)).Scan(&foreignKeyList)
+	}
 	// ------------------end
 
 	for _, v := range list {
