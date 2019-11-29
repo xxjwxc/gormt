@@ -19,7 +19,7 @@ type MysqlDbInfo struct {
 	Host     string `validate:"required"` // Host. 地址
 	Port     int    `validate:"required"` // Port 端口号
 	Username string `validate:"required"` // Username 用户名
-	Password string `validate:"required"` // Password 密码
+	Password string // Password 密码
 	Database string `validate:"required"` // Database 数据库名
 }
 
