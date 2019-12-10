@@ -74,7 +74,7 @@ func getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 					tab.SQLBuildStr = CreateTable
 				}
 			}
-			// rows.Close()
+			rows.Close()
 			// ----------end
 		}
 
@@ -170,7 +170,6 @@ func getTables(orm *mysqldb.MySqlDB) map[string]string {
 		fmt.Println(err)
 		return tbDesc
 	}
-	// defer rows.Close()
 
 	for rows.Next() {
 		var table string
@@ -178,10 +177,10 @@ func getTables(orm *mysqldb.MySqlDB) map[string]string {
 		tables = append(tables, table)
 		tbDesc[table] = ""
 	}
+	rows.Close()
 
 	// Get table annotations.获取表注释
 	rows1, err := orm.Raw("SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.TABLES WHERE table_schema= '" + config.GetMysqlDbInfo().Database + "'").Rows()
-	// defer rows1.Close()
 	if err != nil {
 		fmt.Println(err)
 		return tbDesc
@@ -192,6 +191,7 @@ func getTables(orm *mysqldb.MySqlDB) map[string]string {
 		rows1.Scan(&table, &desc)
 		tbDesc[table] = desc
 	}
+	rows1.Close()
 
 	return tbDesc
 }
