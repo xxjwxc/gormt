@@ -23,6 +23,9 @@ var TypeMysqlDicMp = map[string]string{
 	"timestamp":           "time.Time",
 	"double":              "float64",
 	"mediumtext":          "string",
+	"longtext":            "string",
+	"float":               "float32",
+	"tinytext":            "stirng",
 }
 
 // TypeMysqlMatchMp Fuzzy Matching Types.模糊匹配类型
@@ -33,6 +36,7 @@ var TypeMysqlMatchMp = map[string]string{
 	`^(bigint)[(]\d+[)]`:      "int64",
 	`^(char)[(]\d+[)]`:        "string",
 	`^(varchar)[(]\d+[)]`:     "string",
+	`^(varbinary)[(]\d+[)]`:   "[]byte",
 	`^(decimal)[(]\d+,\d+[)]`: "float64",
 	`^(mediumint)[(]\d+[)]`:   "string",
 	`^(double)[(]\d+,\d+[)]`:  "float64",
