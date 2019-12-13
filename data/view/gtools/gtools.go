@@ -19,20 +19,20 @@ func Execute() {
 	// orm.Where("nickname = ?", "ticket_001").Find(&tt)
 	// fmt.Println(tt)
 
-	modeldb := GetModel()
+	modeldb := GetMysqlModel()
 	pkg := modeldb.GenModel()
-	pkg.PackageName = modeldb.GetPkgName()
-	str := model.Generate(pkg)
+	list := model.Generate(pkg)
 
-	path := config.GetOutDir() + "/" + modeldb.GetDbName() + ".go"
-	tools.WriteFile(path,
-		[]string{str}, true)
+	for _, v := range list {
+		path := config.GetOutDir() + "/" + v.FileName
+		tools.WriteFile(path, []string{v.FileCtx}, true)
 
-	fmt.Println("formatting differs from goimport's:")
-	cmd, _ := exec.Command("goimports", "-l", "-w", path).Output()
-	fmt.Println(string(cmd))
+		fmt.Println("formatting differs from goimport's:")
+		cmd, _ := exec.Command("goimports", "-l", "-w", path).Output()
+		fmt.Println(string(cmd))
 
-	fmt.Println("formatting differs from gofmt's:")
-	cmd, _ = exec.Command("gofmt", "-l", "-w", path).Output()
-	fmt.Println(string(cmd))
+		fmt.Println("formatting differs from gofmt's:")
+		cmd, _ = exec.Command("gofmt", "-l", "-w", path).Output()
+		fmt.Println(string(cmd))
+	}
 }

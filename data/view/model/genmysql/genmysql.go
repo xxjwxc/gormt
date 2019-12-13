@@ -23,6 +23,8 @@ func (m *mysqlModel) GenModel() model.DBInfo {
 
 	var dbInfo model.DBInfo
 	getPackageInfo(orm, &dbInfo)
+	dbInfo.PackageName = m.GetPkgName()
+	dbInfo.DbName = m.GetDbName()
 	return dbInfo
 }
 

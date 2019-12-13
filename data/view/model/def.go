@@ -23,7 +23,8 @@ const (
 
 // DBInfo database default info
 type DBInfo struct {
-	PackageName string
+	DbName      string    // database name
+	PackageName string    // package name
 	TabList     []TabInfo // table list .表列表
 }
 
@@ -59,4 +60,10 @@ type KList struct {
 type BaseInfo struct {
 	Name  string // table name.表名
 	Notes string // table comment . 表注释
+}
+
+// GenOutInfo generate file list. 生成的文件列表
+type GenOutInfo struct {
+	FileName string // output file name .输出文件名
+	FileCtx  string // output file context.输出文件内容
 }
