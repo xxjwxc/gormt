@@ -65,5 +65,5 @@ type BaseInfo struct {
 // GenOutInfo generate file list. 生成的文件列表
 type GenOutInfo struct {
 	FileName string // output file name .输出文件名
-	FileCtx  string // output file context.输出文件内容
+	FileCtx  string // output file context. 输出文件内容
 }
