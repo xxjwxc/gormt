@@ -12,11 +12,21 @@ type _Model struct {
 }
 
 // Generate build code string.生成代码
-func Generate(info DBInfo) string {
+func Generate(info DBInfo) (out []GenOutInfo) {
 	m := _Model{
 		info: info,
 	}
-	return m.generate()
+
+	// struct
+	var stt GenOutInfo
+	stt.FileCtx = m.generate()
+	stt.FileName = info.DbName + ".go"
+	out = append(out, stt)
+	// ------end
+
+	// gen function
+	// -------------- end
+	return
 }
 
 func (m *_Model) generate() string {
