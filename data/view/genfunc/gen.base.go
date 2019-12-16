@@ -2,11 +2,11 @@ package genfunc
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/jinzhu/gorm"
 )
 
+// prepare for outher
 type _BaseMgr struct {
 	*gorm.DB
 	ctx *context.Context
@@ -17,18 +17,22 @@ func (obj *_BaseMgr) SetCtx(c *context.Context) {
 	obj.ctx = c
 }
 
-////////////////////////////////////////////logic
-
-type _ExampleMgr struct {
-	*_BaseMgr
+// GetDB get gorm.DB info
+func (obj *_BaseMgr) GetDB() *gorm.DB {
+	return obj.DB
 }
 
-// ExampleMgr open func
-func ExampleMgr(db *gorm.DB) *_ExampleMgr {
-	if db == nil {
-		panic(fmt.Errorf("ExampleMgr init need db"))
-	}
-	return &_ExampleMgr{_BaseMgr: &_BaseMgr{DB: db}}
+type options struct {
+	query map[string]interface{}
 }
 
-///////////////////////////////////////////////////
+// Option overrides behavior of Connect.
+type Option interface {
+	apply(*options)
+}
+
+type optionFunc func(*options)
+
+func (f optionFunc) apply(o *options) {
+	f(o)
+}
