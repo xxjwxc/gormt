@@ -9,7 +9,8 @@ import (
 // prepare for outher
 type _BaseMgr struct {
 	*gorm.DB
-	ctx *context.Context
+	ctx       *context.Context
+	isRelated bool
 }
 
 // SetCtx set context
@@ -20,6 +21,11 @@ func (obj *_BaseMgr) SetCtx(c *context.Context) {
 // GetDB get gorm.DB info
 func (obj *_BaseMgr) GetDB() *gorm.DB {
 	return obj.DB
+}
+
+// IsRelated Query foreign key Association.是否查询外键关联(gorm.Related)
+func (obj *_BaseMgr) IsRelated(b bool) {
+	obj.isRelated = b
 }
 
 type options struct {

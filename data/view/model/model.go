@@ -3,6 +3,8 @@ package model
 import (
 	"strings"
 
+	"github.com/xxjwxc/public/mybigcamel"
+
 	"github.com/xxjwxc/gormt/data/config"
 	"github.com/xxjwxc/gormt/data/view/genstruct"
 )
@@ -91,7 +93,7 @@ func (m *_Model) genTableElement(cols []ColumusInfo) (el []genstruct.GenElement)
 			if strings.EqualFold(v.Name, "id") {
 				tmp.AddTag(_tagJSON, "-")
 			} else if len(v.Name) > 0 {
-				tmp.AddTag(_tagJSON, v.Name)
+				tmp.AddTag(_tagJSON, mybigcamel.UnMarshal(v.Name))
 			}
 		}
 		el = append(el, tmp)
@@ -129,7 +131,7 @@ func (m *_Model) genForeignKey(col ColumusInfo) (fklist []genstruct.GenElement) 
 
 			// json tag
 			if config.GetIsJSONTag() {
-				tmp.AddTag(_tagJSON, v.TableName+"_list")
+				tmp.AddTag(_tagJSON, mybigcamel.UnMarshal(v.TableName)+"_list")
 			}
 
 			fklist = append(fklist, tmp)
