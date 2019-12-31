@@ -22,8 +22,6 @@ mysql_info:
     username : root
     password : qwer
     database : oauth_db
-
-
 `
 )
 
