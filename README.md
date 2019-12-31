@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/xxjwxc/gormt.svg?branch=master)](https://travis-ci.org/xxjwxc/gormt)
 [![Go Report Card](https://goreportcard.com/badge/github.com/xxjwxc/gormt)](https://goreportcard.com/report/github.com/xxjwxc/gormt)
 [![codecov](https://codecov.io/gh/xxjwxc/gormt/branch/master/graph/badge.svg)](https://codecov.io/gh/xxjwxc/gormt)
+[![GoDoc](https://godoc.org/github.com/xxjwxc/gormt?status.svg)](https://godoc.org/github.com/xxjwxc/gormt)
  
 # [gormt](https://github.com/xxjwxc/gormt)
 
