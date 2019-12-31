@@ -21,6 +21,10 @@ func Execute() {
 
 	modeldb := GetMysqlModel()
 	pkg := modeldb.GenModel()
+	// just for test
+	// out, _ := json.Marshal(pkg)
+	// tools.WriteFile("test.txt", []string{string(out)}, true)
+
 	list := model.Generate(pkg)
 
 	for _, v := range list {
