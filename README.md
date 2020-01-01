@@ -24,7 +24,8 @@ simple : false #simple output
 is_out_sql : false # Whether to output sql
 is_json_tag : true # Whether to mark JSON or not
 is_foreign_key : true # Whether to mark foreign key or not
-[mysql_info]
+
+mysql_info :
     host : "127.0.0.1"
     port : 3306
     username : "root"
