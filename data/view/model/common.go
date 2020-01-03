@@ -46,3 +46,11 @@ func getTypeName(name string) string {
 
 	panic(fmt.Sprintf("type (%v) not match in any way.maybe need to add on (https://github.com/xxjwxc/gormt/blob/master/data/view/cnf/def.go)", name))
 }
+
+func getUninStr(left, middle, right string) string {
+	re := left
+	if len(right) > 0 {
+		re = left + middle + right
+	}
+	return re
+}

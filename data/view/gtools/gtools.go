@@ -11,7 +11,7 @@ import (
 	"github.com/xxjwxc/public/tools"
 )
 
-// Execute
+// Execute exe the cmd
 func Execute() {
 
 	// var tt oauth_db.UserInfoTbl

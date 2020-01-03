@@ -64,46 +64,39 @@ func (m *_Model) genTableElement(cols []ColumusInfo) (el []genstruct.GenElement)
 				case ColumusKeyUnique: // unique key.唯一索引
 					tmp.AddTag(_tagGorm, "unique")
 				case ColumusKeyIndex: // index key.复合索引
-					if len(v1.KeyName) > 0 {
-						tmp.AddTag(_tagGorm, "index:"+v1.KeyName)
-					} else {
-						tmp.AddTag(_tagGorm, "index")
-					}
+					tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName))
 				case ColumusKeyUniqueIndex: // unique index key.唯一复合索引
-					if len(v1.KeyName) > 0 {
-						tmp.AddTag(_tagGorm, "unique_index:"+v1.KeyName)
-					} else {
-						tmp.AddTag(_tagGorm, "unique_index")
-					}
+					tmp.AddTag(_tagGorm, getUninStr("unique_index", ":", v1.KeyName))
 				}
 			}
 		}
 
-		// not simple output
-		if !config.GetSimple() && len(v.Name) > 0 {
-			tmp.AddTag(_tagGorm, "column:"+v.Name)
-			tmp.AddTag(_tagGorm, "type:"+v.Type)
-			if !v.IsNull {
-				tmp.AddTag(_tagGorm, "not null")
+		if len(v.Name) > 0 {
+			// not simple output
+			if !config.GetSimple() {
+				tmp.AddTag(_tagGorm, "column:"+v.Name)
+				tmp.AddTag(_tagGorm, "type:"+v.Type)
+				if !v.IsNull {
+					tmp.AddTag(_tagGorm, "not null")
+				}
+			}
+
+			// json tag
+			if config.GetIsJSONTag() {
+				if strings.EqualFold(v.Name, "id") {
+					tmp.AddTag(_tagJSON, "-")
+				} else {
+					tmp.AddTag(_tagJSON, mybigcamel.UnMarshal(v.Name))
+				}
 			}
 		}
 
-		// json tag
-		if config.GetIsJSONTag() {
-			if strings.EqualFold(v.Name, "id") {
-				tmp.AddTag(_tagJSON, "-")
-			} else if len(v.Name) > 0 {
-				tmp.AddTag(_tagJSON, mybigcamel.UnMarshal(v.Name))
-			}
-		}
 		el = append(el, tmp)
 
 		// ForeignKey
 		if config.GetIsForeignKey() && len(v.ForeignKeyList) > 0 {
 			fklist := m.genForeignKey(v)
-			if len(fklist) > 0 {
-				el = append(el, fklist...)
-			}
+			el = append(el, fklist...)
 		}
 		// -----------end
 	}
@@ -184,4 +177,9 @@ func (m *_Model) getColumusKeyMulti(tableName, col string) (isMulti bool, isFind
 
 	return false, false, ""
 	// -----------------end
+}
+
+// ///////////////////////// func
+func (m *_Model) generateFunc() {
+
 }
