@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"testing"
+
+	"github.com/xxjwxc/gormt/data/config"
 )
 
 func TestTools(t *testing.T) {
@@ -14,5 +16,9 @@ func TestTools(t *testing.T) {
 	// tools.WriteFile("test.txt", []string{string(out)}, true)
 
 	list := Generate(pkg)
+	fmt.Println(list)
+
+	config.SetSingularTable(true)
+	list = Generate(pkg)
 	fmt.Println(list)
 }
