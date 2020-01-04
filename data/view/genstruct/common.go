@@ -76,17 +76,19 @@ func (s *GenStruct) SetStructName(name string) {
 
 // SetNotes set the notes.设置注释
 func (s *GenStruct) SetNotes(notes string) {
-	if len(notes) > 0 {
-		notes = s.Name + " " + notes
+	if len(notes) == 0 {
+		notes = "[...]" // default of struct notes(for export ).struct 默认注释(为了导出注释)
 	}
+
+	notes = s.Name + " " + notes
 
 	a := strings.Split(notes, "\n")
 	var text []string
 
 	for _, v := range a {
-		if len(v) > 0 {
-			text = append(text, "// "+v)
-		}
+		// if len(v) > 0 {
+		text = append(text, "// "+v)
+		// }
 	}
 	s.Notes = strings.Join(text, "\r\n")
 }
@@ -156,6 +158,12 @@ func (p *GenPackage) Generate() string {
 		for _, v1 := range v.Generates() {
 			pa.Add(v1)
 		}
+	}
+	// -----------end
+
+	// add func
+	for _, v := range p.FuncStrList {
+		pa.Add(v)
 	}
 	// -----------end
 

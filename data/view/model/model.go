@@ -1,11 +1,15 @@
 package model
 
 import (
+	"bytes"
+	"fmt"
 	"strings"
+	"text/template"
 
 	"github.com/xxjwxc/public/mybigcamel"
 
 	"github.com/xxjwxc/gormt/data/config"
+	"github.com/xxjwxc/gormt/data/view/genfunc"
 	"github.com/xxjwxc/gormt/data/view/genstruct"
 )
 
@@ -27,6 +31,7 @@ func Generate(info DBInfo) (out []GenOutInfo) {
 	// ------end
 
 	// gen function
+	out = append(out, m.generateFunc()...)
 	// -------------- end
 	return
 }
@@ -180,6 +185,37 @@ func (m *_Model) getColumusKeyMulti(tableName, col string) (isMulti bool, isFind
 }
 
 // ///////////////////////// func
-func (m *_Model) generateFunc() {
+func (m *_Model) generateFunc() (genOut []GenOutInfo) {
+	// getn base
+	tmpl, err := template.New("gen_base").Parse(genfunc.GetGenBaseTemp())
+	if err != nil {
+		panic(err)
+	}
+	var buf bytes.Buffer
+	tmpl.Execute(&buf, m.info)
+	genOut = append(genOut, GenOutInfo{
+		FileName: "gen.base.go",
+		FileCtx:  buf.String(),
+	})
+	//tools.WriteFile(outDir+"gen_router.go", []string{buf.String()}, true)
+	// -------end------
 
+	for _, tab := range m.info.TabList {
+		var pkg genstruct.GenPackage
+		pkg.SetPackage(m.info.PackageName) //package name
+
+		// tmpl, err := template.New("gen_logic").Funcs(template.FuncMap{"GetStringList": GetStringList}).Parse(genfunc.GetGenBaseTemp())
+		// if err != nil {
+		// 	panic(err)
+		// }
+		// var buf bytes.Buffer
+		// tmpl.Execute(&buf, m.info)
+
+		genOut = append(genOut, GenOutInfo{
+			FileName: fmt.Sprintf("gen.%v.go", tab.Name),
+			FileCtx:  pkg.Generate(),
+		})
+	}
+
+	return
 }

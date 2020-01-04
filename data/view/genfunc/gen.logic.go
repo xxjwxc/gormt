@@ -33,10 +33,15 @@ func ExampleMgr(db *gorm.DB) *_ExampleMgr {
 	return &_ExampleMgr{_BaseMgr: &_BaseMgr{DB: db}}
 }
 
+// GetTableName get sql table name.获取数据库名字
+func (obj *_ExampleMgr) GetTableName() string {
+	return "example"
+}
+
 // GetFromID 通过id获取内容
 func (obj *_ExampleMgr) GetFromID(id int) (results []*Example, err error) {
-	err = obj.DB.Table("example").Where("id = ?", id).Find(&results).Error
-	if err == nil {
+	err = obj.DB.Table(obj.GetTableName()).Where("id = ?", id).Find(&results).Error
+	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			var userList []User
 			err = obj.DB.Where("job = ?", results[i].UserID).Find(&userList).Error
@@ -51,8 +56,8 @@ func (obj *_ExampleMgr) GetFromID(id int) (results []*Example, err error) {
 
 // GetByPrimaryKey 唯一主键查找
 func (obj *_ExampleMgr) GetByPrimaryKey(id int64) (result Example, err error) {
-	err = obj.DB.Table("example").Where("id = ?", id).Find(&result).Error
-	if err == nil {
+	err = obj.DB.Table(obj.GetTableName()).Where("id = ?", id).Find(&result).Error
+	if err == nil && obj.isRelated {
 		var info []User
 		err = obj.DB.Where("job = ?", result.UserID).Find(&info).Error
 		if err != nil {
@@ -65,8 +70,8 @@ func (obj *_ExampleMgr) GetByPrimaryKey(id int64) (result Example, err error) {
 
 // GetByPrimaryKey 批量唯一主键查找
 func (obj *_ExampleMgr) GetByPrimaryKeys(ids []int64) (results []*Example, err error) {
-	err = obj.DB.Table("example").Where("id IN (?)", ids).Find(&results).Error
-	if err == nil {
+	err = obj.DB.Table(obj.GetTableName()).Where("id IN (?)", ids).Find(&results).Error
+	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			var userList []User
 			err = obj.DB.Where("job = ?", results[i].UserID).Find(&userList).Error
@@ -90,8 +95,8 @@ func (obj *_ExampleMgr) GetByOption(opts ...Option) (result Example, err error) 
 		o.apply(&options)
 	}
 
-	err = obj.DB.Table("example").Where(options.query).Find(&result).Error
-	if err == nil {
+	err = obj.DB.Table(obj.GetTableName()).Where(options.query).Find(&result).Error
+	if err == nil && obj.isRelated {
 		var info []User
 		err = obj.DB.Where("job = ?", result.UserID).Find(&info).Error
 		if err != nil {
@@ -111,8 +116,8 @@ func (obj *_ExampleMgr) GetByOptions(opts ...Option) (results []*Example, err er
 		o.apply(&options)
 	}
 
-	err = obj.DB.Table("example").Where(options.query).Find(&results).Error
-	if err == nil {
+	err = obj.DB.Table(obj.GetTableName()).Where(options.query).Find(&results).Error
+	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			var userList []User
 			err = obj.DB.Where("job = ?", results[i].UserID).Find(&userList).Error

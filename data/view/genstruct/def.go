@@ -18,7 +18,8 @@ type GenStruct struct {
 
 // GenPackage package of IPackage.包体
 type GenPackage struct {
-	Name    string            // name.名字
-	Imports map[string]string // Inclusion term.元素组合
-	Structs []GenStruct       // struct list .结构体组合
+	Name        string            // name.名字
+	Imports     map[string]string // Inclusion term.元素组合
+	Structs     []GenStruct       // struct list .结构体组合
+	FuncStrList []string          // func of template on string. 函数的最终定义
 }
