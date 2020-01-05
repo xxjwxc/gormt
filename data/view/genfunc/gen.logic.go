@@ -38,6 +38,36 @@ func (obj *_ExampleMgr) GetTableName() string {
 	return "example"
 }
 
+// Get 获取
+func (obj *_ExampleMgr) Get() (result Example, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Find(&result).Error
+	if err == nil && obj.isRelated {
+		var info []User
+		err = obj.DB.Where("job = ?", result.UserID).Find(&info).Error
+		if err != nil {
+			return
+		}
+		result.UserList = info
+	}
+	return
+}
+
+// Gets 获取批量结果
+func (obj *_ExampleMgr) Gets() (results []*Example, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Find(&results).Error
+	if err == nil && obj.isRelated {
+		for i := 0; i < len(results); i++ {
+			var userList []User
+			err = obj.DB.Where("job = ?", results[i].UserID).Find(&userList).Error
+			if err != nil {
+				return
+			}
+			results[i].UserList = userList
+		}
+	}
+	return
+}
+
 // GetFromID 通过id获取内容
 func (obj *_ExampleMgr) GetFromID(id int) (results []*Example, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("id = ?", id).Find(&results).Error
