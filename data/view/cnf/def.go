@@ -5,6 +5,7 @@ var EImportsHead = map[string]string{
 	"stirng":     `"string"`,
 	"time.Time":  `"time"`,
 	"gorm.Model": `"github.com/jinzhu/gorm"`,
+	"fmt":        `"fmt"`,
 }
 
 // TypeMysqlDicMp Accurate matching type.精确匹配类型

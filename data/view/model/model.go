@@ -6,6 +6,8 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/xxjwxc/gormt/data/view/cnf"
+
 	"github.com/xxjwxc/public/mybigcamel"
 
 	"github.com/xxjwxc/gormt/data/config"
@@ -203,14 +205,39 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 	for _, tab := range m.info.TabList {
 		var pkg genstruct.GenPackage
 		pkg.SetPackage(m.info.PackageName) //package name
+		pkg.AddImport(`"github.com/jinzhu/gorm"`)
+		pkg.AddImport(`"fmt"`)
 
-		// tmpl, err := template.New("gen_logic").Funcs(template.FuncMap{"GetStringList": GetStringList}).Parse(genfunc.GetGenBaseTemp())
-		// if err != nil {
-		// 	panic(err)
-		// }
-		// var buf bytes.Buffer
-		// tmpl.Execute(&buf, m.info)
+		data := struct {
+			StructName string
+			TableName  string
+			Em         []ColumusInfo
+		}{
+			StructName: getCamelName(tab.Name),
+			TableName:  tab.Name,
+		}
 
+		for _, el := range tab.Em {
+			if strings.EqualFold(el.Type, "gorm.Model") {
+				data.Em = append(data.Em, getGormModelElement()...)
+			} else {
+				data.Em = append(data.Em, el)
+				if v2, ok := cnf.EImportsHead[el.Type]; ok {
+					if len(v2) > 0 {
+						pkg.AddImport(v2)
+					}
+				}
+			}
+		}
+
+		tmpl, err := template.New("gen_logic").Parse(genfunc.GetGenLogicTemp())
+		if err != nil {
+			panic(err)
+		}
+		var buf bytes.Buffer
+		tmpl.Execute(&buf, data)
+
+		pkg.AddFuncStr(buf.String())
 		genOut = append(genOut, GenOutInfo{
 			FileName: fmt.Sprintf("gen.%v.go", tab.Name),
 			FileCtx:  pkg.Generate(),

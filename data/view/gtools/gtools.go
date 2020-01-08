@@ -1,9 +1,6 @@
 package gtools
 
 import (
-	"fmt"
-	"os/exec"
-
 	"github.com/xxjwxc/gormt/data/view/model"
 
 	"github.com/xxjwxc/gormt/data/config"
@@ -31,12 +28,12 @@ func Execute() {
 		path := config.GetOutDir() + "/" + v.FileName
 		tools.WriteFile(path, []string{v.FileCtx}, true)
 
-		fmt.Println("formatting differs from goimport's:")
-		cmd, _ := exec.Command("goimports", "-l", "-w", path).Output()
-		fmt.Println(string(cmd))
+		// fmt.Println("formatting differs from goimport's:")
+		// cmd, _ := exec.Command("goimports", "-l", "-w", path).Output()
+		// fmt.Println(string(cmd))
 
-		fmt.Println("formatting differs from gofmt's:")
-		cmd, _ = exec.Command("gofmt", "-l", "-w", path).Output()
-		fmt.Println(string(cmd))
+		// fmt.Println("formatting differs from gofmt's:")
+		// cmd, _ = exec.Command("gofmt", "-l", "-w", path).Output()
+		// fmt.Println(string(cmd))
 	}
 }

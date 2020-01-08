@@ -176,6 +176,11 @@ func (p *GenPackage) Generate() string {
 	return strOut
 }
 
+// AddFuncStr add func coding string.添加函数串
+func (p *GenPackage) AddFuncStr(src string) {
+	p.FuncStrList = append(p.FuncStrList, src)
+}
+
 // compensate and import .获取结果数据
 func (p *GenPackage) genimport() {
 	for _, v := range p.Structs {

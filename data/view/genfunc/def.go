@@ -46,4 +46,23 @@ func (f optionFunc) apply(o *options) {
 	f(o)
 }
 	`
+
+	genlogic = `{{$obj := .}}{{$list := $obj.Em}}
+type _{{$obj.StructName}}Mgr struct {
+	*_BaseMgr
+}
+
+// {{$obj.StructName}}Mgr open func
+func {{$obj.StructName}}Mgr(db *gorm.DB) *_{{$obj.StructName}}Mgr {
+	if db == nil {
+		panic(fmt.Errorf("{{$obj.StructName}}Mgr init need db"))
+	}
+	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db}}
+}
+
+// GetTableName get sql table name.获取数据库名字
+func (obj *_{{$obj.StructName}}Mgr) GetTableName() string {
+	return "{{$obj.TableName}}"
+}
+`
 )

@@ -7,5 +7,5 @@ func GetGenBaseTemp() string {
 
 // GetGenLogicTemp get gen logic template str
 func GetGenLogicTemp() string {
-	return ""
+	return genlogic
 }

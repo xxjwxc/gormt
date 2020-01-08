@@ -147,6 +147,7 @@ func (obj *_ExampleMgr) GetByOptions(opts ...Option) (results []*Example, err er
 	}
 
 	err = obj.DB.Table(obj.GetTableName()).Where(options.query).Find(&results).Error
+
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			var userList []User
@@ -162,9 +163,7 @@ func (obj *_ExampleMgr) GetByOptions(opts ...Option) (results []*Example, err er
 
 // WithID id获取
 func (obj *_ExampleMgr) WithID(id int64) Option {
-	return optionFunc(func(o *options) {
-		o.query["id"] = id
-	})
+	return optionFunc(func(o *options) { o.query["id"] = id })
 }
 
 func (obj *_ExampleMgr) WithUserID(id int64) Option {
