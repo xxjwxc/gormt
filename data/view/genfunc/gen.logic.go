@@ -28,7 +28,7 @@ type _ExampleMgr struct {
 // ExampleMgr open func
 func ExampleMgr(db *gorm.DB) *_ExampleMgr {
 	if db == nil {
-		panic(fmt.Errorf("ExampleMgr init need db"))
+		panic(fmt.Errorf("ExampleMgr need init by db"))
 	}
 	return &_ExampleMgr{_BaseMgr: &_BaseMgr{DB: db}}
 }
@@ -116,7 +116,7 @@ func (obj *_ExampleMgr) GetByPrimaryKeys(ids []int64) (results []*Example, err e
 
 //////////////////////////option case ////////////////////////////////////////////
 
-// GetByPrimaryKey 功能选项模式获取
+// GetByOption 功能选项模式获取
 func (obj *_ExampleMgr) GetByOption(opts ...Option) (result Example, err error) {
 	options := options{
 		query: make(map[string]interface{}, len(opts)),

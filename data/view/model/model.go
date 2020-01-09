@@ -208,11 +208,7 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 		pkg.AddImport(`"github.com/jinzhu/gorm"`)
 		pkg.AddImport(`"fmt"`)
 
-		data := struct {
-			StructName string
-			TableName  string
-			Em         []ColumusInfo
-		}{
+		data := funDef{
 			StructName: getCamelName(tab.Name),
 			TableName:  tab.Name,
 		}
@@ -220,17 +216,57 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 		for _, el := range tab.Em {
 			if strings.EqualFold(el.Type, "gorm.Model") {
 				data.Em = append(data.Em, getGormModelElement()...)
+				pkg.AddImport(`"time"`)
 			} else {
-				data.Em = append(data.Em, el)
-				if v2, ok := cnf.EImportsHead[el.Type]; ok {
+				isMulti := true
+				for _, v1 := range el.Index {
+					switch v1.Key {
+					// case ColumusKeyDefault:
+					case ColumusKeyPrimary: // primary key.主键
+						isMulti = false
+					case ColumusKeyUnique: // unique key.唯一索引
+						isMulti = false
+					//case ColumusKeyIndex: // index key.复合索引
+					case ColumusKeyUniqueIndex: // unique index key.唯一复合索引
+						isMulti = false
+					}
+				}
+
+				typeName := getTypeName(el.Type)
+				data.Em = append(data.Em, EmInfo{
+					IsMulti:       isMulti,
+					Notes:         el.Notes,
+					Type:          typeName, // Type.类型标记
+					ColName:       el.Name,
+					ColStructName: getCamelName(el.Name),
+				})
+				if v2, ok := cnf.EImportsHead[typeName]; ok {
 					if len(v2) > 0 {
 						pkg.AddImport(v2)
 					}
 				}
 			}
+
+			// 外键列表
+			for _, v := range el.ForeignKeyList {
+				isMulti, isFind, notes := m.getColumusKeyMulti(v.TableName, v.ColumnName)
+				if isFind {
+					var info PreloadInfo
+					info.IsMulti = isMulti
+					info.Notes = notes
+					info.ForeignkeyTableName = v.TableName
+					info.ForeignkeyCol = v.ColumnName
+					info.ForeignkeyStructName = getCamelName(v.TableName)
+					info.ColName = el.Name
+					info.ColStructName = getCamelName(el.Name)
+					data.PreloadList = append(data.PreloadList, info)
+				}
+			}
+			// ---------end--
+
 		}
 
-		tmpl, err := template.New("gen_logic").Parse(genfunc.GetGenLogicTemp())
+		tmpl, err := template.New("gen_logic").Funcs(template.FuncMap{"GenPreloadList": GenPreloadList}).Parse(genfunc.GetGenLogicTemp())
 		if err != nil {
 			panic(err)
 		}
@@ -239,10 +275,26 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 
 		pkg.AddFuncStr(buf.String())
 		genOut = append(genOut, GenOutInfo{
-			FileName: fmt.Sprintf("gen.%v.go", tab.Name),
+			FileName: fmt.Sprintf(m.info.DbName+".gen.%v.go", tab.Name),
 			FileCtx:  pkg.Generate(),
 		})
 	}
 
 	return
+}
+
+// GenPreloadList 生成list
+func GenPreloadList(list []PreloadInfo, multi bool) string {
+	if len(list) > 0 {
+		tmpl, err := template.New("gen_preload").Parse(genfunc.GetGenPreloadTemp(multi))
+		if err != nil {
+			panic(err)
+		}
+		var buf bytes.Buffer
+		tmpl.Execute(&buf, list)
+
+		return buf.String()
+	}
+
+	return ""
 }

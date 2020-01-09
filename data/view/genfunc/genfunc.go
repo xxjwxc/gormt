@@ -9,3 +9,11 @@ func GetGenBaseTemp() string {
 func GetGenLogicTemp() string {
 	return genlogic
 }
+
+// GetGenPreloadTemp get gen preload template str
+func GetGenPreloadTemp(multi bool) string {
+	if multi {
+		return genPreloadMulti
+	}
+	return genPreload
+}

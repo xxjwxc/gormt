@@ -55,24 +55,37 @@ func getUninStr(left, middle, right string) string {
 	return re
 }
 
-func getGormModelElement() []ColumusInfo {
-	var result []ColumusInfo
-	result = append(result, ColumusInfo{
-		BaseInfo: BaseInfo{Name: "id", Notes: "Primary key"},
-		Type:     "int64",                                // Type.类型标记
-		Index:    []KList{KList{Key: ColumusKeyPrimary}}, // index list.index列表
+func getGormModelElement() []EmInfo {
+	var result []EmInfo
+	result = append(result, EmInfo{
+		IsMulti:       false,
+		Notes:         "Primary key",
+		Type:          "int64", // Type.类型标记
+		ColName:       "id",
+		ColStructName: "ID",
 	})
-	result = append(result, ColumusInfo{
-		BaseInfo: BaseInfo{Name: "created_at", Notes: "created time"},
-		Type:     "time.Time", // Type.类型标记
+	result = append(result, EmInfo{
+		IsMulti:       false,
+		Notes:         "created time",
+		Type:          "time.Time", // Type.类型标记
+		ColName:       "created_at",
+		ColStructName: "CreatedAt",
 	})
-	result = append(result, ColumusInfo{
-		BaseInfo: BaseInfo{Name: "updated_at", Notes: "updated time"},
-		Type:     "time.Time", // Type.类型标记
+
+	result = append(result, EmInfo{
+		IsMulti:       false,
+		Notes:         "updated at",
+		Type:          "time.Time", // Type.类型标记
+		ColName:       "updated_at",
+		ColStructName: "UpdatedAt",
 	})
-	result = append(result, ColumusInfo{
-		BaseInfo: BaseInfo{Name: "deleted_at", Notes: "deleted time"},
-		Type:     "time.Time", // Type.类型标记
+
+	result = append(result, EmInfo{
+		IsMulti:       false,
+		Notes:         "deleted time",
+		Type:          "time.Time", // Type.类型标记
+		ColName:       "deleted_at",
+		ColStructName: "DeletedAt",
 	})
 	return result
 }

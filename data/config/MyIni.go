@@ -12,6 +12,7 @@ type Config struct {
 	SingularTable bool        `yaml:"singular_table"`
 	IsForeignKey  bool        `yaml:"is_foreign_key"`
 	IsOutSQL      bool        `yaml:"is_out_sql"`
+	IsOutFunc     bool        `yaml:"is_out_func"`
 }
 
 // MysqlDbInfo mysql database information. mysql 数据库信息
@@ -87,4 +88,14 @@ func SetForeignKey(b bool) {
 // GetIsOutSQL if is output sql .
 func GetIsOutSQL() bool {
 	return _map.IsOutSQL
+}
+
+// GetIsOutFunc if is output func .
+func GetIsOutFunc() bool {
+	return _map.IsOutFunc
+}
+
+// SetIsOutFunc if is output func .
+func SetIsOutFunc(b bool) {
+	_map.IsOutFunc = b
 }

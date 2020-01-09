@@ -67,3 +67,34 @@ type GenOutInfo struct {
 	FileName string // output file name .输出文件名
 	FileCtx  string // output file context. 输出文件内容
 }
+
+// def func sturct
+
+// PreloadInfo 预加载列表
+type PreloadInfo struct {
+	IsMulti              bool
+	Notes                string // 注释
+	ForeignkeyStructName string // 外键类目
+	ForeignkeyTableName  string // 外键表名
+	ForeignkeyCol        string // 外键列表
+	ColName              string // 表名
+	ColStructName        string // 表结构体
+}
+
+// EmInfo func 表结构定义
+type EmInfo struct {
+	IsMulti       bool
+	Notes         string // 注释
+	Type          string // 类型
+	ColName       string // 表名
+	ColStructName string // 表结构体
+}
+
+type funDef struct {
+	StructName  string
+	TableName   string
+	PreloadList []PreloadInfo
+	Em          []EmInfo
+}
+
+//
