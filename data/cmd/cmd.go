@@ -18,6 +18,7 @@ var mysqlInfo config.MysqlDbInfo
 var outDir string
 var singularTable bool
 var foreignKey bool
+var funcKey bool
 
 var rootCmd = &cobra.Command{
 	Use:   "main",
@@ -59,6 +60,9 @@ func init() {
 
 	rootCmd.PersistentFlags().BoolVarP(&foreignKey, "foreign", "f", false, "是否导出外键关联")
 	rootCmd.MarkFlagRequired("foreign key")
+
+	rootCmd.PersistentFlags().BoolVarP(&funcKey, "fun", "F", false, "是否导出函数")
+	rootCmd.MarkFlagRequired("func export")
 
 	rootCmd.Flags().IntVar(&mysqlInfo.Port, "port", 3306, "端口号")
 }
@@ -109,5 +113,9 @@ func MergeMysqlDbInfo() {
 
 	if foreignKey {
 		config.SetForeignKey(foreignKey)
+	}
+
+	if funcKey {
+		config.SetIsOutFunc(funcKey)
 	}
 }

@@ -82,19 +82,37 @@ type PreloadInfo struct {
 }
 
 // EmInfo func 表结构定义
+
+// FEm ...
+type FEm struct {
+	Type          string // 类型
+	ColName       string // 列名
+	ColStructName string // 列结构体
+}
+
+// FList index of list
+type FList struct {
+	Key     ColumusKey // non_unique of (show keys from [table])
+	KeyName string     // key_name of (show keys from [table])
+	Kem     []FEm
+}
+
+// EmInfo element of func info
 type EmInfo struct {
 	IsMulti       bool
 	Notes         string // 注释
 	Type          string // 类型
-	ColName       string // 表名
-	ColStructName string // 表结构体
+	ColName       string // 列名
+	ColStructName string // 列结构体
 }
 
 type funDef struct {
 	StructName  string
 	TableName   string
-	PreloadList []PreloadInfo
-	Em          []EmInfo
+	PreloadList []PreloadInfo // 外键列表，(生成关联数据)
+	Em          []EmInfo      // index 列表
+	Primay      []FList       // primay unique
+	Index       []FList       // index
 }
 
 //

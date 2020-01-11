@@ -1,11 +1,15 @@
 package model
 
 import (
+	"bytes"
 	"fmt"
 	"regexp"
+	"strings"
+	"text/template"
 
 	"github.com/xxjwxc/gormt/data/config"
 	"github.com/xxjwxc/gormt/data/view/cnf"
+	"github.com/xxjwxc/gormt/data/view/genfunc"
 	"github.com/xxjwxc/public/mybigcamel"
 )
 
@@ -88,4 +92,95 @@ func getGormModelElement() []EmInfo {
 		ColStructName: "DeletedAt",
 	})
 	return result
+}
+
+func buildFList(list *[]FList, key ColumusKey, keyName, tp, colName string) {
+	for i := 0; i < len(*list); i++ {
+		if (*list)[i].KeyName == keyName {
+			(*list)[i].Kem = append((*list)[i].Kem, FEm{
+				Type:          tp,
+				ColName:       colName,
+				ColStructName: getCamelName(colName),
+			})
+			return
+		}
+	}
+	// 没有 添加一个
+	*list = append(*list, FList{
+		Key:     key,
+		KeyName: keyName,
+		Kem: []FEm{FEm{
+			Type:          tp,
+			ColName:       colName,
+			ColStructName: getCamelName(colName),
+		}},
+	})
+}
+
+// GenPreloadList 生成list
+func GenPreloadList(list []PreloadInfo, multi bool) string {
+	if len(list) > 0 {
+		tmpl, err := template.New("gen_preload").Parse(genfunc.GetGenPreloadTemp(multi))
+		if err != nil {
+			panic(err)
+		}
+		var buf bytes.Buffer
+		tmpl.Execute(&buf, list)
+
+		return buf.String()
+	}
+
+	return ""
+}
+
+// GenFListIndex 生成list status(1:获取函数名,2:获取参数列表,3:获取sql case,4:值列表)
+func GenFListIndex(info FList, status int) string {
+	switch status {
+	case 1: // 1:获取函数名
+		{
+			return widthFunctionName(info)
+		}
+	case 2: // 2:获取参数列表
+		{
+			var strs []string
+			for _, v := range info.Kem {
+				strs = append(strs, fmt.Sprintf("%v %v ", v.ColStructName, v.Type))
+			}
+			return strings.Join(strs, ",")
+		}
+	case 3: // 3:获取sql case,
+		{
+			var strs []string
+			for _, v := range info.Kem {
+				strs = append(strs, fmt.Sprintf("%v = ?", v.ColName))
+			}
+			return strings.Join(strs, " AND ")
+		}
+	case 4: // 4:值列表
+		{
+			var strs []string
+			for _, v := range info.Kem {
+				strs = append(strs, v.ColStructName)
+			}
+			return strings.Join(strs, " , ")
+		}
+	}
+
+	return ""
+}
+
+func widthFunctionName(info FList) string {
+	switch info.Key {
+	// case ColumusKeyDefault:
+	case ColumusKeyPrimary: // primary key.主键
+		return "FetchByPrimaryKey"
+	case ColumusKeyUnique: // unique key.唯一索引
+		return "FetchByUnique"
+	case ColumusKeyIndex: // index key.复合索引
+		return "FetchBy" + getCamelName(info.KeyName) + "Index"
+	case ColumusKeyUniqueIndex: // unique index key.唯一复合索引
+		return "FetchBy" + getCamelName(info.KeyName) + "UniqueIndex"
+	}
+
+	return ""
 }

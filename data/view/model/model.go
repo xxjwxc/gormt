@@ -33,7 +33,9 @@ func Generate(info DBInfo) (out []GenOutInfo) {
 	// ------end
 
 	// gen function
-	out = append(out, m.generateFunc()...)
+	if config.GetIsOutFunc() {
+		out = append(out, m.generateFunc()...)
+	}
 	// -------------- end
 	return
 }
@@ -213,26 +215,32 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 			TableName:  tab.Name,
 		}
 
+		var primary, unique, uniqueIndex, index []FList
 		for _, el := range tab.Em {
 			if strings.EqualFold(el.Type, "gorm.Model") {
 				data.Em = append(data.Em, getGormModelElement()...)
 				pkg.AddImport(`"time"`)
+				buildFList(&primary, ColumusKeyPrimary, "", "int64", "id")
 			} else {
+				typeName := getTypeName(el.Type)
 				isMulti := true
 				for _, v1 := range el.Index {
 					switch v1.Key {
 					// case ColumusKeyDefault:
 					case ColumusKeyPrimary: // primary key.主键
 						isMulti = false
+						buildFList(&primary, ColumusKeyPrimary, "", typeName, el.Name)
 					case ColumusKeyUnique: // unique key.唯一索引
 						isMulti = false
-					//case ColumusKeyIndex: // index key.复合索引
+						buildFList(&unique, ColumusKeyUnique, "", typeName, el.Name)
+					case ColumusKeyIndex: // index key.复合索引
+						buildFList(&uniqueIndex, ColumusKeyIndex, v1.KeyName, typeName, el.Name)
 					case ColumusKeyUniqueIndex: // unique index key.唯一复合索引
 						isMulti = false
+						buildFList(&index, ColumusKeyUniqueIndex, v1.KeyName, typeName, el.Name)
 					}
 				}
 
-				typeName := getTypeName(el.Type)
 				data.Em = append(data.Em, EmInfo{
 					IsMulti:       isMulti,
 					Notes:         el.Notes,
@@ -263,10 +271,16 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 				}
 			}
 			// ---------end--
-
 		}
 
-		tmpl, err := template.New("gen_logic").Funcs(template.FuncMap{"GenPreloadList": GenPreloadList}).Parse(genfunc.GetGenLogicTemp())
+		data.Primay = append(data.Primay, primary...)
+		data.Primay = append(data.Primay, unique...)
+		data.Primay = append(data.Primay, uniqueIndex...)
+		data.Index = append(data.Index, index...)
+
+		tmpl, err := template.New("gen_logic").
+			Funcs(template.FuncMap{"GenPreloadList": GenPreloadList, "GenFListIndex": GenFListIndex}).
+			Parse(genfunc.GetGenLogicTemp())
 		if err != nil {
 			panic(err)
 		}
@@ -281,20 +295,4 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 	}
 
 	return
-}
-
-// GenPreloadList 生成list
-func GenPreloadList(list []PreloadInfo, multi bool) string {
-	if len(list) > 0 {
-		tmpl, err := template.New("gen_preload").Parse(genfunc.GetGenPreloadTemp(multi))
-		if err != nil {
-			panic(err)
-		}
-		var buf bytes.Buffer
-		tmpl.Execute(&buf, list)
-
-		return buf.String()
-	}
-
-	return ""
 }

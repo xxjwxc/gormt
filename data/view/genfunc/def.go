@@ -131,13 +131,32 @@ func (obj *_{{$obj.StructName}}Mgr)  GetFrom{{$oem.ColStructName}}({{$oem.ColStr
 	return
 }
 {{end}}
-// GetsBatchFrom{{$oem.ColStructName}} 批量唯一主键查找 {{$oem.Notes}}
-func (obj *_{{$obj.StructName}}Mgr) GetsBatchFrom{{$oem.ColStructName}}({{$oem.ColStructName}}s []{{$oem.Type}}) (results []*{{$obj.StructName}}, err error) {
+// GetBatchFrom{{$oem.ColStructName}} 批量唯一主键查找 {{$oem.Notes}}
+func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{$oem.ColStructName}}s []{{$oem.Type}}) (results []*{{$obj.StructName}}, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} IN (?)", {{$oem.ColStructName}}s).Find(&results).Error
 	{{GenPreloadList $obj.PreloadList true}}
 	return
 }
  {{end}}
+ //////////////////////////primary index case ////////////////////////////////////////////
+ {{range $ofm := $obj.Primay}}
+ // {{GenFListIndex $ofm 1}} primay or index 获取唯一内容
+ func (obj *_{{$obj.StructName}}Mgr) {{GenFListIndex $ofm 1}}({{GenFListIndex $ofm 2}}) (result {{$obj.StructName}}, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("{{GenFListIndex $ofm 3}}", {{GenFListIndex $ofm 4}}).Find(&result).Error
+	{{GenPreloadList $obj.PreloadList false}}
+	return
+}
+ {{end}}
+
+ {{range $ofm := $obj.Index}}
+ // {{GenFListIndex $ofm 1}}  获取多个内容
+ func (obj *_{{$obj.StructName}}Mgr) {{GenFListIndex $ofm 1}}({{GenFListIndex $ofm 2}}) (results []*{{$obj.StructName}}, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("{{GenFListIndex $ofm 3}}", {{GenFListIndex $ofm 4}}).Find(&results).Error
+	{{GenPreloadList $obj.PreloadList true}}
+	return
+}
+ {{end}}
+
 `
 	genPreload = `if err == nil && obj.isRelated { {{range $obj := .}}{{if $obj.IsMulti}}
 		{

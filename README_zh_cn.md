@@ -52,6 +52,7 @@ Usage:
 Flags:
   -d, --database string   数据库名
   -f, --foreign           是否导出外键关联
+  -F, --fun               是否导出函数
   -h, --help              help for main
   -H, --host string       数据库地址.(注意-H为大写)
   -o, --outdir string     输出目录

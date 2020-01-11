@@ -2,7 +2,7 @@ base:
     is_dev : false
 out_dir : ./model  # 输出目录
 singular_table : false  # 单表模式:true:禁用表名复数,false:采用表明复数 参考:gorm.SingularTable
-simple : true # 简单输出(默认gorm标签不输出)
+simple : false # 简单输出(默认gorm标签不输出)
 is_out_sql : false # 是否输出 sql 原信息
 is_out_func : true # 是否输出 快捷函数
 is_json_tag : true # 是否打json标记
