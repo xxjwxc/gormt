@@ -96,8 +96,8 @@ func (obj *_UserMgr) GetFromUserID(UserID int) (result User, err error) {
 	return
 }
 
-// GetsBatchFromUserID 批量唯一主键查找
-func (obj *_UserMgr) GetsBatchFromUserID(UserIDs []int) (results []*User, err error) {
+// GetBatchFromUserID 批量唯一主键查找
+func (obj *_UserMgr) GetBatchFromUserID(UserIDs []int) (results []*User, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("userId IN (?)", UserIDs).Find(&results).Error
 
 	return
@@ -110,8 +110,8 @@ func (obj *_UserMgr) GetFromName(Name string) (results []*User, err error) {
 	return
 }
 
-// GetsBatchFromName 批量唯一主键查找
-func (obj *_UserMgr) GetsBatchFromName(Names []string) (results []*User, err error) {
+// GetBatchFromName 批量唯一主键查找
+func (obj *_UserMgr) GetBatchFromName(Names []string) (results []*User, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("name IN (?)", Names).Find(&results).Error
 
 	return
@@ -124,8 +124,8 @@ func (obj *_UserMgr) GetFromSex(Sex int) (results []*User, err error) {
 	return
 }
 
-// GetsBatchFromSex 批量唯一主键查找
-func (obj *_UserMgr) GetsBatchFromSex(Sexs []int) (results []*User, err error) {
+// GetBatchFromSex 批量唯一主键查找
+func (obj *_UserMgr) GetBatchFromSex(Sexs []int) (results []*User, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("sex IN (?)", Sexs).Find(&results).Error
 
 	return
@@ -138,9 +138,25 @@ func (obj *_UserMgr) GetFromJob(Job int) (results []*User, err error) {
 	return
 }
 
-// GetsBatchFromJob 批量唯一主键查找
-func (obj *_UserMgr) GetsBatchFromJob(Jobs []int) (results []*User, err error) {
+// GetBatchFromJob 批量唯一主键查找
+func (obj *_UserMgr) GetBatchFromJob(Jobs []int) (results []*User, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("job IN (?)", Jobs).Find(&results).Error
+
+	return
+}
+
+//////////////////////////primary index case ////////////////////////////////////////////
+
+// FetchByPrimaryKey primay or index 获取唯一内容
+func (obj *_UserMgr) FetchByPrimaryKey(UserID int) (result User, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("userId = ?", UserID).Find(&result).Error
+
+	return
+}
+
+// FetchByIndex primay or index 获取唯一内容
+func (obj *_UserMgr) FetchByIndex(Sex int) (result User, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("sex = ?", Sex).Find(&result).Error
 
 	return
 }

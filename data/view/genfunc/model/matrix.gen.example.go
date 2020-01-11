@@ -101,8 +101,8 @@ func (obj *_ExampleMgr) GetFromUserID(UserID int) (result Example, err error) {
 	return
 }
 
-// GetsBatchFromUserID 批量唯一主键查找
-func (obj *_ExampleMgr) GetsBatchFromUserID(UserIDs []int) (results []*Example, err error) {
+// GetBatchFromUserID 批量唯一主键查找
+func (obj *_ExampleMgr) GetBatchFromUserID(UserIDs []int) (results []*Example, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("user_id IN (?)", UserIDs).Find(&results).Error
 
 	return
@@ -115,8 +115,8 @@ func (obj *_ExampleMgr) GetFromName(Name string) (results []*Example, err error)
 	return
 }
 
-// GetsBatchFromName 批量唯一主键查找
-func (obj *_ExampleMgr) GetsBatchFromName(Names []string) (results []*Example, err error) {
+// GetBatchFromName 批量唯一主键查找
+func (obj *_ExampleMgr) GetBatchFromName(Names []string) (results []*Example, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("name IN (?)", Names).Find(&results).Error
 
 	return
@@ -129,8 +129,8 @@ func (obj *_ExampleMgr) GetFromSex(Sex int) (results []*Example, err error) {
 	return
 }
 
-// GetsBatchFromSex 批量唯一主键查找
-func (obj *_ExampleMgr) GetsBatchFromSex(Sexs []int) (results []*Example, err error) {
+// GetBatchFromSex 批量唯一主键查找
+func (obj *_ExampleMgr) GetBatchFromSex(Sexs []int) (results []*Example, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("sex IN (?)", Sexs).Find(&results).Error
 
 	return
@@ -143,8 +143,8 @@ func (obj *_ExampleMgr) GetFromJob(Job int) (results []*Example, err error) {
 	return
 }
 
-// GetsBatchFromJob 批量唯一主键查找
-func (obj *_ExampleMgr) GetsBatchFromJob(Jobs []int) (results []*Example, err error) {
+// GetBatchFromJob 批量唯一主键查找
+func (obj *_ExampleMgr) GetBatchFromJob(Jobs []int) (results []*Example, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("job IN (?)", Jobs).Find(&results).Error
 
 	return
@@ -157,9 +157,25 @@ func (obj *_ExampleMgr) GetFromID(ID int) (results []*Example, err error) {
 	return
 }
 
-// GetsBatchFromID 批量唯一主键查找
-func (obj *_ExampleMgr) GetsBatchFromID(IDs []int) (results []*Example, err error) {
+// GetBatchFromID 批量唯一主键查找
+func (obj *_ExampleMgr) GetBatchFromID(IDs []int) (results []*Example, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("id IN (?)", IDs).Find(&results).Error
+
+	return
+}
+
+//////////////////////////primary index case ////////////////////////////////////////////
+
+// FetchByPrimaryKey primay or index 获取唯一内容
+func (obj *_ExampleMgr) FetchByPrimaryKey(UserID int) (result Example, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("user_id = ?", UserID).Find(&result).Error
+
+	return
+}
+
+// FetchByIndex primay or index 获取唯一内容
+func (obj *_ExampleMgr) FetchByIndex(Sex int) (result Example, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("sex = ?", Sex).Find(&result).Error
 
 	return
 }

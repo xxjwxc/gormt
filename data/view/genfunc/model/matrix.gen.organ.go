@@ -149,8 +149,8 @@ func (obj *_OrganMgr) GetFromID(ID int) (result Organ, err error) {
 	return
 }
 
-// GetsBatchFromID 批量唯一主键查找
-func (obj *_OrganMgr) GetsBatchFromID(IDs []int) (results []*Organ, err error) {
+// GetBatchFromID 批量唯一主键查找
+func (obj *_OrganMgr) GetBatchFromID(IDs []int) (results []*Organ, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("id IN (?)", IDs).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
@@ -185,8 +185,8 @@ func (obj *_OrganMgr) GetFromUserID(UserID int) (results []*Organ, err error) {
 	return
 }
 
-// GetsBatchFromUserID 批量唯一主键查找
-func (obj *_OrganMgr) GetsBatchFromUserID(UserIDs []int) (results []*Organ, err error) {
+// GetBatchFromUserID 批量唯一主键查找
+func (obj *_OrganMgr) GetBatchFromUserID(UserIDs []int) (results []*Organ, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("user_id IN (?)", UserIDs).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
@@ -221,8 +221,8 @@ func (obj *_OrganMgr) GetFromType(Type int) (results []*Organ, err error) {
 	return
 }
 
-// GetsBatchFromType 批量唯一主键查找
-func (obj *_OrganMgr) GetsBatchFromType(Types []int) (results []*Organ, err error) {
+// GetBatchFromType 批量唯一主键查找
+func (obj *_OrganMgr) GetBatchFromType(Types []int) (results []*Organ, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("type IN (?)", Types).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
@@ -257,8 +257,8 @@ func (obj *_OrganMgr) GetFromScore(Score int) (results []*Organ, err error) {
 	return
 }
 
-// GetsBatchFromScore 批量唯一主键查找
-func (obj *_OrganMgr) GetsBatchFromScore(Scores []int) (results []*Organ, err error) {
+// GetBatchFromScore 批量唯一主键查找
+func (obj *_OrganMgr) GetBatchFromScore(Scores []int) (results []*Organ, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("score IN (?)", Scores).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
@@ -272,5 +272,41 @@ func (obj *_OrganMgr) GetsBatchFromScore(Scores []int) (results []*Organ, err er
 			}
 		}
 	}
+	return
+}
+
+//////////////////////////primary index case ////////////////////////////////////////////
+
+// FetchByPrimaryKey primay or index 获取唯一内容
+func (obj *_OrganMgr) FetchByPrimaryKey(ID int) (result Organ, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("id = ?", ID).Find(&result).Error
+	if err == nil && obj.isRelated {
+		{
+			var info []User //
+			err = obj.DB.Table("user").Where("sex = ?", result.UserID).Find(&info).Error
+			if err != nil {
+				return
+			}
+			result.UserList = info
+		}
+	}
+
+	return
+}
+
+// FetchByIndex primay or index 获取唯一内容
+func (obj *_OrganMgr) FetchByIndex(UserID int) (result Organ, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("user_id = ?", UserID).Find(&result).Error
+	if err == nil && obj.isRelated {
+		{
+			var info []User //
+			err = obj.DB.Table("user").Where("sex = ?", result.UserID).Find(&info).Error
+			if err != nil {
+				return
+			}
+			result.UserList = info
+		}
+	}
+
 	return
 }
