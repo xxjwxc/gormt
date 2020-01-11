@@ -12,7 +12,7 @@
 ### big Camel-Case Name Rule
 ### JSON tag 
 
-
+![show](/image/gormt/out.gif)
 
 --------
 
@@ -75,6 +75,7 @@ Flags:
 - INDEX	Create index with or without name, same name creates composite indexes
 - UNIQUE_INDEX	Like INDEX, create unique index
 - Support foreign key related properties [Support export gorm.model>>>](doc/export.md)
+- Support function export (foreign key, association, index , unique and more)
 
 ### You can enrich data types in [def](data/view/cnf/def.go) 
 
