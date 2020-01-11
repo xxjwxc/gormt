@@ -120,7 +120,32 @@ type UserAccountTbl struct {
 
 ### [更多>>>](https://github.com/xxjwxc/gormt/tree/master/doc/export_cn.md)
 
-## 6. 构建
+## 6. 支持函数导出(导出函数只是 gorm 的辅助类函数，完全兼调用 gorm)
+
+```
+// FetchByPrimaryKey primay or index 获取唯一内容
+func (obj *_UserAccountTblMgr) FetchByPrimaryKey(ID int) (result UserAccountTbl, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("id = ?", ID).Find(&result).Error
+	if err == nil && obj.isRelated {
+		{
+			var info UserInfoTbl // 用户信息
+			err = obj.DB.Table("user_info_tbl").Where("id = ?", result.UserInfoTblID).Find(&info).Error
+			if err != nil {
+				return
+			}
+			result.UserInfoTbl = info
+		}
+	}
+
+	return
+}
+
+```
+
+### [更多>>>](https://github.com/xxjwxc/gormt/tree/master/data/view/genfunc/model)
+### [函数调用说明>>>](https://github.com/xxjwxc/gormt/blob/master/data/view/genfunc/genfunc_test.go)
+
+## 7. 构建
 ```
 make windows
 make linux
@@ -132,11 +157,11 @@ or
 go generate
 ```
 
-## 7. 下一步计划
+## 8. 下一步计划
 
-- 加入相关快捷函数(OrmFunc)
+- 优化
 
-## 8. 提供一个windows 可视化工具
+## 9. 提供一个windows 可视化工具
 
 ![图片描述](/image/gormt/1.png)
 

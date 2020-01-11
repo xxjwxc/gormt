@@ -60,7 +60,7 @@ Flags:
 ```
 ## 3. Can be updated configuration items using command line tools
 ```
-./gormt -H=127.0.0.1 -d=oauth_db -p=qwer -u=root --port=3306
+./gormt -H=127.0.0.1 -d=oauth_db -p=qwer -u=root --port=3306 -F=true
 ```
 
 ## 4. Support for gorm attributes
@@ -121,7 +121,32 @@ type UserAccountTbl struct {
 
 ### [more>>>](doc/export.md)
 
-## 6. build
+## 6. support func export
+### The exported function is only the auxiliary class function of Gorm, and calls Gorm completely
+```
+// FetchByPrimaryKey primay or index 获取唯一内容
+func (obj *_UserAccountTblMgr) FetchByPrimaryKey(ID int) (result UserAccountTbl, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("id = ?", ID).Find(&result).Error
+	if err == nil && obj.isRelated {
+		{
+			var info UserInfoTbl // 用户信息
+			err = obj.DB.Table("user_info_tbl").Where("id = ?", result.UserInfoTblID).Find(&info).Error
+			if err != nil {
+				return
+			}
+			result.UserInfoTbl = info
+		}
+	}
+
+	return
+}
+
+```
+
+### [more多>>>](https://github.com/xxjwxc/gormt/tree/master/data/view/genfunc/model)
+### [how to use call style>>>](https://github.com/xxjwxc/gormt/blob/master/data/view/genfunc/genfunc_test.go)
+
+## 7. build
 ```
 make windows
 make linux
@@ -133,11 +158,11 @@ or
 go generate
 ```
 
-## 7. Next step 
+## 8. Next step 
 
-- Add common function (ormfunc)
+- revew
 
-## 8. one windows gui tools
+## 9. one windows gui tools
 
 ![1](/image/gormt/1.png)
 
