@@ -11,6 +11,10 @@ import (
 	"github.com/xxjwxc/public/mysqldb"
 )
 
+/**
+测试数据库地址:https://github.com/xxjwxc/gormt/blob/master/data/view/genfunc/model/matrix.sql
+*/
+
 func GetGorm(dataSourceName string) *gorm.DB {
 	db, err := gorm.Open("mysql", dataSourceName)
 	if err != nil {
