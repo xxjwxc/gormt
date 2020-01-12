@@ -36,7 +36,7 @@ func GetMysqlDbInfo() MysqlDbInfo {
 
 // GetMysqlConStr Get MySQL connection string.获取mysql 连接字符串
 func GetMysqlConStr() string {
-	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local&interpolateParams=true",
+	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local&interpolateParams=True",
 		_map.MySQLInfo.Username,
 		_map.MySQLInfo.Password,
 		_map.MySQLInfo.Host,

@@ -9,6 +9,8 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+var gloabIsRelated bool // 全局预加载
+
 // prepare for outher
 type _BaseMgr struct {
 	*gorm.DB
@@ -26,8 +28,18 @@ func (obj *_BaseMgr) GetDB() *gorm.DB {
 	return obj.DB
 }
 
-// IsRelated Query foreign key Association.是否查询外键关联(gorm.Related)
-func (obj *_BaseMgr) IsRelated(b bool) {
+// UpdateDB update gorm.DB info
+func (obj *_BaseMgr) UpdateDB(db *gorm.DB) {
+	obj.DB = db
+}
+
+// GetIsRelated Query foreign key Association.获取是否查询外键关联(gorm.Related)
+func (obj *_BaseMgr) GetIsRelated() bool {
+	return obj.isRelated
+}
+
+// SetIsRelated Query foreign key Association.设置是否查询外键关联(gorm.Related)
+func (obj *_BaseMgr) SetIsRelated(b bool) {
 	obj.isRelated = b
 }
 
@@ -45,6 +57,18 @@ type optionFunc func(*options)
 func (f optionFunc) apply(o *options) {
 	f(o)
 }
+
+
+// OpenRelated 打开全局预加载
+func OpenRelated() {
+	gloabIsRelated = true
+}
+
+// CloseRelated 关闭全局预加载
+func CloseRelated() {
+	gloabIsRelated = true
+}
+
 	`
 
 	genlogic = `{{$obj := .}}{{$list := $obj.Em}}
@@ -57,7 +81,7 @@ func {{$obj.StructName}}Mgr(db *gorm.DB) *_{{$obj.StructName}}Mgr {
 	if db == nil {
 		panic(fmt.Errorf("{{$obj.StructName}}Mgr need init by db"))
 	}
-	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db}}
+	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db, isRelated: gloabIsRelated}}
 }
 
 // GetTableName get sql table name.获取数据库名字
@@ -161,7 +185,7 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{$oem.Co
 	genPreload = `if err == nil && obj.isRelated { {{range $obj := .}}{{if $obj.IsMulti}}
 		{
 			var info []{{$obj.ForeignkeyStructName}}  // {{$obj.Notes}} 
-			err = obj.DB.Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&info).Error
+			err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&info).Error
 			if err != nil {
 				return
 			}
@@ -169,7 +193,7 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{$oem.Co
 		}  {{else}} 
 		{
 			var info {{$obj.ForeignkeyStructName}}  // {{$obj.Notes}} 
-			err = obj.DB.Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&info).Error
+			err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&info).Error
 			if err != nil {
 				return
 			}
@@ -181,7 +205,7 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{$oem.Co
 		for i := 0; i < len(results); i++ { {{range $obj := .}}{{if $obj.IsMulti}}
 		{
 			var info []{{$obj.ForeignkeyStructName}}  // {{$obj.Notes}} 
-			err = obj.DB.Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&info).Error
+			err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&info).Error
 			if err != nil {
 				return
 			}
@@ -189,7 +213,7 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{$oem.Co
 		}  {{else}} 
 		{
 			var info {{$obj.ForeignkeyStructName}}  // {{$obj.Notes}} 
-			err = obj.DB.Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&info).Error
+			err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&info).Error
 			if err != nil {
 				return
 			}

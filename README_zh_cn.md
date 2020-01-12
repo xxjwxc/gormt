@@ -145,8 +145,9 @@ func (obj *_UserAccountTblMgr) FetchByPrimaryKey(ID int) (result UserAccountTbl,
 
 ```
 
-### [更多>>>](https://github.com/xxjwxc/gormt/tree/master/data/view/genfunc/model)
-### [函数调用说明>>>](https://github.com/xxjwxc/gormt/blob/master/data/view/genfunc/genfunc_test.go)
+### [更多>>>](https://github.com/xxjwxc/gormt/tree/master/doc/func_cn.md)
+
+### [函数调用示例>>>](https://github.com/xxjwxc/gormt/blob/master/data/view/genfunc/genfunc_test.go)
 
 ## 7. 构建
 ```
@@ -162,6 +163,7 @@ go generate
 
 ## 8. 下一步计划
 
+- 更新，删除功能函数添加
 - 优化
 
 ## 9. 提供一个windows 可视化工具

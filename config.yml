@@ -12,4 +12,4 @@ mysql_info:
     port : 3306
     username : root
     password : qwer
-    database : oauth_db
+    database : matrix

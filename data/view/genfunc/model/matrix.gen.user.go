@@ -15,7 +15,7 @@ func UserMgr(db *gorm.DB) *_UserMgr {
 	if db == nil {
 		panic(fmt.Errorf("UserMgr need init by db"))
 	}
-	return &_UserMgr{_BaseMgr: &_BaseMgr{DB: db}}
+	return &_UserMgr{_BaseMgr: &_BaseMgr{DB: db, isRelated: gloabIsRelated}}
 }
 
 // GetTableName get sql table name.获取数据库名字
@@ -39,9 +39,9 @@ func (obj *_UserMgr) Gets() (results []*User, err error) {
 
 //////////////////////////option case ////////////////////////////////////////////
 
-// WithUserID userId获取
+// WithUserID user_id获取
 func (obj *_UserMgr) WithUserID(UserID int) Option {
-	return optionFunc(func(o *options) { o.query["userId"] = UserID })
+	return optionFunc(func(o *options) { o.query["user_id"] = UserID })
 }
 
 // WithName name获取
@@ -89,16 +89,16 @@ func (obj *_UserMgr) GetByOptions(opts ...Option) (results []*User, err error) {
 
 //////////////////////////enume case ////////////////////////////////////////////
 
-// GetFromUserID 通过userId获取内容
+// GetFromUserID 通过user_id获取内容
 func (obj *_UserMgr) GetFromUserID(UserID int) (result User, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("userId = ?", UserID).Find(&result).Error
+	err = obj.DB.Table(obj.GetTableName()).Where("user_id = ?", UserID).Find(&result).Error
 
 	return
 }
 
 // GetBatchFromUserID 批量唯一主键查找
 func (obj *_UserMgr) GetBatchFromUserID(UserIDs []int) (results []*User, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("userId IN (?)", UserIDs).Find(&results).Error
+	err = obj.DB.Table(obj.GetTableName()).Where("user_id IN (?)", UserIDs).Find(&results).Error
 
 	return
 }
@@ -149,14 +149,7 @@ func (obj *_UserMgr) GetBatchFromJob(Jobs []int) (results []*User, err error) {
 
 // FetchByPrimaryKey primay or index 获取唯一内容
 func (obj *_UserMgr) FetchByPrimaryKey(UserID int) (result User, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("userId = ?", UserID).Find(&result).Error
-
-	return
-}
-
-// FetchByIndex primay or index 获取唯一内容
-func (obj *_UserMgr) FetchByIndex(Sex int) (result User, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("sex = ?", Sex).Find(&result).Error
+	err = obj.DB.Table(obj.GetTableName()).Where("user_id = ?", UserID).Find(&result).Error
 
 	return
 }

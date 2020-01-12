@@ -234,10 +234,10 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 						isMulti = false
 						buildFList(&unique, ColumusKeyUnique, "", typeName, el.Name)
 					case ColumusKeyIndex: // index key.复合索引
-						buildFList(&uniqueIndex, ColumusKeyIndex, v1.KeyName, typeName, el.Name)
+						buildFList(&index, ColumusKeyIndex, v1.KeyName, typeName, el.Name)
 					case ColumusKeyUniqueIndex: // unique index key.唯一复合索引
 						isMulti = false
-						buildFList(&index, ColumusKeyUniqueIndex, v1.KeyName, typeName, el.Name)
+						buildFList(&uniqueIndex, ColumusKeyUniqueIndex, v1.KeyName, typeName, el.Name)
 					}
 				}
 

@@ -4,24 +4,93 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/jinzhu/gorm"
 	"github.com/xxjwxc/gormt/data/view/genfunc/model"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/xxjwxc/public/mysqldb"
 )
 
-func TestFunc(t *testing.T) {
-	orm := mysqldb.OnInitDBOrm("root:qwer@tcp(127.0.0.1:3306)/matrix?charset=utf8&parseTime=True&loc=Local")
+func GetGorm(dataSourceName string) *gorm.DB {
+	db, err := gorm.Open("mysql", dataSourceName)
+	if err != nil {
+		panic(err)
+	}
+	db.LogMode(true)
+	return db
+}
+
+// TestFuncGet 测试条件获(Get/Gets)
+func TestFuncGet(t *testing.T) {
+	model.OpenRelated() // 打开全局预加载 (外键)
+
+	db := GetGorm("root:qwer@tcp(127.0.0.1:3306)/matrix?charset=utf8&parseTime=True&loc=Local&interpolateParams=True")
+	defer db.Close()
+
+	accountMgr := model.AccountMgr(db.Where("account_id = ?", 2))
+	account, err := accountMgr.Get() // 单条获取
+	fmt.Println(err)
+	fmt.Println(account)
+
+	dbs := db.Where("name = ?", "bbbb")
+	accounts, err := model.AccountMgr(dbs).Gets() // 多个获取
+	fmt.Println(err)
+	fmt.Println(accounts)
+}
+
+// TestFuncOption 功能选项方式获取
+func TestFuncOption(t *testing.T) {
+	// db := GetGorm("root:qwer@tcp(127.0.0.1:3306)/matrix?charset=utf8&parseTime=True&loc=Local&interpolateParams=True")
+	// defer db.Close()
+	orm := mysqldb.OnInitDBOrm("root:qwer@tcp(127.0.0.1:3306)/matrix?charset=utf8&parseTime=True&loc=Local&interpolateParams=True") // 推荐方式
 	defer orm.OnDestoryDB()
-	mgr := model.OrganMgr(orm.DB)
-	mgr.IsRelated(true)              // 设置允许加载外键
-	res, err := mgr.GetFromUserID(2) // 通过列获取
-	fmt.Println(res, err)
+	db := orm.DB
 
-	obj1, err := mgr.GetByOptions(mgr.WithID(1), mgr.WithUserID(1)) // 批量获取
-	fmt.Println(obj1, err)
+	accountMgr := model.AccountMgr(db)
+	accountMgr.SetIsRelated(true)                                                          // 打开预加载 (外键)
+	account, err := accountMgr.GetByOption(accountMgr.WithID(1), accountMgr.WithUserID(1)) // 多case条件获取单个
+	fmt.Println(err)
+	fmt.Println(account)
 
-	obj2, err := mgr.GetByOption(mgr.WithID(1), mgr.WithUserID(1)) // 多条件获取一条
-	fmt.Println(obj2, err)
+	accounts, err := accountMgr.GetByOptions(accountMgr.WithName("bbbb")) // 多功能选项获取
+	fmt.Println(err)
+	fmt.Println(accounts)
+}
 
-	// 复合键获取
+// TestFuncFrom 单元素方式获取
+func TestFuncFrom(t *testing.T) {
+	db := GetGorm("root:qwer@tcp(127.0.0.1:3306)/matrix?charset=utf8&parseTime=True&loc=Local&interpolateParams=True")
+	defer db.Close()
+
+	accountMgr := model.AccountMgr(db)
+	accountMgr.SetIsRelated(true) // 打开预加载 (外键)
+
+	account, err := accountMgr.GetFromAccountID(2)
+	fmt.Println(err)
+	fmt.Println(account)
+
+	accounts, err := accountMgr.GetFromName("bbbb")
+	fmt.Println(err)
+	fmt.Println(accounts)
+}
+
+// TestFuncFetchBy 索引方式获取
+func TestFuncFetchBy(t *testing.T) {
+	db := GetGorm("root:qwer@tcp(127.0.0.1:3306)/matrix?charset=utf8&parseTime=True&loc=Local&interpolateParams=True")
+	defer db.Close()
+
+	accountMgr := model.AccountMgr(db)
+	accountMgr.SetIsRelated(true) // 打开预加载 (外键)
+
+	account, err := accountMgr.FetchByPrimaryKey(2) // primay key
+	fmt.Println(err)
+	fmt.Println(account)
+
+	account1, err := accountMgr.FetchByAccountUniqueIndex(2, 2) // unique index
+	fmt.Println(err)
+	fmt.Println(account1)
+
+	accounts, err := accountMgr.FetchByTpIndex(2, 2)
+	fmt.Println(err)
+	fmt.Println(accounts)
 }
