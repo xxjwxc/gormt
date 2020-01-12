@@ -16,11 +16,15 @@
     - [索引方式获取](#索引方式获取)
 
 ## _BaseMgr
+### OpenRelated : 打开全局预加载
+### CloseRelated : 关闭全局预加载
    基础函数。所有管理类型都是继承此函数。此函数提供基础公共函数。
 ### SetCtx 
     设置 context ，用于设置上下文。目前功能未启用
 ### GetDB
     获取 gorm.DB 原始链接窜
+### UpdateDB
+    更新 gorm.DB 原始链接窜
 ### GetIsRelated
     获取是否查询外键关联
 ### SetIsRelated

@@ -33,7 +33,8 @@ func TestFuncGet(t *testing.T) {
 	fmt.Println(account)
 
 	dbs := db.Where("name = ?", "bbbb")
-	accounts, err := model.AccountMgr(dbs).Gets() // 多个获取
+	accountMgr.UpdateDB(dbs)           // 更新数据库
+	accounts, err := accountMgr.Gets() // 多个获取
 	fmt.Println(err)
 	fmt.Println(accounts)
 }

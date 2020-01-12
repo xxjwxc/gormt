@@ -16,11 +16,17 @@
     - [Index access](#Index-access)
 
 ## _BaseMgr
+
+### OpenRelated : open global related
+### CloseRelated : close global related
+
    Basic function. All management types inherit this function. This function provides the underlying common function.
 ### SetCtx 
     Set context, which is used to set context. The current function is not enabled
 ### GetDB
     Get gorm.db original link
+### UpdateDB
+    Update gorm.db original link
 ### GetIsRelated
     Get whether to query foreign key Association
 ### SetIsRelated

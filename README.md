@@ -144,7 +144,7 @@ func (obj *_UserAccountTblMgr) FetchByPrimaryKey(ID int) (result UserAccountTbl,
 
 ```
 
-### [more多>>>](https://github.com/xxjwxc/gormt/tree/master/doc/func.md)
+### [more>>>](https://github.com/xxjwxc/gormt/tree/master/doc/func.md)
 ### [how to use call style>>>](https://github.com/xxjwxc/gormt/blob/master/data/view/genfunc/genfunc_test.go)
 
 ## 7. build
