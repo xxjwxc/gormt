@@ -22,6 +22,7 @@ out_dir : "."  # out dir
 singular_table : false  # Table name plural (big Camel-Case):gorm.SingularTable
 simple : false #simple output
 is_out_sql : false # Whether to output sql
+is_out_func : true # Whether to output function
 is_json_tag : true # Whether to mark JSON or not
 is_foreign_key : true # Whether to mark foreign key or not
 
