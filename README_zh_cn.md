@@ -181,3 +181,7 @@ go generate
 
 
 - ###### [传送门](https://xxjwxc.github.io/post/gormtools/)
+
+## 点赞时间线
+
+[![Stargazers over time](https://starchart.cc/xxjwxc/gormt.svg)](https://starchart.cc/xxjwxc/gormt)

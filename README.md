@@ -179,3 +179,7 @@ go generate
 
 
 - ###### [link](https://xxjwxc.github.io/post/gormtools/)
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/xxjwxc/gormt.svg)](https://starchart.cc/xxjwxc/gormt)
