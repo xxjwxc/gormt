@@ -27,6 +27,7 @@ var TypeMysqlDicMp = map[string]string{
 	"longtext":            "string",
 	"float":               "float32",
 	"tinytext":            "stirng",
+	"enum":                "string",
 }
 
 // TypeMysqlMatchMp Fuzzy Matching Types.模糊匹配类型
@@ -36,6 +37,7 @@ var TypeMysqlMatchMp = map[string]string{
 	`^(int)[(]\d+[)]`:         "int",
 	`^(bigint)[(]\d+[)]`:      "int64",
 	`^(char)[(]\d+[)]`:        "string",
+	`^(enum)[(](.)+[)]`:        "string",
 	`^(varchar)[(]\d+[)]`:     "string",
 	`^(varbinary)[(]\d+[)]`:   "[]byte",
 	`^(decimal)[(]\d+,\d+[)]`: "float64",
