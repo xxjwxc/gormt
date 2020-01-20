@@ -1,12 +1,16 @@
 base:
     is_dev : false
 out_dir : ./model  # 输出目录
+url_tag : json # web url tag(json,db(https://github.com/google/go-querystring))
+language : 中 文 # 语言(English,中 文)
+db_tag : gorm # 数据库标签(gorm,db)
 singular_table : false  # 单表模式:true:禁用表名复数,false:采用表明复数 参考:gorm.SingularTable
 simple : false # 简单输出(默认gorm标签不输出)
 is_out_sql : false # 是否输出 sql 原信息
 is_out_func : true # 是否输出 快捷函数
 is_json_tag : true # 是否打json标记
 is_foreign_key : true # 是否导出外键关联
+is_gui : false # 是否ui模式显示
 mysql_info:
     host : 127.0.0.1
     port : 3306

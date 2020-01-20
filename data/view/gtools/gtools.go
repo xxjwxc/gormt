@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os/exec"
 
+	"github.com/xxjwxc/gormt/data/dlg"
 	"github.com/xxjwxc/gormt/data/view/model"
 
 	"github.com/xxjwxc/gormt/data/config"
@@ -13,7 +14,15 @@ import (
 
 // Execute exe the cmd
 func Execute() {
+	if config.GetIsGUI() {
+		dlg.WinMain()
+	} else {
+		showCmd()
+	}
 
+}
+
+func showCmd() {
 	// var tt oauth_db.UserInfoTbl
 	// tt.Nickname = "ticket_001"
 	// orm.Where("nickname = ?", "ticket_001").Find(&tt)

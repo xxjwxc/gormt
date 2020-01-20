@@ -55,3 +55,13 @@ func GetServiceConfig() (name, displayName, desc string) {
 	desc = _map.SerciceDesc
 	return
 }
+
+// GetIsDev is is dev
+func GetIsDev() bool {
+	return _map.IsDev
+}
+
+// SetIsDev is is dev
+func SetIsDev(b bool) {
+	_map.IsDev = b
+}
