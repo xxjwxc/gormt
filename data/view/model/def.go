@@ -1,8 +1,8 @@
 package model
 
 const (
-	_tagGorm = "gorm"
-	_tagJSON = "json"
+// _tagGorm = "gorm"
+// _tagJSON = "json"
 )
 
 // ColumusKey Columus type elem. 类型枚举

@@ -60,6 +60,10 @@ func SetOutDir(outDir string) {
 
 // GetOutDir Get Output Directory.获取输出目录
 func GetOutDir() string {
+	if len(_map.OutDir) == 0 {
+		_map.OutDir = "./model"
+	}
+
 	return _map.OutDir
 }
 

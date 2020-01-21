@@ -9,6 +9,7 @@ import (
 
 	"github.com/xxjwxc/gormt/data/config"
 
+	"github.com/xxjwxc/gormt/data/view/model/genmysql"
 	"github.com/xxjwxc/public/tools"
 )
 
@@ -19,7 +20,6 @@ func Execute() {
 	} else {
 		showCmd()
 	}
-
 }
 
 func showCmd() {
@@ -27,14 +27,13 @@ func showCmd() {
 	// tt.Nickname = "ticket_001"
 	// orm.Where("nickname = ?", "ticket_001").Find(&tt)
 	// fmt.Println(tt)
-
-	modeldb := GetMysqlModel()
+	modeldb := genmysql.GetMysqlModel()
 	pkg := modeldb.GenModel()
 	// just for test
 	// out, _ := json.Marshal(pkg)
 	// tools.WriteFile("test.txt", []string{string(out)}, true)
 
-	list := model.Generate(pkg)
+	list, _ := model.Generate(pkg)
 
 	for _, v := range list {
 		path := config.GetOutDir() + "/" + v.FileName

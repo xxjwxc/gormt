@@ -1,6 +1,16 @@
 package dlg
 
-import "github.com/jroimartin/gocui"
+import (
+	"os/exec"
+
+	"github.com/jroimartin/gocui"
+	"github.com/xxjwxc/gormt/data/view/model"
+	"github.com/xxjwxc/gormt/data/view/model/genmysql"
+
+	"github.com/xxjwxc/gormt/data/config"
+
+	"github.com/xxjwxc/public/tools"
+)
 
 func division(a int, b float32) int {
 	r := float32(a) / b
@@ -59,4 +69,30 @@ func getBool(bstr string) bool {
 	}
 
 	return false
+}
+
+func generate(g *gocui.Gui, v *gocui.View) {
+	modeldb := genmysql.GetMysqlModel()
+	pkg := modeldb.GenModel()
+	// just for test
+	// out, _ := json.Marshal(pkg)
+	// tools.WriteFile("test.txt", []string{string(out)}, true)
+
+	list, mo := model.Generate(pkg)
+
+	addlog(g, "\n \033[32;7m 开 始 : begin \033[0m\n")
+
+	for _, v := range list {
+		path := config.GetOutDir() + "/" + v.FileName
+		tools.WriteFile(path, []string{v.FileCtx}, true)
+
+		addlog(g, " formatting differs from goimport's:")
+		cmd, _ := exec.Command("goimports", "-l", "-w", path).Output()
+		addlog(g, " "+string(cmd))
+	}
+
+	addlog(g, "\033[32;7m 所 有 已 完 成 :  ALL completed!! \033[0m\n")
+	// build item
+	gPkg = mo.GetPackage()
+	buildList(g, v)
 }

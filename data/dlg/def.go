@@ -1,6 +1,7 @@
 package dlg
 
 import (
+	"github.com/xxjwxc/gormt/data/view/genstruct"
 	"github.com/xxjwxc/public/mycui"
 )
 
@@ -27,5 +28,11 @@ type menuDetails struct {
 	btnList []*mycui.Button
 }
 
+type listDetails struct {
+	active  int
+	btnList []*mycui.Button
+}
+
 var menuDlg *menuDetails
 var form *mycui.Form
+var gPkg genstruct.GenPackage

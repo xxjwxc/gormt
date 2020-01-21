@@ -17,10 +17,6 @@ func nextView(g *gocui.Gui, v *gocui.View) error {
 	nextIndex := (mainIndex + 1) % len(mainViewArr)
 	name := mainViewArr[nextIndex]
 
-	err := setlog(g, "Going from view "+v.Name()+" to "+name)
-	if err != nil {
-		return err
-	}
 	if _, err := g.SetCurrentView(name); err != nil { // 设置选中
 		return err
 	}
@@ -29,14 +25,14 @@ func nextView(g *gocui.Gui, v *gocui.View) error {
 
 	switch name {
 	case _menuDefine:
-		g.Cursor = false // 光标
+		//g.Cursor = false // 光标
 		// g.FgColor = gocui.ColorGreen
 		menuDlg.btnList[menuDlg.active].Focus()
 	case _listDefine:
-		g.Cursor = false
+		//g.Cursor = false
 		menuDlg.btnList[menuDlg.active].UnFocus()
 	case _viewDefine:
-		g.Cursor = true
+		//g.Cursor = true
 		menuDlg.btnList[menuDlg.active].UnFocus()
 	}
 
@@ -71,11 +67,14 @@ func mainLayout(g *gocui.Gui) error {
 			return err
 		}
 		v.Title = SLocalize(_listDefine)
-		v.Wrap = true
-		v.Autoscroll = true
-		if _, err := g.SetCurrentView(_menuDefine); err != nil {
-			return err
-		}
+		// v.Wrap = true
+		// v.Autoscroll = true
+		v.Highlight = true
+		v.SelBgColor = gocui.ColorGreen
+		v.SelFgColor = gocui.ColorBlack
+		// if _, err := g.SetCurrentView(_menuDefine); err != nil {
+		// 	return err
+		// }
 	}
 
 	if v, err := g.SetView(_viewDefine, division(maxX, uiPart[0]), 1, maxX-1, maxY-1); err != nil {
@@ -115,15 +114,28 @@ func keybindings(g *gocui.Gui) {
 	if err := g.SetKeybinding("", gocui.KeyTab, gocui.ModNone, nextView); err != nil { // tab next事件
 		log.Panicln(err)
 	}
+	if err := g.SetKeybinding("", gocui.KeyEsc, gocui.ModNone, buttonCancel); err != nil {
+		log.Panicln(err)
+	}
+	if err := g.SetKeybinding("", gocui.KeyCtrlQ, gocui.ModNone, buttonCancel); err != nil {
+		log.Panicln(err)
+	}
 	if err := g.SetKeybinding("main_title", gocui.MouseLeft, gocui.ModNone, about); err != nil {
 		log.Panicln(err)
 	}
-	// if err := g.SetKeybinding(_run, gocui.MouseLeft, gocui.ModNone, about); err != nil {
-	// 	log.Panicln(err)
-	// }
-	// if err := g.SetKeybinding(_set, gocui.MouseLeft, gocui.ModNone, about); err != nil {
-	// 	log.Panicln(err)
-	// }
+	if err := g.SetKeybinding(_listDefine, gocui.KeyArrowDown, gocui.ModNone, listDown); err != nil {
+		log.Panicln(err)
+	}
+	if err := g.SetKeybinding(_listDefine, gocui.KeyArrowUp, gocui.ModNone, listUp); err != nil {
+		log.Panicln(err)
+	}
+	if err := g.SetKeybinding(_listDefine, gocui.KeyEnter, gocui.ModNone, showStruct); err != nil {
+		log.Panicln(err)
+	}
+	if err := g.SetKeybinding(_listDefine, gocui.MouseLeft, gocui.ModNone, showStruct); err != nil {
+		log.Panicln(err)
+	}
+
 }
 
 ///////////////////signal slot ///////////
@@ -142,8 +154,18 @@ func setlog(g *gocui.Gui, str string) error {
 	return err
 }
 
+func addlog(g *gocui.Gui, str string) error {
+	logView, err := g.View(_viewDefine)
+	if err == nil {
+		fmt.Fprintln(logView, str)
+	}
+
+	return err
+}
+
 func enterRun(g *gocui.Gui, v *gocui.View) error {
 	setlog(g, "run .... ing")
+	generate(g, v)
 	return nil
 }
 
@@ -181,6 +203,8 @@ func enterSet(g *gocui.Gui, v *gocui.View) error {
 		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetIsOutFunc())))
 	form.AddSelect("is_foreign_key", SLocalize("is_foreign_key"), formPart[0], formPart[2]).
 		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetIsForeignKey())))
+	form.AddSelect("is_gui", SLocalize("is_gui"), formPart[0], formPart[2]).
+		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetIsGUI())))
 	form.AddSelect("url_tag", SLocalize("url_tag"), formPart[0], formPart[2]).
 		AddOptions("json", "url").SetSelected(tools.AsString(config.GetURLTag()))
 	form.AddSelect("db_tag", SLocalize("db_tag"), formPart[0], formPart[2]).
@@ -209,7 +233,7 @@ func buttonCancel(g *gocui.Gui, v *gocui.View) error {
 }
 
 func buttonSave(g *gocui.Gui, v *gocui.View) error {
-
+	maxX, _ := g.Size()
 	mp := form.GetFieldTexts()
 	config.SetOutDir(mp["out_dir"])
 
@@ -217,7 +241,8 @@ func buttonSave(g *gocui.Gui, v *gocui.View) error {
 	dbInfo.Host = mp["db_host"]
 	port, err := strconv.Atoi(mp["db_port"])
 	if err != nil {
-		modal := mycui.NewModal(g, 0, 0, 30).SetText("port error")
+		modal := mycui.NewModal(g, division(maxX, uiPart[0])+5, 10, division(maxX, uiPart[0])+35).SetTextColor(gocui.ColorRed).SetText("port error")
+		//	modal.SetBgColor(gocui.ColorRed)
 		modal.AddButton("ok", "OK", gocui.KeyEnter, func(g *gocui.Gui, v *gocui.View) error {
 			modal.Close()
 			form.SetCurrentItem(form.GetCurrentItem())
@@ -241,12 +266,86 @@ func buttonSave(g *gocui.Gui, v *gocui.View) error {
 	config.SetIsOutSQL(getBool(mp["is_out_sql"]))
 	config.SetIsOutFunc(getBool(mp["is_out_func"]))
 	config.SetForeignKey(getBool(mp["is_foreign_key"]))
+	config.SetIsGUI(getBool(mp["is_gui"]))
 	config.SetURLTag(mp["url_tag"])
 	config.SetDBTag(mp["db_tag"])
 	config.SetLG(mp["language"])
 
 	config.SaveToFile()
-	buttonCancel(g, v)
+	modal := mycui.NewModal(g, division(maxX, uiPart[0])+5, 10, division(maxX, uiPart[0])+35).SetText("save success")
+	modal.AddButton("ok", "OK", gocui.KeyEnter, func(g *gocui.Gui, v *gocui.View) error {
+		modal.Close()
+		buttonCancel(g, v)
+		return nil
+	})
+	modal.Draw()
+
+	return nil
+}
+
+func buildList(g *gocui.Gui, v *gocui.View) error {
+	listView, err := g.View(_listDefine)
+	if err != nil {
+		panic(err)
+	}
+
+	listView.Clear()
+	for _, info := range gPkg.Structs {
+		fmt.Fprintln(listView, info.Name)
+	}
+
+	return nil
+}
+
+func showStruct(g *gocui.Gui, v *gocui.View) error {
+	var l string
+	var err error
+
+	_, cy := v.Cursor()
+	if l, err = v.Line(cy); err != nil {
+		l = ""
+	}
+
+	var out []string
+	for _, v := range gPkg.Structs {
+		if v.Name == l {
+			out = v.GeneratesColor()
+			break
+		}
+	}
+
+	setlog(g, "")
+	for _, v := range out {
+		addlog(g, v)
+	}
+	return nil
+}
+
+func listDown(g *gocui.Gui, v *gocui.View) error {
+	if v != nil {
+		cx, cy := v.Cursor()
+		if cy < len(gPkg.Structs)-1 {
+			if err := v.SetCursor(cx, cy+1); err != nil {
+				ox, oy := v.Origin()
+				if err := v.SetOrigin(ox, oy+1); err != nil {
+					return err
+				}
+			}
+		}
+	}
+	return nil
+}
+
+func listUp(g *gocui.Gui, v *gocui.View) error {
+	if v != nil {
+		ox, oy := v.Origin()
+		cx, cy := v.Cursor()
+		if err := v.SetCursor(cx, cy-1); err != nil && oy > 0 {
+			if err := v.SetOrigin(ox, oy-1); err != nil {
+				return err
+			}
+		}
+	}
 	return nil
 }
 

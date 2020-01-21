@@ -19,9 +19,6 @@ func init() {
 
 func getLG() string {
 	tag := config.GetLG()
-	// if len(tag) == 0 {
-	// 	return tools.GetLocalSystemLang(true)
-	// }
 	if tag == "English" {
 		return "en"
 	}
@@ -87,6 +84,9 @@ func addChinese() error {
 		ID:    "is_foreign_key",
 		Other: " 导 出 外 键 :",
 	}, &i18n.Message{
+		ID:    "is_gui",
+		Other: " 界 面 模 式 :",
+	}, &i18n.Message{
 		ID:    "url_tag",
 		Other: " web 标 签:",
 	}, &i18n.Message{
@@ -112,10 +112,10 @@ func addChinese() error {
 		Other: " 关 于 作 者",
 	}, &i18n.Message{
 		ID:    "log_run",
-		Other: " Enter : 执 行 \n ↑ ↓: 本 视 图 选 择 \n Tab : 多 视 图 切 换 \n 支 持 鼠 标 操 作 方 式 \n \n \033[33;7m 输 入 Enter 直 接 执 行 \033[0m\n ",
+		Other: " Enter : 执 行 \n ↑ ↓: 本 视 图 选 择 \n Tab : 多 视 图 切 换 \n Ctrl+C : 退 出 应 用 \n Ctrl+Q : 退 出 对 话 框 \n 支 持 鼠 标 操 作 方 式 \n \n \033[33;7m 输 入 Enter 直 接 执 行 \033[0m\n ",
 	}, &i18n.Message{
 		ID:    "log_set",
-		Other: " Enter : 执 行 \n ↑ ↓: 本 视 图 选 择 \n Tab : 多 视 图 切 换 \n 支 持 鼠 标 操 作 方 式 \n \n \033[33;7m 输 入 Enter 打 开 设 置 窗 口 \033[0m\n ",
+		Other: " Enter : 执 行 \n ↑ ↓: 本 视 图 选 择 \n Tab : 多 视 图 切 换\n Ctrl+C : 退 出 应 用 \n Ctrl+Q : 退 出 对 话 框 \n 支 持 鼠 标 操 作 方 式 \n \n \033[33;7m 输 入 Enter 打 开 设 置 窗 口 \033[0m\n ",
 	})
 }
 
@@ -172,6 +172,9 @@ func addEnglish() error {
 		ID:    "is_foreign_key",
 		Other: "is foreign key:",
 	}, &i18n.Message{
+		ID:    "is_gui",
+		Other: "is show gui:",
+	}, &i18n.Message{
 		ID:    "url_tag",
 		Other: "url tag:",
 	}, &i18n.Message{
@@ -197,9 +200,9 @@ func addEnglish() error {
 		Other: "About",
 	}, &i18n.Message{
 		ID:    "log_run",
-		Other: " Enter : run \n ↑ ↓: Selection of this view \n Tab : Multi view switching \n Mouse operation supported \n \n \033[33;7m Enter to execute \033[0m",
+		Other: " Enter : run \n ↑ ↓: Selection of this view \n Tab : Multi view switching \n Ctrl+C : quit; \n Ctrl+Q : backup \n Mouse operation supported \n \n \033[33;7m Enter to execute \033[0m",
 	}, &i18n.Message{
 		ID:    "log_set",
-		Other: " Enter : run \n ↑ ↓: Selection of this view \n Tab : Multi view switching \n Mouse operation supported \n \n \033[33;7m Enter enter to open the settings window \033[0m",
+		Other: " Enter : run \n ↑ ↓: Selection of this view \n Tab : Multi view switching \n Ctrl+C : quit \n Ctrl+Q : backup \n Mouse operation supported \n \n \033[33;7m Enter enter to open the settings window \033[0m",
 	})
 }
