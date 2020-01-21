@@ -2,6 +2,7 @@ package dlg
 
 import (
 	"github.com/nicksnyder/go-i18n/v2/i18n"
+	"github.com/xxjwxc/gormt/data/config"
 	"github.com/xxjwxc/public/myi18n"
 	"golang.org/x/text/language"
 )
@@ -13,7 +14,19 @@ import (
 func init() {
 	addChinese()
 	addEnglish()
-	myi18n.SetLocalLG("zh") // default
+	myi18n.SetLocalLG(getLG()) // default
+}
+
+func getLG() string {
+	tag := config.GetLG()
+	// if len(tag) == 0 {
+	// 	return tools.GetLocalSystemLang(true)
+	// }
+	if tag == "English" {
+		return "en"
+	}
+
+	return "zh"
 }
 
 // SLocalize 获取值
@@ -94,6 +107,9 @@ func addChinese() error {
 	}, &i18n.Message{
 		ID:    "cancel",
 		Other: " 取 消 ",
+	}, &i18n.Message{
+		ID:    "about",
+		Other: " 关 于 作 者",
 	}, &i18n.Message{
 		ID:    "log_run",
 		Other: " Enter : 执 行 \n ↑ ↓: 本 视 图 选 择 \n Tab : 多 视 图 切 换 \n 支 持 鼠 标 操 作 方 式 \n \n \033[33;7m 输 入 Enter 直 接 执 行 \033[0m\n ",
@@ -176,6 +192,9 @@ func addEnglish() error {
 	}, &i18n.Message{
 		ID:    "cancel",
 		Other: "Cancel",
+	}, &i18n.Message{
+		ID:    "about",
+		Other: "About",
 	}, &i18n.Message{
 		ID:    "log_run",
 		Other: " Enter : run \n ↑ ↓: Selection of this view \n Tab : Multi view switching \n Mouse operation supported \n \n \033[33;7m Enter to execute \033[0m",

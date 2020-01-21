@@ -52,3 +52,11 @@ func requireValidator(value string) bool {
 	}
 	return true
 }
+
+func getBool(bstr string) bool {
+	if bstr == "true" || bstr == " 是" {
+		return true
+	}
+
+	return false
+}

@@ -6,7 +6,7 @@ import (
 
 	"github.com/xxjwxc/public/dev"
 	"github.com/xxjwxc/public/tools"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 // CfgBase base config struct
@@ -64,4 +64,17 @@ func GetIsDev() bool {
 // SetIsDev is is dev
 func SetIsDev(b bool) {
 	_map.IsDev = b
+}
+
+// SaveToFile save config info to file
+func SaveToFile() error {
+	d, err := yaml.Marshal(_map)
+	if err != nil {
+		return err
+	}
+	tools.WriteFile(tools.GetModelPath()+"/config.yml", []string{
+		string(d),
+	}, true)
+
+	return nil
 }

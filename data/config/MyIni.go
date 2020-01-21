@@ -2,6 +2,8 @@ package config
 
 import (
 	"fmt"
+
+	"github.com/xxjwxc/public/tools"
 )
 
 // Config custom config struct
@@ -76,6 +78,11 @@ func GetSimple() bool {
 	return _map.Simple
 }
 
+// SetSimple simple output.简单输出
+func SetSimple(b bool) {
+	_map.Simple = b
+}
+
 // GetIsJSONTag json tag.json标记
 func GetIsJSONTag() bool {
 	return _map.IsJSONTag
@@ -89,6 +96,11 @@ func GetIsForeignKey() bool {
 // SetForeignKey Set if is foreign key.设置是否外键关联
 func SetForeignKey(b bool) {
 	_map.IsForeignKey = b
+}
+
+// SetIsOutSQL if is output sql .
+func SetIsOutSQL(b bool) {
+	_map.IsOutSQL = b
 }
 
 // GetIsOutSQL if is output sql .
@@ -133,7 +145,11 @@ func SetURLTag(s string) {
 // GetLG get language tag.
 func GetLG() string {
 	if _map.Language != "English" && _map.Language != "中 文" {
-		_map.Language = "English"
+		if tools.GetLocalSystemLang(true) == "en" {
+			_map.Language = "English"
+		} else {
+			_map.Language = "中 文"
+		}
 	}
 
 	return _map.Language

@@ -3,6 +3,7 @@ package dlg
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"github.com/xxjwxc/public/tools"
 
@@ -190,6 +191,7 @@ func enterSet(g *gocui.Gui, v *gocui.View) error {
 	// add button
 	form.AddButton("save", SLocalize("save"), buttonSave).AddHandler(gocui.MouseLeft, buttonSave)
 	form.AddButton("cancel", SLocalize("cancel"), buttonCancel).AddHandler(gocui.MouseLeft, buttonCancel)
+	form.AddButton("about", SLocalize("about"), about).AddHandler(gocui.MouseLeft, about)
 
 	form.Draw()
 
@@ -199,12 +201,52 @@ func enterSet(g *gocui.Gui, v *gocui.View) error {
 func buttonCancel(g *gocui.Gui, v *gocui.View) error {
 	menuFocusButton(g)
 	if form != nil {
-		return form.Close(g, nil)
+		err := form.Close(g, nil)
+		form = nil
+		return err
 	}
 	return nil
 }
 
 func buttonSave(g *gocui.Gui, v *gocui.View) error {
+
+	mp := form.GetFieldTexts()
+	config.SetOutDir(mp["out_dir"])
+
+	var dbInfo config.MysqlDbInfo
+	dbInfo.Host = mp["db_host"]
+	port, err := strconv.Atoi(mp["db_port"])
+	if err != nil {
+		modal := mycui.NewModal(g, 0, 0, 30).SetText("port error")
+		modal.AddButton("ok", "OK", gocui.KeyEnter, func(g *gocui.Gui, v *gocui.View) error {
+			modal.Close()
+			form.SetCurrentItem(form.GetCurrentItem())
+			return nil
+		})
+
+		modal.Draw()
+		return nil
+	}
+
+	dbInfo.Port = port
+	dbInfo.Username = mp["db_usename"]
+	dbInfo.Password = mp["db_pwd"]
+	dbInfo.Database = mp["db_name"]
+
+	config.SetMysqlDbInfo(&dbInfo)
+	mp = form.GetSelectedOpts()
+	config.SetIsDev(getBool(mp["is_dev"]))
+	config.SetSimple(getBool(mp["is_simple"]))
+	config.SetSingularTable(getBool(mp["is_singular"]))
+	config.SetIsOutSQL(getBool(mp["is_out_sql"]))
+	config.SetIsOutFunc(getBool(mp["is_out_func"]))
+	config.SetForeignKey(getBool(mp["is_foreign_key"]))
+	config.SetURLTag(mp["url_tag"])
+	config.SetDBTag(mp["db_tag"])
+	config.SetLG(mp["language"])
+
+	config.SaveToFile()
+	buttonCancel(g, v)
 	return nil
 }
 
