@@ -15,7 +15,7 @@ type Config struct {
 	Language      string      `yaml:"language"` // language
 	DbTag         string      `yaml:"db_tag"`   // 数据库标签（gormt,db）
 	Simple        bool        `yaml:"simple"`
-	IsJSONTag     bool        `yaml:"is_json_tag"`
+	IsWEBTag      bool        `yaml:"is_web_tag"`
 	SingularTable bool        `yaml:"singular_table"`
 	IsForeignKey  bool        `yaml:"is_foreign_key"`
 	IsOutSQL      bool        `yaml:"is_out_sql"`
@@ -87,9 +87,9 @@ func SetSimple(b bool) {
 	_map.Simple = b
 }
 
-// GetIsJSONTag json tag.json标记
-func GetIsJSONTag() bool {
-	return _map.IsJSONTag
+// GetIsWEBTag json tag.json标记
+func GetIsWEBTag() bool {
+	return _map.IsWEBTag
 }
 
 // GetIsForeignKey if is foreign key

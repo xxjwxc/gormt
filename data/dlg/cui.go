@@ -173,7 +173,7 @@ func enterSet(g *gocui.Gui, v *gocui.View) error {
 	maxX, _ := g.Size()
 	setlog(g, "")
 	// new form
-	form = mycui.NewForm(g, "set_ui", "Sign Up", division(maxX, uiPart[0])+3, 3, 0, 0)
+	form = mycui.NewForm(g, "set_ui", "Sign Up", division(maxX, uiPart[0])+2, 2, 0, 0)
 
 	// add input field
 	form.AddInputField("out_dir", SLocalize("out_dir"), formPart[0], formPart[1]).SetText(config.GetOutDir()).
@@ -314,7 +314,7 @@ func showStruct(g *gocui.Gui, v *gocui.View) error {
 		}
 	}
 
-	setlog(g, "")
+	setlog(g, "\n\n\n")
 	for _, v := range out {
 		addlog(g, v)
 	}

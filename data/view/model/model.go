@@ -105,7 +105,7 @@ func (m *_Model) genTableElement(cols []ColumusInfo) (el []genstruct.GenElement)
 			}
 
 			// json tag
-			if config.GetIsJSONTag() {
+			if config.GetIsWEBTag() {
 				if strings.EqualFold(v.Name, "id") {
 					tmp.AddTag(_tagJSON, "-")
 				} else {
@@ -149,7 +149,7 @@ func (m *_Model) genForeignKey(col ColumusInfo) (fklist []genstruct.GenElement) 
 			tmp.AddTag(_tagGorm, "foreignkey:"+v.ColumnName)
 
 			// json tag
-			if config.GetIsJSONTag() {
+			if config.GetIsWEBTag() {
 				tmp.AddTag(_tagJSON, mybigcamel.UnMarshal(v.TableName)+"_list")
 			}
 
