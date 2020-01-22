@@ -16,10 +16,16 @@
 
 ![show](/image/gormt/ui_en.gif)
 
+```
+./gormt -g=true
+```
+
 ## cmd support
 
 ![show](/image/gormt/out.gif)
-
+```
+./gormt -g=false
+```
 --------
 
 ## 1. Configure default configuration items through the current directory config.yml file

@@ -9,6 +9,8 @@
 
 #### mysql数据库转 struct 工具,可以将mysql数据库自动生成golang sturct结构，带大驼峰命名规则。带json标签
 
+[English](README.md)
+
 ## 交互界面模式
 
 ![show](/image/gormt/ui_cn.gif)
@@ -20,10 +22,9 @@
 ## 命令行模式
 
 ![show](/image/gormt/out.gif)
-
-
-[English](README.md)
-
+```
+./gormt -g=false
+```
 --------
 
 ## 1. 通过当前目录 config.yml 文件配置默认配置项
