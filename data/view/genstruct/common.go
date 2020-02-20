@@ -135,8 +135,12 @@ func (s *GenStruct) Generates() []string {
 	}
 	p.Add(s.Notes)
 	p.Add("type", s.Name, "struct {")
+	mp := make(map[string]bool, len(s.Em))
 	for _, v := range s.Em {
-		p.Add(v.Generate())
+		if !mp[v.Name] {
+			mp[v.Name] = true
+			p.Add(v.Generate())
+		}
 	}
 	p.Add("}")
 

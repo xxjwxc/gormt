@@ -57,7 +57,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&outDir, "outdir", "o", "", "输出目录")
 	rootCmd.MarkFlagRequired("outdir")
 
-	rootCmd.PersistentFlags().BoolVarP(&singularTable, "singular", "s", false, "是否禁用表名复数")
+	rootCmd.PersistentFlags().BoolVarP(&singularTable, "singular", "s", true, "是否禁用表名复数")
 	rootCmd.MarkFlagRequired("singular")
 
 	rootCmd.PersistentFlags().BoolVarP(&foreignKey, "foreign", "f", false, "是否导出外键关联")
