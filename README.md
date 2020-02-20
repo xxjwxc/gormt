@@ -31,7 +31,7 @@ out_dir : "."  # out dir
 url_tag : json # web url tag(json,db(https://github.com/google/go-querystring))
 language :  # language(English,中 文)
 db_tag : gorm # DB tag(gorm,db)
-singular_table : false  # Table name plural (big Camel-Case):gorm.SingularTable
+singular_table : true  # Table name plural (big Camel-Case):gorm.SingularTable
 simple : false #simple output
 is_out_sql : false # Whether to output sql
 is_out_func : true # Whether to output function
