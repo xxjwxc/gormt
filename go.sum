@@ -11,6 +11,8 @@ github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRF
 github.com/ant0ine/go-json-rest v3.3.2+incompatible/go.mod h1:q6aCt0GfU6LhpBsnZ/2U+mwe+0XB5WStbmwyoPfc+sk=
 github.com/apache/thrift v0.12.0/go.mod h1:cp2SuWMxlEZw2r+iP2GNCdIi4C1qmUzdZFSVb+bacwQ=
 github.com/armon/consul-api v0.0.0-20180202201655-eb2c6b5be1b6/go.mod h1:grANhF5doyWs3UAsr3K4I6qtAmlQcZDesFNEHPZAzj8=
+github.com/atotto/clipboard v0.1.2 h1:YZCtFu5Ie8qX2VmVTBnrqLSiU9XOWwqNRmdT3gIQzbY=
+github.com/atotto/clipboard v0.1.2/go.mod h1:ZY9tmq7sm5xIbd9bOK4onWV4S6X0u6GY7Vn0Yu86PYI=
 github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394 h1:OYA+5W64v3OgClL+IrOD63t4i/RW7RqrAVl9LTZ9UqQ=
 github.com/axgle/mahonia v0.0.0-20180208002826-3358181d7394/go.mod h1:Q8n74mJTIgjX4RBBcHnJ05h//6/k6foqmgE45jTQtxg=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
@@ -142,6 +144,8 @@ github.com/xxjwxc/public v0.0.0-20191107073037-ea6b812d567f/go.mod h1:j0CCXMUDty
 github.com/xxjwxc/public v0.0.0-20200120133922-c61314a90a4a h1:sQ+O2UwDj1ShdZ6NLgp98cmaZLWrkFpVJB+wOzj1kDQ=
 github.com/xxjwxc/public v0.0.0-20200120133922-c61314a90a4a/go.mod h1:UYQUNNJmUzNKpjY5ctz1n/XoJonmhAIgD51zS2rEsek=
 github.com/xxjwxc/public v0.0.0-20200120153226-f36cf754df21 h1:1OF0Q6FGQhmziN4yvHLiF9XXOqfChL5z4rcogSQqCos=
+github.com/xxjwxc/public v0.0.0-20200221114751-56810b3fcc29 h1:C0fnjiwnCBjovovCTkrjVXQtqd+UdVD2N8yaVK8LHwk=
+github.com/xxjwxc/public v0.0.0-20200221114751-56810b3fcc29/go.mod h1:lhh94GsxhTweM/OaF7eFzOAgVV6fSSbBvA6zOtOVmdU=
 go.opencensus.io v0.20.1/go.mod h1:6WKK9ahsWS3RSO+PY9ZHZUfv2irvY6gN279GOPZjmmk=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
 golang.org/x/crypto v0.0.0-20181203042331-505ab145d0a9/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=

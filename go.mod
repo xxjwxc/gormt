@@ -12,7 +12,7 @@ require (
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/nicksnyder/go-i18n/v2 v2.0.3
 	github.com/spf13/cobra v0.0.5
-	github.com/xxjwxc/public v0.0.0-20200120133922-c61314a90a4a
+	github.com/xxjwxc/public v0.0.0-20200221114751-56810b3fcc29
 	golang.org/x/text v0.3.2
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v9 v9.30.2
