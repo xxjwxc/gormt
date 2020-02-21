@@ -348,7 +348,7 @@ func showStruct(g *gocui.Gui, v *gocui.View) error {
 		addlog(g, v)
 	}
 
-	copyInfo = strings.Join(out1, "")
+	copyInfo = strings.Join(out1, "\n")
 
 	return nil
 }

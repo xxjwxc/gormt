@@ -16,5 +16,5 @@ mysql_info:
     port : 3306
     username : root
     password : qwer
-    database : apiserver_db
+    database : oauth_db
 
