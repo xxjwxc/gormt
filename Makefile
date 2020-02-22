@@ -13,8 +13,7 @@ linux:
 	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o gormt main.go 
 	tar czvf gormt_linux.zip gormt config.yml
 clear:
-	rm gormt
-	rm gormt.exe
-	rm -rf  model/* 
-	rm -rf err/ 
-
+	- rm -rf  model/* 
+	- rm -rf err/ 
+	- rm gormt
+	- rm gormt.exe
