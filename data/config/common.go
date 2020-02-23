@@ -63,7 +63,7 @@ func onInit() {
 // InitFile default value from file .
 func InitFile(filename string) error {
 	if _, e := os.Stat(filename); e != nil {
-		fmt.Println("init default config file", filename)
+		fmt.Println("init default config file: ", filename)
 		if err := SaveToFile(); err == nil {
 			fmt.Println("done,please restart.")
 		} else {
