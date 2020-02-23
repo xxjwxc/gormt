@@ -169,7 +169,9 @@ func getTables(orm *mysqldb.MySqlDB) map[string]string {
 
 	rows, err := orm.Raw("show tables").Rows()
 	if err != nil {
-		fmt.Println(err)
+		if !config.GetIsGUI() {
+			fmt.Println(err)
+		}
 		return tbDesc
 	}
 
@@ -184,7 +186,9 @@ func getTables(orm *mysqldb.MySqlDB) map[string]string {
 	// Get table annotations.获取表注释
 	rows1, err := orm.Raw("SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.TABLES WHERE table_schema= '" + config.GetMysqlDbInfo().Database + "'").Rows()
 	if err != nil {
-		fmt.Println(err)
+		if !config.GetIsGUI() {
+			fmt.Println(err)
+		}
 		return tbDesc
 	}
 

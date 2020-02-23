@@ -7,24 +7,37 @@
 
 ## [中文文档](README_zh_cn.md)
 
-###  mysql database to goang struct conversion tools base on [gorm](https://github.com/jinzhu/gorm)，You can automatically generate golang sturct from MySQL database.
+###  mysql database to goang struct conversion tools base on [gorm](https://github.com/jinzhu/gorm)，You can automatically generate golang sturct from MySQL database. big Camel-Case Name Rule, JSON tag. 
 
-### big Camel-Case Name Rule
-### JSON tag 
+## gui support
+
+![show](/image/gormt/ui_en.gif)
+
+```
+./gormt -g=true
+```
+
+## cmd support
 
 ![show](/image/gormt/out.gif)
-
+```
+./gormt -g=false
+```
 --------
 
 ## 1. Configure default configuration items through the current directory config.yml file
 ```
 out_dir : "."  # out dir
-singular_table : false  # Table name plural (big Camel-Case):gorm.SingularTable
+url_tag : json # web url tag(json,db(https://github.com/google/go-querystring))
+language :  # language(English,中 文)
+db_tag : gorm # DB tag(gorm,db)
+singular_table : true  # Table name plural (big Camel-Case):gorm.SingularTable
 simple : false #simple output
 is_out_sql : false # Whether to output sql
 is_out_func : true # Whether to output function
-is_json_tag : true # Whether to mark JSON or not
+is_url_tag : true # Whether to mark web or not
 is_foreign_key : true # Whether to mark foreign key or not
+is_gui : false # Whether to operate on gui
 
 mysql_info :
     host : "127.0.0.1"
@@ -50,12 +63,14 @@ Flags:
   -d, --database string   数据库名
   -f, --foreign           是否导出外键关联
   -F, --fun               是否导出函数
+  -g, --gui               是否ui显示模式
   -h, --help              help for main
   -H, --host string       数据库地址.(注意-H为大写)
   -o, --outdir string     输出目录
   -p, --password string   密码.
       --port int          端口号 (default 3306)
   -s, --singular          是否禁用表名复数
+  -l, --url string        url标签(json,url)
   -u, --user string       用户名.
   
 ```

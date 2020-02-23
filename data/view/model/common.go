@@ -15,8 +15,8 @@ import (
 
 // getCamelName Big Hump or Capital Letter.大驼峰或者首字母大写
 func getCamelName(name string) string {
-	if config.GetSingularTable() { // If the table name plural is globally disabled.如果全局禁用表名复数
-		return titleCase(name)
+	if !config.GetSingularTable() { // If the table name plural is globally disabled.如果全局禁用表名复数
+		return mybigcamel.Marshal(strings.TrimSuffix(name, "s"))
 	}
 
 	return mybigcamel.Marshal(name)

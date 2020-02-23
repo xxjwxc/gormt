@@ -1,18 +1,26 @@
 package config
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/xxjwxc/public/tools"
+)
 
 // Config custom config struct
 type Config struct {
 	CfgBase       `yaml:"base"`
 	MySQLInfo     MysqlDbInfo `yaml:"mysql_info"`
 	OutDir        string      `yaml:"out_dir"`
+	URLTag        string      `yaml:"url_tag"`  // url tag
+	Language      string      `yaml:"language"` // language
+	DbTag         string      `yaml:"db_tag"`   // 数据库标签（gormt,db）
 	Simple        bool        `yaml:"simple"`
-	IsJSONTag     bool        `yaml:"is_json_tag"`
+	IsWEBTag      bool        `yaml:"is_web_tag"`
 	SingularTable bool        `yaml:"singular_table"`
 	IsForeignKey  bool        `yaml:"is_foreign_key"`
 	IsOutSQL      bool        `yaml:"is_out_sql"`
 	IsOutFunc     bool        `yaml:"is_out_func"`
+	IsGUI         bool        `yaml:"is_gui"` //
 }
 
 // MysqlDbInfo mysql database information. mysql 数据库信息
@@ -52,6 +60,10 @@ func SetOutDir(outDir string) {
 
 // GetOutDir Get Output Directory.获取输出目录
 func GetOutDir() string {
+	if len(_map.OutDir) == 0 {
+		_map.OutDir = "./model"
+	}
+
 	return _map.OutDir
 }
 
@@ -70,9 +82,14 @@ func GetSimple() bool {
 	return _map.Simple
 }
 
-// GetIsJSONTag json tag.json标记
-func GetIsJSONTag() bool {
-	return _map.IsJSONTag
+// SetSimple simple output.简单输出
+func SetSimple(b bool) {
+	_map.Simple = b
+}
+
+// GetIsWEBTag json tag.json标记
+func GetIsWEBTag() bool {
+	return _map.IsWEBTag
 }
 
 // GetIsForeignKey if is foreign key
@@ -83,6 +100,11 @@ func GetIsForeignKey() bool {
 // SetForeignKey Set if is foreign key.设置是否外键关联
 func SetForeignKey(b bool) {
 	_map.IsForeignKey = b
+}
+
+// SetIsOutSQL if is output sql .
+func SetIsOutSQL(b bool) {
+	_map.IsOutSQL = b
 }
 
 // GetIsOutSQL if is output sql .
@@ -98,4 +120,60 @@ func GetIsOutFunc() bool {
 // SetIsOutFunc if is output func .
 func SetIsOutFunc(b bool) {
 	_map.IsOutFunc = b
+}
+
+// GetIsGUI if is gui show .
+func GetIsGUI() bool {
+	return _map.IsGUI
+}
+
+// SetIsGUI if is gui show .
+func SetIsGUI(b bool) {
+	_map.IsGUI = b
+}
+
+// GetURLTag get url tag.
+func GetURLTag() string {
+	if _map.URLTag != "json" && _map.URLTag != "url" {
+		_map.URLTag = "json"
+	}
+
+	return _map.URLTag
+}
+
+// SetURLTag set url tag.
+func SetURLTag(s string) {
+	_map.URLTag = s
+}
+
+// GetLG get language tag.
+func GetLG() string {
+	if _map.Language != "English" && _map.Language != "中 文" {
+		if tools.GetLocalSystemLang(true) == "en" {
+			_map.Language = "English"
+		} else {
+			_map.Language = "中 文"
+		}
+	}
+
+	return _map.Language
+}
+
+// SetLG set url tag.
+func SetLG(s string) {
+	_map.Language = s
+}
+
+// GetDBTag get database tag.
+func GetDBTag() string {
+	if _map.DbTag != "gorm" && _map.DbTag != "db" {
+		_map.DbTag = "gorm"
+	}
+
+	return _map.DbTag
+}
+
+// SetDBTag get database tag.
+func SetDBTag(s string) {
+	_map.DbTag = s
 }

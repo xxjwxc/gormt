@@ -9,28 +9,45 @@
 
 #### mysql数据库转 struct 工具,可以将mysql数据库自动生成golang sturct结构，带大驼峰命名规则。带json标签
 
-![show](/image/gormt/out.gif)
-
-
 [English](README.md)
 
+## 交互界面模式
+
+![show](/image/gormt/ui_cn.gif)
+
+```
+./gormt -g=true
+```
+
+## 命令行模式
+
+![show](/image/gormt/out.gif)
+```
+./gormt -g=false
+```
 --------
 
 ## 1. 通过当前目录 config.yml 文件配置默认配置项
 ```
-out_dir : "."  # 输出目录
-singular_table : false  # 表名复数,是否大驼峰构建 参考:gorm.SingularTable
-simple : false #简单输出
+base:
+    is_dev : false
+out_dir : ./model  # 输出目录
+url_tag : json # web url tag(json,db(https://github.com/google/go-querystring))
+language :  # 语言(English,中 文)
+db_tag : gorm # 数据库标签(gorm,db)
+singular_table : false  # 单表模式:true:禁用表名复数,false:采用表明复数 参考:gorm.SingularTable
+simple : false # 简单输出(默认gorm标签不输出)
 is_out_sql : false # 是否输出 sql 原信息
 is_out_func : true # 是否输出 快捷函数
-is_json_tag : false #是否打json标记
-is_foreign_key : true #是否导出外键关联
-mysql_info :
-    host : "127.0.0.1"
+is_url_tag : true # 是否打web标记
+is_foreign_key : true # 是否导出外键关联
+is_gui : false # 是否ui模式显示
+mysql_info:
+    host : 127.0.0.1
     port : 3306
-    username : "root"
-    password : "qwer"
-    database : "oauth_db"
+    username : root
+    password : qwer
+    database : oauth_db
 ```
 
 ## 2. 可以使用命令行工具更新配置项
@@ -56,12 +73,14 @@ Flags:
   -d, --database string   数据库名
   -f, --foreign           是否导出外键关联
   -F, --fun               是否导出函数
+  -g, --gui               是否ui显示模式
   -h, --help              help for main
   -H, --host string       数据库地址.(注意-H为大写)
   -o, --outdir string     输出目录
   -p, --password string   密码.
       --port int          端口号 (default 3306)
   -s, --singular          是否禁用表名复数
+  -l, --url string        url标签(json,url)
   -u, --user string       用户名.
   
 ```

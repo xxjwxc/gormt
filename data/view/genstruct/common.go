@@ -60,6 +60,33 @@ func (e *GenElement) Generate() string {
 	return p.Generates()[0]
 }
 
+// GenerateColor Get the result data.获取结果数据
+func (e *GenElement) GenerateColor() string {
+	tag := ""
+	if e.Tags != nil {
+		var ks []string
+		for k := range e.Tags {
+			ks = append(ks, k)
+		}
+		sort.Strings(ks)
+
+		var tags []string
+		for _, v := range ks {
+			tags = append(tags, fmt.Sprintf(`%v:"%v"`, v, strings.Join(e.Tags[v], ";")))
+		}
+		tag = fmt.Sprintf("`%v`", strings.Join(tags, " "))
+	}
+
+	var p generate.PrintAtom
+	if len(e.Notes) > 0 {
+		p.Add(e.Name, "\033[32;1m "+e.Type+" \033[0m", "\033[31;1m "+tag+" \033[0m", "\033[32;1m // "+e.Notes+" \033[0m")
+	} else {
+		p.Add(e.Name, "\033[32;1m "+e.Type+" \033[0m", "\033[31;1m "+tag+" \033[0m")
+	}
+
+	return p.Generates()[0]
+}
+
 //////////////////////////////////////////////////////////////////////////////
 // struct
 //////////////////////////////////////////////////////////////////////////////
@@ -108,10 +135,37 @@ func (s *GenStruct) Generates() []string {
 	}
 	p.Add(s.Notes)
 	p.Add("type", s.Name, "struct {")
+	mp := make(map[string]bool, len(s.Em))
 	for _, v := range s.Em {
-		p.Add(v.Generate())
+		if !mp[v.Name] {
+			mp[v.Name] = true
+			p.Add(v.Generate())
+		}
 	}
 	p.Add("}")
+
+	return p.Generates()
+}
+
+// \033[3%d;%dm -%d;%d-colors!\033[0m\n
+// GeneratesColor Get the result data on color.获取结果数据 带颜色
+func (s *GenStruct) GeneratesColor() []string {
+	var p generate.PrintAtom
+	if config.GetIsOutSQL() {
+		p.Add("\033[32;1m /******sql******\033[0m")
+		p.Add(s.SQLBuildStr)
+		p.Add("\033[32;1m ******sql******/ \033[0m")
+	}
+	p.Add("\033[32;1m " + s.Notes + " \033[0m")
+	p.Add("\033[34;1m type \033[0m", s.Name, "\033[34;1m struct \033[0m {")
+	mp := make(map[string]bool, len(s.Em))
+	for _, v := range s.Em {
+		if !mp[v.Name] {
+			mp[v.Name] = true
+			p.Add(" \t\t" + v.GenerateColor())
+		}
+	}
+	p.Add(" }")
 
 	return p.Generates()
 }

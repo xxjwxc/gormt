@@ -19,6 +19,8 @@ var outDir string
 var singularTable bool
 var foreignKey bool
 var funcKey bool
+var ui bool
+var urlTag string
 
 var rootCmd = &cobra.Command{
 	Use:   "main",
@@ -55,7 +57,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&outDir, "outdir", "o", "", "输出目录")
 	rootCmd.MarkFlagRequired("outdir")
 
-	rootCmd.PersistentFlags().BoolVarP(&singularTable, "singular", "s", false, "是否禁用表名复数")
+	rootCmd.PersistentFlags().BoolVarP(&singularTable, "singular", "s", true, "是否禁用表名复数")
 	rootCmd.MarkFlagRequired("singular")
 
 	rootCmd.PersistentFlags().BoolVarP(&foreignKey, "foreign", "f", false, "是否导出外键关联")
@@ -63,6 +65,12 @@ func init() {
 
 	rootCmd.PersistentFlags().BoolVarP(&funcKey, "fun", "F", false, "是否导出函数")
 	rootCmd.MarkFlagRequired("func export")
+
+	rootCmd.PersistentFlags().BoolVarP(&ui, "gui", "g", false, "是否ui显示模式")
+	rootCmd.MarkFlagRequired("show on gui")
+
+	rootCmd.PersistentFlags().StringVarP(&urlTag, "url", "l", "", "url标签(json,url)")
+	rootCmd.MarkFlagRequired("url tag")
 
 	rootCmd.Flags().IntVar(&mysqlInfo.Port, "port", 3306, "端口号")
 }
@@ -100,6 +108,9 @@ func MergeMysqlDbInfo() {
 	if len(mysqlInfo.Username) > 0 {
 		tmp.Username = mysqlInfo.Username
 	}
+	if len(urlTag) > 0 {
+		config.SetURLTag(urlTag)
+	}
 
 	config.SetMysqlDbInfo(&tmp)
 
@@ -118,4 +129,9 @@ func MergeMysqlDbInfo() {
 	if funcKey {
 		config.SetIsOutFunc(funcKey)
 	}
+
+	if ui {
+		config.SetIsGUI(ui)
+	}
+
 }

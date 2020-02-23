@@ -17,11 +17,12 @@ import (
 
 type _Model struct {
 	info DBInfo
+	pkg  *genstruct.GenPackage
 }
 
 // Generate build code string.生成代码
-func Generate(info DBInfo) (out []GenOutInfo) {
-	m := _Model{
+func Generate(info DBInfo) (out []GenOutInfo, m _Model) {
+	m = _Model{
 		info: info,
 	}
 
@@ -40,23 +41,36 @@ func Generate(info DBInfo) (out []GenOutInfo) {
 	return
 }
 
-func (m *_Model) generate() string {
-	var pkg genstruct.GenPackage
-	pkg.SetPackage(m.info.PackageName) //package name
-	for _, tab := range m.info.TabList {
-		var sct genstruct.GenStruct
-		sct.SetStructName(getCamelName(tab.Name)) // Big hump.大驼峰
-		sct.SetNotes(tab.Notes)
-		sct.AddElement(m.genTableElement(tab.Em)...) // build element.构造元素
-		sct.SetCreatTableStr(tab.SQLBuildStr)
-		pkg.AddStruct(sct)
+// GetPackage gen sturct on table
+func (m *_Model) GetPackage() genstruct.GenPackage {
+	if m.pkg == nil {
+		var pkg genstruct.GenPackage
+		pkg.SetPackage(m.info.PackageName) //package name
+		for _, tab := range m.info.TabList {
+			var sct genstruct.GenStruct
+			sct.SetStructName(getCamelName(tab.Name)) // Big hump.大驼峰
+			sct.SetNotes(tab.Notes)
+			sct.AddElement(m.genTableElement(tab.Em)...) // build element.构造元素
+			sct.SetCreatTableStr(tab.SQLBuildStr)
+			pkg.AddStruct(sct)
+		}
+		m.pkg = &pkg
 	}
 
-	return pkg.Generate()
+	return *m.pkg
+}
+
+func (m *_Model) generate() string {
+	m.pkg = nil
+	m.GetPackage()
+	return m.pkg.Generate()
 }
 
 // genTableElement Get table columns and comments.获取表列及注释
 func (m *_Model) genTableElement(cols []ColumusInfo) (el []genstruct.GenElement) {
+	_tagGorm := config.GetDBTag()
+	_tagJSON := config.GetURLTag()
+
 	for _, v := range cols {
 		var tmp genstruct.GenElement
 		if strings.EqualFold(v.Type, "gorm.Model") { // gorm model
@@ -91,7 +105,7 @@ func (m *_Model) genTableElement(cols []ColumusInfo) (el []genstruct.GenElement)
 			}
 
 			// json tag
-			if config.GetIsJSONTag() {
+			if config.GetIsWEBTag() {
 				if strings.EqualFold(v.Name, "id") {
 					tmp.AddTag(_tagJSON, "-")
 				} else {
@@ -115,6 +129,9 @@ func (m *_Model) genTableElement(cols []ColumusInfo) (el []genstruct.GenElement)
 
 // genForeignKey Get information about foreign key of table column.获取表列外键相关信息
 func (m *_Model) genForeignKey(col ColumusInfo) (fklist []genstruct.GenElement) {
+	_tagGorm := config.GetDBTag()
+	_tagJSON := config.GetURLTag()
+
 	for _, v := range col.ForeignKeyList {
 		isMulti, isFind, notes := m.getColumusKeyMulti(v.TableName, v.ColumnName)
 		if isFind {
@@ -132,7 +149,7 @@ func (m *_Model) genForeignKey(col ColumusInfo) (fklist []genstruct.GenElement) 
 			tmp.AddTag(_tagGorm, "foreignkey:"+v.ColumnName)
 
 			// json tag
-			if config.GetIsJSONTag() {
+			if config.GetIsWEBTag() {
 				tmp.AddTag(_tagJSON, mybigcamel.UnMarshal(v.TableName)+"_list")
 			}
 

@@ -15,6 +15,6 @@ func TestMain(t *testing.T) {
 	// out, _ := json.Marshal(pkg)
 	// tools.WriteFile("test.txt", []string{string(out)}, true)
 
-	list := model.Generate(pkg)
+	list, _ := model.Generate(pkg)
 	fmt.Println(list)
 }
