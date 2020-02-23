@@ -2,11 +2,11 @@ package config
 
 import (
 	"fmt"
-	"io/ioutil"
-
 	"github.com/xxjwxc/public/dev"
 	"github.com/xxjwxc/public/tools"
 	"gopkg.in/yaml.v3"
+	"io/ioutil"
+	"os"
 )
 
 // CfgBase base config struct
@@ -18,33 +18,65 @@ type CfgBase struct {
 	IsDev bool `json:"is_dev" yaml:"is_dev"` // Is it a development version?是否是开发版本
 }
 
-var _map = Config{}
+var _map = Config{
+	CfgBase: CfgBase{
+		IsDev: false,
+	},
+	MySQLInfo: MysqlDbInfo{
+		Host:     "127.0.0.1",
+		Port:     3306,
+		Username: "root",
+		Password: "root",
+		Database: "test",
+	},
+	OutDir:        "./model",
+	URLTag:        "json",
+	Language:      "中 文",
+	DbTag:         "gorm",
+	Simple:        false,
+	IsWEBTag:      false,
+	SingularTable: true,
+	IsForeignKey:  true,
+	IsOutSQL:      false,
+	IsOutFunc:     true,
+	IsGUI:         false,
+}
+
+var configPath string = "gormt.yml"
 
 func init() {
+	// configPath = path.Join(tools.GetModelPath(), "config.yml")
 	onInit()
 	dev.OnSetDev(_map.IsDev)
 }
 
 func onInit() {
-	path := tools.GetModelPath()
-	err := InitFile(path + "/config.yml")
+	err := InitFile(configPath)
 	if err != nil {
-		fmt.Println("InitFile: ", err.Error())
+		fmt.Println("Load config file error: ", err.Error())
 		return
 	}
 }
 
 // InitFile default value from file .
 func InitFile(filename string) error {
+	if _, e := os.Stat(filename); e != nil {
+		fmt.Println("配置文件未初始化,正在自动初始化配置文件", filename)
+		if err := SaveToFile(); err == nil {
+			fmt.Println("配置文件初始化完毕")
+		} else {
+			fmt.Println("配置文件初始化异常", err)
+		}
+		os.Exit(0)
+	}
 	bs, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return err
 	}
 	if err := yaml.Unmarshal(bs, &_map); err != nil {
-		fmt.Println("read toml error: ", err.Error())
+		fmt.Println("read config file error: ", err.Error())
 		return err
 	}
-
 	return nil
 }
 
@@ -72,9 +104,8 @@ func SaveToFile() error {
 	if err != nil {
 		return err
 	}
-	tools.WriteFile(tools.GetModelPath()+"/config.yml", []string{
+	tools.WriteFile(configPath, []string{
 		string(d),
 	}, true)
-
 	return nil
 }
