@@ -38,6 +38,7 @@ is_out_func : true # Whether to output function
 is_url_tag : true # Whether to mark web or not
 is_foreign_key : true # Whether to mark foreign key or not
 is_gui : false # Whether to operate on gui
+is_table_name : false # Whether to out GetTableName function
 
 mysql_info :
     host : "127.0.0.1"
@@ -198,5 +199,3 @@ go generate
 ## Stargazers over time
 
 [![Stargazers over time](https://starchart.cc/xxjwxc/gormt.svg)](https://starchart.cc/xxjwxc/gormt)
-
-## 20200228 llllancelot foked

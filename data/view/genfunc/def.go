@@ -1,6 +1,12 @@
 package genfunc
 
 const (
+	genTnf = `
+// TableName get sql table name.获取数据库表名
+func (m *{{.StructName}}) TableName() string {
+	return "{{.TableName}}"
+}
+`
 	genBase = `
 package {{.PackageName}}
 import (

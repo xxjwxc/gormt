@@ -4,14 +4,12 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	"strings"
 
 	"github.com/xxjwxc/public/tools"
 
 	"github.com/xxjwxc/gormt/data/config"
 
 	"github.com/jroimartin/gocui"
-	"github.com/xxjwxc/public/myclipboard"
 	"github.com/xxjwxc/public/mycui"
 )
 
@@ -79,7 +77,7 @@ func mainLayout(g *gocui.Gui) error {
 		// }
 	}
 
-	if v, err := g.SetView(_viewDefine, division(maxX, uiPart[0]), 1, maxX-1, maxY-3); err != nil {
+	if v, err := g.SetView(_viewDefine, division(maxX, uiPart[0]), 1, maxX-1, maxY-1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
@@ -104,11 +102,6 @@ func nemuLayOut(g *gocui.Gui) {
 		mycui.NewButton(g, _set, SLocalize(_set), 0, 4, 3).
 			AddHandler(gocui.KeyArrowUp, menuDlg.prevButton).AddHandler(gocui.KeyArrowDown, menuDlg.nextButton).
 			AddHandler(gocui.KeyEnter, enterSet).AddHandler(gocui.MouseLeft, enterSet))
-
-	maxX, maxY := g.Size() // division(maxY, uiPart[1])
-	clipboardBtn = mycui.NewButton(g, _clipboardBtn, SLocalize(_clipboardBtn), division(maxX, uiPart[0])+2, maxY-3, 5).
-		AddHandler(gocui.KeyEnter, enterClipboard).AddHandler(gocui.MouseLeft, enterClipboard)
-	clipboardBtn.Draw()
 
 	menuDlg.Draw()
 	menuFocusButton(g)
@@ -170,24 +163,6 @@ func addlog(g *gocui.Gui, str string) error {
 	return err
 }
 
-func enterClipboard(g *gocui.Gui, v *gocui.View) error {
-	myclipboard.Set(copyInfo)
-
-	maxX, _ := g.Size()
-	modal := mycui.NewModal(g, division(maxX, uiPart[0])+5, 10, division(maxX, uiPart[0])+35).
-		SetTextColor(gocui.ColorRed).SetText("copy success \n 已 复 制 到 剪 切 板 ")
-	modal.Mouse = true
-	//	modal.SetBgColor(gocui.ColorRed)
-	_handle := func(g *gocui.Gui, v *gocui.View) error {
-		modal.Close()
-		return nil
-	}
-	modal.AddButton("ok", "OK", gocui.KeyEnter, _handle).AddHandler(gocui.MouseLeft, _handle)
-	modal.Draw()
-
-	return nil
-}
-
 func enterRun(g *gocui.Gui, v *gocui.View) error {
 	setlog(g, "run .... ing")
 	generate(g, v)
@@ -230,6 +205,8 @@ func enterSet(g *gocui.Gui, v *gocui.View) error {
 		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetIsForeignKey())))
 	form.AddSelect("is_gui", SLocalize("is_gui"), formPart[0], formPart[2]).
 		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetIsGUI())))
+	form.AddSelect("is_table_name", SLocalize("is_table_name"), formPart[0], formPart[2]).
+		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetIsTableName())))
 	form.AddSelect("url_tag", SLocalize("url_tag"), formPart[0], formPart[2]).
 		AddOptions("json", "url").SetSelected(tools.AsString(config.GetURLTag()))
 	form.AddSelect("db_tag", SLocalize("db_tag"), formPart[0], formPart[2]).
@@ -267,14 +244,12 @@ func buttonSave(g *gocui.Gui, v *gocui.View) error {
 	port, err := strconv.Atoi(mp["db_port"])
 	if err != nil {
 		modal := mycui.NewModal(g, division(maxX, uiPart[0])+5, 10, division(maxX, uiPart[0])+35).SetTextColor(gocui.ColorRed).SetText("port error")
-
-		_handle := func(g *gocui.Gui, v *gocui.View) error {
+		//	modal.SetBgColor(gocui.ColorRed)
+		modal.AddButton("ok", "OK", gocui.KeyEnter, func(g *gocui.Gui, v *gocui.View) error {
 			modal.Close()
 			form.SetCurrentItem(form.GetCurrentItem())
 			return nil
-		}
-		//	modal.SetBgColor(gocui.ColorRed)
-		modal.AddButton("ok", "OK", gocui.KeyEnter, _handle).AddHandler(gocui.MouseLeft, _handle)
+		})
 
 		modal.Draw()
 		return nil
@@ -294,18 +269,18 @@ func buttonSave(g *gocui.Gui, v *gocui.View) error {
 	config.SetIsOutFunc(getBool(mp["is_out_func"]))
 	config.SetForeignKey(getBool(mp["is_foreign_key"]))
 	config.SetIsGUI(getBool(mp["is_gui"]))
+	config.SetIsTableName(getBool(mp["is_table_name"]))
 	config.SetURLTag(mp["url_tag"])
 	config.SetDBTag(mp["db_tag"])
 	config.SetLG(mp["language"])
 
 	config.SaveToFile()
 	modal := mycui.NewModal(g, division(maxX, uiPart[0])+5, 10, division(maxX, uiPart[0])+35).SetText("save success")
-	_handle := func(g *gocui.Gui, v *gocui.View) error {
+	modal.AddButton("ok", "OK", gocui.KeyEnter, func(g *gocui.Gui, v *gocui.View) error {
 		modal.Close()
 		buttonCancel(g, v)
 		return nil
-	}
-	modal.AddButton("ok", "OK", gocui.KeyEnter, _handle).AddHandler(gocui.MouseLeft, _handle)
+	})
 	modal.Draw()
 
 	return nil
@@ -334,11 +309,10 @@ func showStruct(g *gocui.Gui, v *gocui.View) error {
 		l = ""
 	}
 
-	var out, out1 []string
+	var out []string
 	for _, v := range gPkg.Structs {
 		if v.Name == l {
 			out = v.GeneratesColor()
-			out1 = v.Generates()
 			break
 		}
 	}
@@ -347,9 +321,6 @@ func showStruct(g *gocui.Gui, v *gocui.View) error {
 	for _, v := range out {
 		addlog(g, v)
 	}
-
-	copyInfo = strings.Join(out1, "\n")
-
 	return nil
 }
 
