@@ -29,11 +29,8 @@ func Generate(info DBInfo) (out []GenOutInfo, m _Model) {
 	// struct
 	var stt GenOutInfo
 	stt.FileCtx = m.generate()
-	if fn := config.GetOutFileName(); fn != "" {
-		stt.FileName = fn
-	} else {
-		stt.FileName = info.DbName + ".go"
-	}
+	stt.FileName = info.DbName + ".go"
+
 	out = append(out, stt)
 	// ------end
 

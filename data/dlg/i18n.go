@@ -48,6 +48,9 @@ func addChinese() error {
 		ID:    "set",
 		Other: "设 置 🛠 ",
 	}, &i18n.Message{
+		ID:    "clipboardBtn",
+		Other: "复 制 到 剪 切 板 ",
+	}, &i18n.Message{
 		ID:    "out_dir",
 		Other: " 输 出 目 录 :",
 	}, &i18n.Message{
@@ -138,6 +141,9 @@ func addEnglish() error {
 	}, &i18n.Message{
 		ID:    "set",
 		Other: "Set 🛠 ",
+	}, &i18n.Message{
+		ID:    "clipboardBtn",
+		Other: "Copy to clipboard",
 	}, &i18n.Message{
 		ID:    "out_dir",
 		Other: "out dir:",

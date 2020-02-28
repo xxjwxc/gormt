@@ -10,8 +10,6 @@ var EImportsHead = map[string]string{
 
 // TypeMysqlDicMp Accurate matching type.精确匹配类型
 var TypeMysqlDicMp = map[string]string{
-	"tinyint":             "int8",
-	"tinyint unsigned":    "uint8",
 	"smallint":            "int16",
 	"smallint unsigned":   "uint16",
 	"int":                 "int",
@@ -24,6 +22,7 @@ var TypeMysqlDicMp = map[string]string{
 	"datetime":            "time.Time",
 	"bit(1)":              "int8",
 	"tinyint":             "int8",
+	"tinyint unsigned":    "uint8",
 	"tinyint(1)":          "int8",
 	"tinyint(1) unsigned": "int8",
 	"json":                "string",

@@ -22,7 +22,6 @@ var foreignKey bool
 var funcKey bool
 var ui bool
 var urlTag string
-var tableList string
 var outFileName string
 
 var rootCmd = &cobra.Command{
@@ -75,9 +74,6 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&urlTag, "url", "l", "", "url标签(json,url)")
 	rootCmd.MarkFlagRequired("url tag")
 
-	rootCmd.PersistentFlags().StringVarP(&tableList, "tablelist", "t", "", "目标table列表，以','隔开")
-	rootCmd.MarkFlagRequired("table list")
-
 	rootCmd.Flags().StringVar(&outFileName, "outfilename", "", "输出文件名，默认以数据库名称命名")
 
 	rootCmd.Flags().IntVar(&mysqlInfo.Port, "port", 3306, "端口号")
@@ -118,13 +114,6 @@ func MergeMysqlDbInfo() {
 	}
 	if len(urlTag) > 0 {
 		config.SetURLTag(urlTag)
-	}
-	if len(tableList) > 0 {
-		m := make(map[string]struct{})
-		for _, v := range strings.Split(tableList, ",") {
-			m[v] = struct{}{}
-		}
-		config.SetTableList(m)
 	}
 	if len(outFileName) > 0 {
 		if !strings.HasSuffix(outFileName, ".go") {

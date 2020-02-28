@@ -181,8 +181,12 @@ func (s *GenStruct) GeneratesColor() []string {
 	}
 	p.Add("\033[32;1m " + s.Notes + " \033[0m")
 	p.Add("\033[34;1m type \033[0m", s.Name, "\033[34;1m struct \033[0m {")
+	mp := make(map[string]bool, len(s.Em))
 	for _, v := range s.Em {
-		p.Add(" \t\t" + v.GenerateColor())
+		if !mp[v.Name] {
+			mp[v.Name] = true
+			p.Add(" \t\t" + v.GenerateColor())
+		}
 	}
 	p.Add(" }")
 
@@ -231,12 +235,8 @@ func (p *GenPackage) Generate() string {
 		for _, v1 := range v.Generates() {
 			pa.Add(v1)
 		}
-	}
-	// -----------end
 
-	// add table name func
-	if config.GetIsTableName() {
-		for _, v := range p.Structs {
+		if config.GetIsTableName() { // add table name func
 			for _, v1 := range v.GenerateTableName() {
 				pa.Add(v1)
 			}

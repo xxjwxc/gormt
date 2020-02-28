@@ -60,18 +60,18 @@ func (m *mysqlModel) GetPkgName() string {
 
 func getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 	tabls := getTables(orm) // get table and notes
-	if m := config.GetTableList(); len(m) > 0 {
-		// 制定了表之后
-		newTabls := make(map[string]string)
-		for t := range m {
-			if notes, ok := tabls[t]; ok {
-				newTabls[t] = notes
-			} else {
-				fmt.Printf("table: %s not found in db\n", t)
-			}
-		}
-		tabls = newTabls
-	}
+	// if m := config.GetTableList(); len(m) > 0 {
+	// 	// 制定了表之后
+	// 	newTabls := make(map[string]string)
+	// 	for t := range m {
+	// 		if notes, ok := tabls[t]; ok {
+	// 			newTabls[t] = notes
+	// 		} else {
+	// 			fmt.Printf("table: %s not found in db\n", t)
+	// 		}
+	// 	}
+	// 	tabls = newTabls
+	// }
 	for tabName, notes := range tabls {
 		var tab model.TabInfo
 		tab.Name = tabName
