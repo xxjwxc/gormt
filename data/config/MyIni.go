@@ -9,18 +9,21 @@ import (
 // Config custom config struct
 type Config struct {
 	CfgBase       `yaml:"base"`
-	MySQLInfo     MysqlDbInfo `yaml:"mysql_info"`
-	OutDir        string      `yaml:"out_dir"`
-	URLTag        string      `yaml:"url_tag"`  // url tag
-	Language      string      `yaml:"language"` // language
-	DbTag         string      `yaml:"db_tag"`   // 数据库标签（gormt,db）
-	Simple        bool        `yaml:"simple"`
-	IsWEBTag      bool        `yaml:"is_web_tag"`
-	SingularTable bool        `yaml:"singular_table"`
-	IsForeignKey  bool        `yaml:"is_foreign_key"`
-	IsOutSQL      bool        `yaml:"is_out_sql"`
-	IsOutFunc     bool        `yaml:"is_out_func"`
-	IsGUI         bool        `yaml:"is_gui"` //
+	MySQLInfo     MysqlDbInfo         `yaml:"mysql_info"`
+	OutDir        string              `yaml:"out_dir"`
+	URLTag        string              `yaml:"url_tag"`  // url tag
+	Language      string              `yaml:"language"` // language
+	DbTag         string              `yaml:"db_tag"`   // 数据库标签（gormt,db）
+	Simple        bool                `yaml:"simple"`
+	IsWEBTag      bool                `yaml:"is_web_tag"`
+	SingularTable bool                `yaml:"singular_table"`
+	IsForeignKey  bool                `yaml:"is_foreign_key"`
+	IsOutSQL      bool                `yaml:"is_out_sql"`
+	IsOutFunc     bool                `yaml:"is_out_func"`
+	IsGUI         bool                `yaml:"is_gui"` //
+	IsTableName   bool                `yaml:"is_table_name"`
+	TableList     map[string]struct{} `yaml:"-"`
+	OutFileName   string              `yaml:"-"`
 }
 
 // MysqlDbInfo mysql database information. mysql 数据库信息
@@ -130,6 +133,32 @@ func GetIsGUI() bool {
 // SetIsGUI if is gui show .
 func SetIsGUI(b bool) {
 	_map.IsGUI = b
+}
+
+// GetIsTableName if is table name .
+func GetIsTableName() bool {
+	return _map.IsTableName
+}
+
+// SetIsTableName if is table name .
+func SetIsTableName(b bool) {
+	_map.IsTableName = b
+}
+
+func SetTableList(m map[string]struct{}) {
+	_map.TableList = m
+}
+
+func GetTableList() map[string]struct{} {
+	return _map.TableList
+}
+
+func SetOutFileName(f string) {
+	_map.OutFileName = f
+}
+
+func GetOutFileName() string {
+	return _map.OutFileName
 }
 
 // GetURLTag get url tag.
