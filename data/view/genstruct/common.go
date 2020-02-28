@@ -1,13 +1,16 @@
 package genstruct
 
 import (
+	"bytes"
 	"fmt"
 	"sort"
 	"strings"
+	"text/template"
 
 	"github.com/xxjwxc/gormt/data/config"
 	"github.com/xxjwxc/gormt/data/view/cnf"
 	"github.com/xxjwxc/gormt/data/view/generate"
+	"github.com/xxjwxc/gormt/data/view/genfunc"
 )
 
 // SetName Setting element name.设置元素名字
@@ -96,6 +99,11 @@ func (s *GenStruct) SetCreatTableStr(sql string) {
 	s.SQLBuildStr = sql
 }
 
+// SetTableName Setting the name of struct.设置struct名字
+func (s *GenStruct) SetTableName(name string) {
+	s.TableName = name
+}
+
 // SetStructName Setting the name of struct.设置struct名字
 func (s *GenStruct) SetStructName(name string) {
 	s.Name = name
@@ -123,6 +131,21 @@ func (s *GenStruct) SetNotes(notes string) {
 // AddElement Add one or more elements.添加一个/或多个元素
 func (s *GenStruct) AddElement(e ...GenElement) {
 	s.Em = append(s.Em, e...)
+}
+
+func (s *GenStruct) GenerateTableName() []string {
+	tmpl, err := template.New("gen_tnf").Parse(genfunc.GetGenTableNameTemp())
+	if err != nil {
+		panic(err)
+	}
+	var data struct {
+		TableName  string
+		StructName string
+	}
+	data.TableName, data.StructName = s.TableName, s.Name
+	var buf bytes.Buffer
+	tmpl.Execute(&buf, data)
+	return []string{buf.String()}
 }
 
 // Generates Get the result data.获取结果数据
@@ -158,12 +181,8 @@ func (s *GenStruct) GeneratesColor() []string {
 	}
 	p.Add("\033[32;1m " + s.Notes + " \033[0m")
 	p.Add("\033[34;1m type \033[0m", s.Name, "\033[34;1m struct \033[0m {")
-	mp := make(map[string]bool, len(s.Em))
 	for _, v := range s.Em {
-		if !mp[v.Name] {
-			mp[v.Name] = true
-			p.Add(" \t\t" + v.GenerateColor())
-		}
+		p.Add(" \t\t" + v.GenerateColor())
 	}
 	p.Add(" }")
 
@@ -211,6 +230,16 @@ func (p *GenPackage) Generate() string {
 	for _, v := range p.Structs {
 		for _, v1 := range v.Generates() {
 			pa.Add(v1)
+		}
+	}
+	// -----------end
+
+	// add table name func
+	if config.GetIsTableName() {
+		for _, v := range p.Structs {
+			for _, v1 := range v.GenerateTableName() {
+				pa.Add(v1)
+			}
 		}
 	}
 	// -----------end

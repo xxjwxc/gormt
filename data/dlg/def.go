@@ -6,16 +6,15 @@ import (
 )
 
 const (
-	_menuDefine   = "menu"
-	_listDefine   = "list"
-	_viewDefine   = "view"
-	_run          = "run"
-	_set          = "set"
-	_clipboardBtn = "clipboardBtn"
+	_menuDefine = "menu"
+	_listDefine = "list"
+	_viewDefine = "view"
+	_run        = "run"
+	_set        = "set"
 )
 
 var (
-	uiPart      = []float32{4, 5}                                 // x,y 对应列表
+	uiPart      = []float32{4, 3}                                 // x,y 对应列表
 	mainViewArr = []string{_menuDefine, _listDefine, _viewDefine} // 主菜单列表
 	mainIndex   = 0
 
@@ -33,9 +32,6 @@ type listDetails struct {
 	active  int
 	btnList []*mycui.Button
 }
-
-var clipboardBtn *mycui.Button
-var copyInfo string
 
 var menuDlg *menuDetails
 var form *mycui.Form
