@@ -32,7 +32,7 @@ var TypeMysqlDicMp = map[string]string{
 	"mediumtext":          "string",
 	"longtext":            "string",
 	"float":               "float32",
-	"tinytext":            "stirng",
+	"tinytext":            "string",
 	"enum":                "string",
 }
 
