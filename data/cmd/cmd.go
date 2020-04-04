@@ -90,7 +90,7 @@ func initConfig() {
 		os.Exit(1)
 	} else {
 		fmt.Println("using config info:")
-		fmt.Println(tools.GetJSONStr(config.GetMysqlDbInfo()))
+		fmt.Println(tools.GetJSONStr(config.GetMysqlDbInfo(), true))
 	}
 }
 
