@@ -34,6 +34,7 @@ var TypeMysqlDicMp = map[string]string{
 	"float":               "float32",
 	"tinytext":            "string",
 	"enum":                "string",
+	"time":                "time.Time",
 }
 
 // TypeMysqlMatchMp Fuzzy Matching Types.模糊匹配类型
