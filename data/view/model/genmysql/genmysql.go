@@ -2,6 +2,7 @@ package genmysql
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/xxjwxc/gormt/data/config"
@@ -98,10 +99,14 @@ func getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 
 		info.TabList = append(info.TabList, tab)
 	}
+	// sort tables
+	sort.Slice(info.TabList, func(i, j int) bool {
+		return info.TabList[i].Name < info.TabList[j].Name
+	})
 }
 
 // getTableElement Get table columns and comments.获取表列及注释
-func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) {
+func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumnsInfo) {
 	keyNums := make(map[string]int)
 	// get keys
 	var Keys []keys
@@ -116,7 +121,7 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) 
 	orm.Raw("show FULL COLUMNS from " + tab).Scan(&list)
 	// filter gorm.Model.过滤 gorm.Model
 	if filterModel(&list) {
-		el = append(el, model.ColumusInfo{
+		el = append(el, model.ColumnsInfo{
 			Type: "gorm.Model",
 		})
 	}
@@ -131,7 +136,7 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) 
 	// ------------------end
 
 	for _, v := range list {
-		var tmp model.ColumusInfo
+		var tmp model.ColumnsInfo
 		tmp.Name = v.Field
 		tmp.Notes = v.Desc
 		tmp.Type = v.Type
@@ -139,20 +144,20 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) 
 		// keys
 		if strings.EqualFold(v.Key, "PRI") { // Set primary key.设置主键
 			tmp.Index = append(tmp.Index, model.KList{
-				Key: model.ColumusKeyPrimary,
+				Key: model.ColumnsKeyPrimary,
 			})
 		} else if strings.EqualFold(v.Key, "UNI") { // unique
 			tmp.Index = append(tmp.Index, model.KList{
-				Key: model.ColumusKeyUnique,
+				Key: model.ColumnsKeyUnique,
 			})
 		} else {
 			for _, v1 := range Keys {
 				if strings.EqualFold(v1.ColumnName, v.Field) {
 					var k model.KList
 					if v1.NonUnique == 1 { // index
-						k.Key = model.ColumusKeyIndex
+						k.Key = model.ColumnsKeyIndex
 					} else {
-						k.Key = model.ColumusKeyUniqueIndex
+						k.Key = model.ColumnsKeyUniqueIndex
 					}
 					if keyNums[v1.KeyName] > 1 { // Composite index.复合索引
 						k.KeyName = v1.KeyName
