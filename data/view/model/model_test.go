@@ -15,12 +15,12 @@ func TestTools(t *testing.T) {
 	// out, _ := json.Marshal(pkg)
 	// tools.WriteFile("test.txt", []string{string(out)}, true)
 
-	list := Generate(pkg)
+	list, _ := Generate(pkg)
 	fmt.Println(list)
 
 	config.SetSingularTable(true)
 	config.SetSingularTable(true)
 	config.SetForeignKey(true)
-	list = Generate(pkg)
+	list, _ = Generate(pkg)
 	fmt.Println(list)
 }

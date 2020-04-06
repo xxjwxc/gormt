@@ -9,9 +9,9 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-var gloabIsRelated bool // 全局预加载
+var globalIsRelated bool // 全局预加载
 
-// prepare for outher
+// prepare for other
 type _BaseMgr struct {
 	*gorm.DB
 	ctx       *context.Context
@@ -61,12 +61,12 @@ func (f optionFunc) apply(o *options) {
 
 // OpenRelated 打开全局预加载
 func OpenRelated() {
-	gloabIsRelated = true
+	globalIsRelated = true
 }
 
 // CloseRelated 关闭全局预加载
 func CloseRelated() {
-	gloabIsRelated = true
+	globalIsRelated = true
 }
 
 	`
@@ -81,7 +81,7 @@ func {{$obj.StructName}}Mgr(db *gorm.DB) *_{{$obj.StructName}}Mgr {
 	if db == nil {
 		panic(fmt.Errorf("{{$obj.StructName}}Mgr need init by db"))
 	}
-	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db, isRelated: gloabIsRelated}}
+	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db, isRelated: globalIsRelated}}
 }
 
 // GetTableName get sql table name.获取数据库名字

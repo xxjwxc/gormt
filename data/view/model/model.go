@@ -41,7 +41,7 @@ func Generate(info DBInfo) (out []GenOutInfo, m _Model) {
 	return
 }
 
-// GetPackage gen sturct on table
+// GetPackage gen struct on table
 func (m *_Model) GetPackage() genstruct.GenPackage {
 	if m.pkg == nil {
 		var pkg genstruct.GenPackage
@@ -67,7 +67,7 @@ func (m *_Model) generate() string {
 }
 
 // genTableElement Get table columns and comments.获取表列及注释
-func (m *_Model) genTableElement(cols []ColumusInfo) (el []genstruct.GenElement) {
+func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement) {
 	_tagGorm := config.GetDBTag()
 	_tagJSON := config.GetURLTag()
 
@@ -81,14 +81,14 @@ func (m *_Model) genTableElement(cols []ColumusInfo) (el []genstruct.GenElement)
 			tmp.SetType(getTypeName(v.Type))
 			for _, v1 := range v.Index {
 				switch v1.Key {
-				// case ColumusKeyDefault:
-				case ColumusKeyPrimary: // primary key.主键
+				// case ColumnsKeyDefault:
+				case ColumnsKeyPrimary: // primary key.主键
 					tmp.AddTag(_tagGorm, "primary_key")
-				case ColumusKeyUnique: // unique key.唯一索引
+				case ColumnsKeyUnique: // unique key.唯一索引
 					tmp.AddTag(_tagGorm, "unique")
-				case ColumusKeyIndex: // index key.复合索引
+				case ColumnsKeyIndex: // index key.复合索引
 					tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName))
-				case ColumusKeyUniqueIndex: // unique index key.唯一复合索引
+				case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
 					tmp.AddTag(_tagGorm, getUninStr("unique_index", ":", v1.KeyName))
 				}
 			}
@@ -128,12 +128,12 @@ func (m *_Model) genTableElement(cols []ColumusInfo) (el []genstruct.GenElement)
 }
 
 // genForeignKey Get information about foreign key of table column.获取表列外键相关信息
-func (m *_Model) genForeignKey(col ColumusInfo) (fklist []genstruct.GenElement) {
+func (m *_Model) genForeignKey(col ColumnsInfo) (fklist []genstruct.GenElement) {
 	_tagGorm := config.GetDBTag()
 	_tagJSON := config.GetURLTag()
 
 	for _, v := range col.ForeignKeyList {
-		isMulti, isFind, notes := m.getColumusKeyMulti(v.TableName, v.ColumnName)
+		isMulti, isFind, notes := m.getColumnsKeyMulti(v.TableName, v.ColumnName)
 		if isFind {
 			var tmp genstruct.GenElement
 			tmp.SetNotes(notes)
@@ -160,7 +160,7 @@ func (m *_Model) genForeignKey(col ColumusInfo) (fklist []genstruct.GenElement) 
 	return
 }
 
-func (m *_Model) getColumusKeyMulti(tableName, col string) (isMulti bool, isFind bool, notes string) {
+func (m *_Model) getColumnsKeyMulti(tableName, col string) (isMulti bool, isFind bool, notes string) {
 	var haveGomod bool
 	for _, v := range m.info.TabList {
 		if strings.EqualFold(v.Name, tableName) {
@@ -168,11 +168,11 @@ func (m *_Model) getColumusKeyMulti(tableName, col string) (isMulti bool, isFind
 				if strings.EqualFold(v1.Name, col) {
 					for _, v2 := range v1.Index {
 						switch v2.Key {
-						case ColumusKeyPrimary, ColumusKeyUnique, ColumusKeyUniqueIndex: // primary key unique key . 主键，唯一索引
+						case ColumnsKeyPrimary, ColumnsKeyUnique, ColumnsKeyUniqueIndex: // primary key unique key . 主键，唯一索引
 							{
 								return false, true, v.Notes
 							}
-							// case ColumusKeyIndex: // index key. 复合索引
+							// case ColumnsKeyIndex: // index key. 复合索引
 							// 	{
 							// 		isMulti = true
 							// 	}
@@ -237,24 +237,24 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 			if strings.EqualFold(el.Type, "gorm.Model") {
 				data.Em = append(data.Em, getGormModelElement()...)
 				pkg.AddImport(`"time"`)
-				buildFList(&primary, ColumusKeyPrimary, "", "int64", "id")
+				buildFList(&primary, ColumnsKeyPrimary, "", "int64", "id")
 			} else {
 				typeName := getTypeName(el.Type)
 				isMulti := true
 				for _, v1 := range el.Index {
 					switch v1.Key {
-					// case ColumusKeyDefault:
-					case ColumusKeyPrimary: // primary key.主键
+					// case ColumnsKeyDefault:
+					case ColumnsKeyPrimary: // primary key.主键
 						isMulti = false
-						buildFList(&primary, ColumusKeyPrimary, "", typeName, el.Name)
-					case ColumusKeyUnique: // unique key.唯一索引
+						buildFList(&primary, ColumnsKeyPrimary, "", typeName, el.Name)
+					case ColumnsKeyUnique: // unique key.唯一索引
 						isMulti = false
-						buildFList(&unique, ColumusKeyUnique, "", typeName, el.Name)
-					case ColumusKeyIndex: // index key.复合索引
-						buildFList(&index, ColumusKeyIndex, v1.KeyName, typeName, el.Name)
-					case ColumusKeyUniqueIndex: // unique index key.唯一复合索引
+						buildFList(&unique, ColumnsKeyUnique, "", typeName, el.Name)
+					case ColumnsKeyIndex: // index key.复合索引
+						buildFList(&index, ColumnsKeyIndex, v1.KeyName, typeName, el.Name)
+					case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
 						isMulti = false
-						buildFList(&uniqueIndex, ColumusKeyUniqueIndex, v1.KeyName, typeName, el.Name)
+						buildFList(&uniqueIndex, ColumnsKeyUniqueIndex, v1.KeyName, typeName, el.Name)
 					}
 				}
 
@@ -274,7 +274,7 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 
 			// 外键列表
 			for _, v := range el.ForeignKeyList {
-				isMulti, isFind, notes := m.getColumusKeyMulti(v.TableName, v.ColumnName)
+				isMulti, isFind, notes := m.getColumnsKeyMulti(v.TableName, v.ColumnName)
 				if isFind {
 					var info PreloadInfo
 					info.IsMulti = isMulti
