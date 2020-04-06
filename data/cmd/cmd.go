@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/xxjwxc/public/tools"
 
@@ -21,6 +22,7 @@ var foreignKey bool
 var funcKey bool
 var ui bool
 var urlTag string
+var outFileName string
 
 var rootCmd = &cobra.Command{
 	Use:   "main",
@@ -72,6 +74,8 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&urlTag, "url", "l", "", "url标签(json,url)")
 	rootCmd.MarkFlagRequired("url tag")
 
+	rootCmd.Flags().StringVar(&outFileName, "outfilename", "", "输出文件名，默认以数据库名称命名")
+
 	rootCmd.Flags().IntVar(&mysqlInfo.Port, "port", 3306, "端口号")
 }
 
@@ -86,7 +90,7 @@ func initConfig() {
 		os.Exit(1)
 	} else {
 		fmt.Println("using config info:")
-		fmt.Println(tools.GetJSONStr(config.GetMysqlDbInfo()))
+		fmt.Println(tools.GetJSONStr(config.GetMysqlDbInfo(), true))
 	}
 }
 
@@ -110,6 +114,12 @@ func MergeMysqlDbInfo() {
 	}
 	if len(urlTag) > 0 {
 		config.SetURLTag(urlTag)
+	}
+	if len(outFileName) > 0 {
+		if !strings.HasSuffix(outFileName, ".go") {
+			outFileName += ".go"
+		}
+		config.SetOutFileName(outFileName)
 	}
 
 	config.SetMysqlDbInfo(&tmp)

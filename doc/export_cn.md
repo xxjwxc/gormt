@@ -60,7 +60,7 @@ type UserAccountTbl struct {
 
 ### 简单带json导出
 
-- 参数:singular_table = false simple = true is_json_tag = true  is_foreign_key = false
+- 参数:singular_table = false simple = true is_web_tag = true  is_foreign_key = false
 
 ###### --->导出结果
 
@@ -84,7 +84,7 @@ type UserAccountTbl struct {
 
 ### 简单不带json导出
 
-- 参数:singular_table = false simple = true is_json_tag = false  is_foreign_key = false
+- 参数:singular_table = false simple = true is_web_tag = false  is_foreign_key = false
 
 ###### --->导出结果
 
@@ -108,7 +108,7 @@ type UserAccountTbl struct {
 
 ### 简单带外键模式导出
 
-- 参数:singular_table = false simple = true is_json_tag = false  is_foreign_key = true
+- 参数:singular_table = false simple = true is_web_tag = false  is_foreign_key = true
 
 ###### --->导出结果
 
@@ -147,7 +147,7 @@ CREATE TABLE `user_info_tbl` (
 
 ### 支持gorm.Model模式导出
 
-- 参数:singular_table = false simple = true is_json_tag = false 
+- 参数:singular_table = false simple = true is_web_tag = false 
 
 ###### --->导出结果
 

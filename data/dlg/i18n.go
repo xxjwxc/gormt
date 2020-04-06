@@ -90,6 +90,9 @@ func addChinese() error {
 		ID:    "is_gui",
 		Other: " 界 面 模 式 :",
 	}, &i18n.Message{
+		ID:    "is_table_name",
+		Other: " 生 成 表 名 :",
+	}, &i18n.Message{
 		ID:    "url_tag",
 		Other: " web 标 签:",
 	}, &i18n.Message{
@@ -180,6 +183,9 @@ func addEnglish() error {
 	}, &i18n.Message{
 		ID:    "is_gui",
 		Other: "is show gui:",
+	}, &i18n.Message{
+		ID:    "is_table_name",
+		Other: "is table name:",
 	}, &i18n.Message{
 		ID:    "url_tag",
 		Other: "url tag:",

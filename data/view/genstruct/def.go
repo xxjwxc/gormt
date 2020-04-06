@@ -11,6 +11,7 @@ type GenElement struct {
 // GenStruct struct of IStruct .结构体
 type GenStruct struct {
 	SQLBuildStr string       // Create SQL statements.创建sql语句
+	TableName   string       // table_name.表名
 	Name        string       // name.名字
 	Notes       string       // notes.注释
 	Em          []GenElement // em.元素组合
