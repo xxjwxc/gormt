@@ -152,8 +152,8 @@ github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81P
 github.com/syndtr/goleveldb v1.0.0/go.mod h1:ZVVdQEZoIme9iO1Ch2Jdy24qqXrMMOU6lpPAyBWyWuQ=
 github.com/ugorji/go/codec v0.0.0-20181204163529-d75b2dcb6bc8/go.mod h1:VFNgLljTbGfSG7qAOspJ7OScBnGdDN/yBr0sguwnwf0=
 github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77/go.mod h1:aYKd//L2LvnjZzWKhF00oedf4jCCReLcmhLdhm1A27Q=
-github.com/xxjwxc/public v0.0.0-20200329130606-2b6bdf6dc342 h1:qHG/g/AaeBKx+8XiGr5QTYIOoTojfea9ikTCqdYuAEs=
-github.com/xxjwxc/public v0.0.0-20200329130606-2b6bdf6dc342/go.mod h1:8c3gMuRJkSGX3DpDvxU0fWfEEbuMi1LxPsKEBp97dnc=
+github.com/xxjwxc/public v0.0.0-20200404170513-2f5f74aae818 h1:A1ImXFyLbNBEhuAkvBtpEAQVADN8mxuoZYA53VsNr2Y=
+github.com/xxjwxc/public v0.0.0-20200404170513-2f5f74aae818/go.mod h1:8c3gMuRJkSGX3DpDvxU0fWfEEbuMi1LxPsKEBp97dnc=
 go.opencensus.io v0.20.1/go.mod h1:6WKK9ahsWS3RSO+PY9ZHZUfv2irvY6gN279GOPZjmmk=
 golang.org/x/crypto v0.0.0-20180904163835-0709b304e793/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
 golang.org/x/crypto v0.0.0-20181203042331-505ab145d0a9/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
