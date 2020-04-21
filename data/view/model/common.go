@@ -34,6 +34,17 @@ func titleCase(name string) string {
 	return string(vv)
 }
 
+func CapLowercase(name string) string {
+	vv := []rune(name)
+	if len(vv) > 0 {
+		if bool(vv[0] >= 'A' && vv[0] <= 'Z') { // title case.首字母大写
+			vv[0] += 32
+		}
+	}
+
+	return string(vv)
+}
+
 // getTypeName Type acquisition filtering.类型获取过滤
 func getTypeName(name string) string {
 	// Precise matching first.先精确匹配
@@ -144,7 +155,7 @@ func GenFListIndex(info FList, status int) string {
 		{
 			var strs []string
 			for _, v := range info.Kem {
-				strs = append(strs, fmt.Sprintf("%v %v ", v.ColStructName, v.Type))
+				strs = append(strs, fmt.Sprintf("%v %v ", CapLowercase(v.ColStructName), v.Type))
 			}
 			return strings.Join(strs, ",")
 		}
@@ -160,7 +171,7 @@ func GenFListIndex(info FList, status int) string {
 		{
 			var strs []string
 			for _, v := range info.Kem {
-				strs = append(strs, v.ColStructName)
+				strs = append(strs, CapLowercase(v.ColStructName))
 			}
 			return strings.Join(strs, " , ")
 		}

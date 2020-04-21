@@ -35,6 +35,10 @@ var TypeMysqlDicMp = map[string]string{
 	"tinytext":            "string",
 	"enum":                "string",
 	"time":                "time.Time",
+	"tinyblob":            "[]byte",
+	"blob":                "[]byte",
+	"mediumblob":          "[]byte",
+	"longblob":            "[]byte",
 }
 
 // TypeMysqlMatchMp Fuzzy Matching Types.模糊匹配类型

@@ -296,9 +296,8 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 		data.Primay = append(data.Primay, unique...)
 		data.Primay = append(data.Primay, uniqueIndex...)
 		data.Index = append(data.Index, index...)
-
 		tmpl, err := template.New("gen_logic").
-			Funcs(template.FuncMap{"GenPreloadList": GenPreloadList, "GenFListIndex": GenFListIndex}).
+			Funcs(template.FuncMap{"GenPreloadList": GenPreloadList, "GenFListIndex": GenFListIndex, "CapLowercase": CapLowercase}).
 			Parse(genfunc.GetGenLogicTemp())
 		if err != nil {
 			panic(err)
