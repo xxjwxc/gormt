@@ -34,15 +34,14 @@ func titleCase(name string) string {
 	return string(vv)
 }
 
-func CapLowercase(name string) string {
-	vv := []rune(name)
-	if len(vv) > 0 {
-		if bool(vv[0] >= 'A' && vv[0] <= 'Z') { // title case.首字母大写
-			vv[0] += 32
-		}
+// CapLowercase 小写.且兼容 golint 驼峰命名规则
+func CapLowercase(name string) string { // IDAPIID == > idAPIID
+	list := strings.Split(mybigcamel.UnMarshal(name), "_")
+	if len(list) == 0 {
+		return ""
 	}
 
-	return string(vv)
+	return list[0] + name[len(list[0]):]
 }
 
 // getTypeName Type acquisition filtering.类型获取过滤
