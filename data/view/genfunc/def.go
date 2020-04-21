@@ -112,8 +112,8 @@ func (obj *_{{$obj.StructName}}Mgr) Gets() (results []*{{$obj.StructName}}, err 
 //////////////////////////option case ////////////////////////////////////////////
 {{range $oem := $obj.Em}}
 // With{{$oem.ColStructName}} {{$oem.ColName}}获取 {{$oem.Notes}}
-func (obj *_{{$obj.StructName}}Mgr) With{{$oem.ColStructName}}({{$oem.ColStructName}} {{$oem.Type}}) Option {
-	return optionFunc(func(o *options) { o.query["{{$oem.ColName}}"] = {{$oem.ColStructName}} })
+func (obj *_{{$obj.StructName}}Mgr) With{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}} {{$oem.Type}}) Option {
+	return optionFunc(func(o *options) { o.query["{{$oem.ColName}}"] = {{CapLowercase $oem.ColStructName}} })
 }
 {{end}}
 
@@ -149,21 +149,21 @@ func (obj *_{{$obj.StructName}}Mgr) GetByOptions(opts ...Option) (results []*{{$
 
 {{range $oem := $obj.Em}}
 // GetFrom{{$oem.ColStructName}} 通过{{$oem.ColName}}获取内容 {{$oem.Notes}} {{if $oem.IsMulti}}
-func (obj *_{{$obj.StructName}}Mgr) GetFrom{{$oem.ColStructName}}({{$oem.ColStructName}} {{$oem.Type}}) (results []*{{$obj.StructName}}, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} = ?", {{$oem.ColStructName}}).Find(&results).Error
+func (obj *_{{$obj.StructName}}Mgr) GetFrom{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}} {{$oem.Type}}) (results []*{{$obj.StructName}}, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} = ?", {{CapLowercase $oem.ColStructName}}).Find(&results).Error
 	{{GenPreloadList $obj.PreloadList true}}
 	return
 }
 {{else}}
-func (obj *_{{$obj.StructName}}Mgr)  GetFrom{{$oem.ColStructName}}({{$oem.ColStructName}} {{$oem.Type}}) (result {{$obj.StructName}}, err error) {
+func (obj *_{{$obj.StructName}}Mgr)  GetFrom{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}} {{$oem.Type}}) (result {{$obj.StructName}}, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} = ?", {{$oem.ColStructName}}).Find(&result).Error
 	{{GenPreloadList $obj.PreloadList false}}
 	return
 }
 {{end}}
 // GetBatchFrom{{$oem.ColStructName}} 批量唯一主键查找 {{$oem.Notes}}
-func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{$oem.ColStructName}}s []{{$oem.Type}}) (results []*{{$obj.StructName}}, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} IN (?)", {{$oem.ColStructName}}s).Find(&results).Error
+func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}}s []{{$oem.Type}}) (results []*{{$obj.StructName}}, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} IN (?)", {{CapLowercase $oem.ColStructName}}s).Find(&results).Error
 	{{GenPreloadList $obj.PreloadList true}}
 	return
 }
