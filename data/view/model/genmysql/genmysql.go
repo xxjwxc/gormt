@@ -80,7 +80,7 @@ func getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 
 		if config.GetIsOutSQL() {
 			// Get create SQL statements.获取创建sql语句
-			rows, err := orm.Raw("show create table " + tabName).Rows()
+			rows, err := orm.Raw("show create table " + assemblyTable(tabName)).Rows()
 			//defer rows.Close()
 			if err == nil {
 				if rows.Next() {
@@ -110,7 +110,7 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumnsInfo) 
 	keyNums := make(map[string]int)
 	// get keys
 	var Keys []keys
-	orm.Raw("show keys from " + tab).Scan(&Keys)
+	orm.Raw("show keys from " + assemblyTable(tab)).Scan(&Keys)
 	for _, v := range Keys {
 		keyNums[v.KeyName]++
 	}
@@ -118,7 +118,7 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumnsInfo) 
 
 	var list []genColumns
 	// Get table annotations.获取表注释
-	orm.Raw("show FULL COLUMNS from " + tab).Scan(&list)
+	orm.Raw("show FULL COLUMNS from " + assemblyTable(tab)).Scan(&list)
 	// filter gorm.Model.过滤 gorm.Model
 	if filterModel(&list) {
 		el = append(el, model.ColumnsInfo{
@@ -130,8 +130,9 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumnsInfo) 
 	// ForeignKey
 	var foreignKeyList []genForeignKey
 	if config.GetIsForeignKey() {
-		orm.Raw(fmt.Sprintf(`select table_schema,table_name,column_name,referenced_table_schema,referenced_table_name,referenced_column_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-		where table_schema = '%v' AND REFERENCED_TABLE_NAME IS NOT NULL AND TABLE_NAME = '%v'`, config.GetMysqlDbInfo().Database, tab)).Scan(&foreignKeyList)
+		sql := fmt.Sprintf(`select table_schema,table_name,column_name,referenced_table_schema,referenced_table_name,referenced_column_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+		where table_schema = '%v' AND REFERENCED_TABLE_NAME IS NOT NULL AND TABLE_NAME = '%v'`, config.GetMysqlDbInfo().Database, tab)
+		orm.Raw(sql).Scan(&foreignKeyList)
 	}
 	// ------------------end
 
@@ -217,4 +218,8 @@ func getTables(orm *mysqldb.MySqlDB) map[string]string {
 	rows1.Close()
 
 	return tbDesc
+}
+
+func assemblyTable(name string) string {
+	return "`" + name + "`"
 }
