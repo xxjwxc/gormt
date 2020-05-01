@@ -13,9 +13,9 @@ is_foreign_key : true # 是否导出外键关联
 is_gui : false # 是否ui模式显示
 is_table_name : false # 是否直接生成表名函数
 mysql_info:
-    host : 101.132.130.169
+    host : 127.0.0.1
     port : 3306
     username : root
     password : 123456
-    database : ams
+    database : oauth_db
 
