@@ -1,13 +1,13 @@
 package cmd
 
 import (
-	"fmt"
 	"os"
 	"strings"
 
-	"github.com/xxjwxc/public/tools"
+	"github.com/xxjwxc/public/mylog"
 
 	"github.com/xxjwxc/gormt/data/view/gtools"
+	"github.com/xxjwxc/public/tools"
 
 	"github.com/xxjwxc/gormt/data/config"
 
@@ -85,12 +85,12 @@ func initConfig() {
 	validate := validator.New()
 	err := validate.Struct(config.GetMysqlDbInfo())
 	if err != nil {
-		fmt.Println("Can't read cmd: using （-h, --help) to get more imfo")
-		fmt.Println("error info: ", err, err)
+		mylog.Info("Can't read cmd: using （-h, --help) to get more imfo")
+		mylog.Error(err)
 		os.Exit(1)
 	} else {
-		fmt.Println("using config info:")
-		fmt.Println(tools.GetJSONStr(config.GetMysqlDbInfo(), true))
+		mylog.Info("using database info:")
+		mylog.Info(tools.GetJSONStr(config.GetMysqlDbInfo(), true))
 	}
 }
 

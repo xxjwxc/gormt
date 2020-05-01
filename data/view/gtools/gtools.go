@@ -1,8 +1,9 @@
 package gtools
 
 import (
-	"fmt"
 	"os/exec"
+
+	"github.com/xxjwxc/public/mylog"
 
 	"github.com/xxjwxc/gormt/data/dlg"
 	"github.com/xxjwxc/gormt/data/view/model"
@@ -39,12 +40,12 @@ func showCmd() {
 		path := config.GetOutDir() + "/" + v.FileName
 		tools.WriteFile(path, []string{v.FileCtx}, true)
 
-		fmt.Println("formatting differs from goimport's:")
+		mylog.Info("formatting differs from goimport's:")
 		cmd, _ := exec.Command("goimports", "-l", "-w", path).Output()
-		fmt.Println(string(cmd))
+		mylog.Info(string(cmd))
 
-		fmt.Println("formatting differs from gofmt's:")
+		mylog.Info("formatting differs from gofmt's:")
 		cmd, _ = exec.Command("gofmt", "-l", "-w", path).Output()
-		fmt.Println(string(cmd))
+		mylog.Info(string(cmd))
 	}
 }
