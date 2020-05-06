@@ -85,7 +85,7 @@ func initConfig() {
 	validate := validator.New()
 	err := validate.Struct(config.GetMysqlDbInfo())
 	if err != nil {
-		mylog.Info("Can't read cmd: using （-h, --help) to get more imfo")
+		mylog.Info("Can't read cmd: using （-h, --help) to get more info")
 		mylog.Error(err)
 		os.Exit(1)
 	} else {
