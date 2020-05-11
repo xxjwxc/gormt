@@ -10,9 +10,9 @@ require (
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/nicksnyder/go-i18n/v2 v2.0.3
 	github.com/spf13/cobra v0.0.5
-	github.com/xxjwxc/public v0.0.0-20200501040822-aad701d0c120
+	github.com/xxjwxc/public v0.0.0-20200511060309-118d977ff0ab
 	golang.org/x/text v0.3.2
+	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v9 v9.30.2
-	gopkg.in/yaml.v2 v2.2.7 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20191120175047-4206685974f2
 )

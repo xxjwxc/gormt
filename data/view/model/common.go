@@ -11,6 +11,7 @@ import (
 	"github.com/xxjwxc/gormt/data/view/cnf"
 	"github.com/xxjwxc/gormt/data/view/genfunc"
 	"github.com/xxjwxc/public/mybigcamel"
+	"github.com/xxjwxc/public/tools"
 )
 
 // getCamelName Big Hump or Capital Letter.大驼峰或者首字母大写
@@ -41,7 +42,16 @@ func CapLowercase(name string) string { // IDAPIID == > idAPIID
 		return ""
 	}
 
-	return list[0] + name[len(list[0]):]
+	re := list[0] + name[len(list[0]):]
+
+	return FilterKeywords(re)
+}
+
+func FilterKeywords(src string) string {
+	if tools.IsKeywords(src) {
+		return "_" + src
+	}
+	return src
 }
 
 // getTypeName Type acquisition filtering.类型获取过滤

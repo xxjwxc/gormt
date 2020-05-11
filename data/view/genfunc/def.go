@@ -156,7 +156,7 @@ func (obj *_{{$obj.StructName}}Mgr) GetFrom{{$oem.ColStructName}}({{CapLowercase
 }
 {{else}}
 func (obj *_{{$obj.StructName}}Mgr)  GetFrom{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}} {{$oem.Type}}) (result {{$obj.StructName}}, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} = ?", {{$oem.ColStructName}}).Find(&result).Error
+	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} = ?", {{CapLowercase $oem.ColStructName}}).Find(&result).Error
 	{{GenPreloadList $obj.PreloadList false}}
 	return
 }
