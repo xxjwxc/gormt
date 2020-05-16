@@ -11,6 +11,7 @@ import (
 	"github.com/xxjwxc/gormt/data/view/cnf"
 	"github.com/xxjwxc/gormt/data/view/genfunc"
 	"github.com/xxjwxc/public/mybigcamel"
+	"github.com/xxjwxc/public/tools"
 )
 
 // getCamelName Big Hump or Capital Letter.大驼峰或者首字母大写
@@ -32,6 +33,25 @@ func titleCase(name string) string {
 	}
 
 	return string(vv)
+}
+
+// CapLowercase 小写.且兼容 golint 驼峰命名规则
+func CapLowercase(name string) string { // IDAPIID == > idAPIID
+	list := strings.Split(mybigcamel.UnMarshal(name), "_")
+	if len(list) == 0 {
+		return ""
+	}
+
+	re := list[0] + name[len(list[0]):]
+
+	return FilterKeywords(re)
+}
+
+func FilterKeywords(src string) string {
+	if tools.IsKeywords(src) {
+		return "_" + src
+	}
+	return src
 }
 
 // getTypeName Type acquisition filtering.类型获取过滤
@@ -94,7 +114,7 @@ func getGormModelElement() []EmInfo {
 	return result
 }
 
-func buildFList(list *[]FList, key ColumusKey, keyName, tp, colName string) {
+func buildFList(list *[]FList, key ColumnsKey, keyName, tp, colName string) {
 	for i := 0; i < len(*list); i++ {
 		if (*list)[i].KeyName == keyName {
 			(*list)[i].Kem = append((*list)[i].Kem, FEm{
@@ -144,7 +164,7 @@ func GenFListIndex(info FList, status int) string {
 		{
 			var strs []string
 			for _, v := range info.Kem {
-				strs = append(strs, fmt.Sprintf("%v %v ", v.ColStructName, v.Type))
+				strs = append(strs, fmt.Sprintf("%v %v ", CapLowercase(v.ColStructName), v.Type))
 			}
 			return strings.Join(strs, ",")
 		}
@@ -160,7 +180,7 @@ func GenFListIndex(info FList, status int) string {
 		{
 			var strs []string
 			for _, v := range info.Kem {
-				strs = append(strs, v.ColStructName)
+				strs = append(strs, CapLowercase(v.ColStructName))
 			}
 			return strings.Join(strs, " , ")
 		}
@@ -171,14 +191,14 @@ func GenFListIndex(info FList, status int) string {
 
 func widthFunctionName(info FList) string {
 	switch info.Key {
-	// case ColumusKeyDefault:
-	case ColumusKeyPrimary: // primary key.主键
+	// case ColumnsKeyDefault:
+	case ColumnsKeyPrimary: // primary key.主键
 		return "FetchByPrimaryKey"
-	case ColumusKeyUnique: // unique key.唯一索引
+	case ColumnsKeyUnique: // unique key.唯一索引
 		return "FetchByUnique"
-	case ColumusKeyIndex: // index key.复合索引
+	case ColumnsKeyIndex: // index key.复合索引
 		return "FetchBy" + getCamelName(info.KeyName) + "Index"
-	case ColumusKeyUniqueIndex: // unique index key.唯一复合索引
+	case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
 		return "FetchBy" + getCamelName(info.KeyName) + "UniqueIndex"
 	}
 

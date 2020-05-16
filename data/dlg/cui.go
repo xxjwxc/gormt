@@ -230,6 +230,8 @@ func enterSet(g *gocui.Gui, v *gocui.View) error {
 		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetIsForeignKey())))
 	form.AddSelect("is_gui", SLocalize("is_gui"), formPart[0], formPart[2]).
 		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetIsGUI())))
+	form.AddSelect("is_table_name", SLocalize("is_table_name"), formPart[0], formPart[2]).
+		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetIsTableName())))
 	form.AddSelect("url_tag", SLocalize("url_tag"), formPart[0], formPart[2]).
 		AddOptions("json", "url").SetSelected(tools.AsString(config.GetURLTag()))
 	form.AddSelect("db_tag", SLocalize("db_tag"), formPart[0], formPart[2]).
@@ -294,6 +296,7 @@ func buttonSave(g *gocui.Gui, v *gocui.View) error {
 	config.SetIsOutFunc(getBool(mp["is_out_func"]))
 	config.SetForeignKey(getBool(mp["is_foreign_key"]))
 	config.SetIsGUI(getBool(mp["is_gui"]))
+	config.SetIsTableName(getBool(mp["is_table_name"]))
 	config.SetURLTag(mp["url_tag"])
 	config.SetDBTag(mp["db_tag"])
 	config.SetLG(mp["language"])

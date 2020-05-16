@@ -2,6 +2,7 @@ package genmysql
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/xxjwxc/gormt/data/config"
@@ -60,6 +61,18 @@ func (m *mysqlModel) GetPkgName() string {
 
 func getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 	tabls := getTables(orm) // get table and notes
+	// if m := config.GetTableList(); len(m) > 0 {
+	// 	// 制定了表之后
+	// 	newTabls := make(map[string]string)
+	// 	for t := range m {
+	// 		if notes, ok := tabls[t]; ok {
+	// 			newTabls[t] = notes
+	// 		} else {
+	// 			fmt.Printf("table: %s not found in db\n", t)
+	// 		}
+	// 	}
+	// 	tabls = newTabls
+	// }
 	for tabName, notes := range tabls {
 		var tab model.TabInfo
 		tab.Name = tabName
@@ -67,7 +80,7 @@ func getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 
 		if config.GetIsOutSQL() {
 			// Get create SQL statements.获取创建sql语句
-			rows, err := orm.Raw("show create table " + tabName).Rows()
+			rows, err := orm.Raw("show create table " + assemblyTable(tabName)).Rows()
 			//defer rows.Close()
 			if err == nil {
 				if rows.Next() {
@@ -86,14 +99,18 @@ func getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 
 		info.TabList = append(info.TabList, tab)
 	}
+	// sort tables
+	sort.Slice(info.TabList, func(i, j int) bool {
+		return info.TabList[i].Name < info.TabList[j].Name
+	})
 }
 
 // getTableElement Get table columns and comments.获取表列及注释
-func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) {
+func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumnsInfo) {
 	keyNums := make(map[string]int)
 	// get keys
 	var Keys []keys
-	orm.Raw("show keys from " + tab).Scan(&Keys)
+	orm.Raw("show keys from " + assemblyTable(tab)).Scan(&Keys)
 	for _, v := range Keys {
 		keyNums[v.KeyName]++
 	}
@@ -101,10 +118,10 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) 
 
 	var list []genColumns
 	// Get table annotations.获取表注释
-	orm.Raw("show FULL COLUMNS from " + tab).Scan(&list)
+	orm.Raw("show FULL COLUMNS from " + assemblyTable(tab)).Scan(&list)
 	// filter gorm.Model.过滤 gorm.Model
 	if filterModel(&list) {
-		el = append(el, model.ColumusInfo{
+		el = append(el, model.ColumnsInfo{
 			Type: "gorm.Model",
 		})
 	}
@@ -113,13 +130,14 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) 
 	// ForeignKey
 	var foreignKeyList []genForeignKey
 	if config.GetIsForeignKey() {
-		orm.Raw(fmt.Sprintf(`select table_schema,table_name,column_name,referenced_table_schema,referenced_table_name,referenced_column_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-		where table_schema = '%v' AND REFERENCED_TABLE_NAME IS NOT NULL AND TABLE_NAME = '%v'`, config.GetMysqlDbInfo().Database, tab)).Scan(&foreignKeyList)
+		sql := fmt.Sprintf(`select table_schema,table_name,column_name,referenced_table_schema,referenced_table_name,referenced_column_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+		where table_schema = '%v' AND REFERENCED_TABLE_NAME IS NOT NULL AND TABLE_NAME = '%v'`, config.GetMysqlDbInfo().Database, tab)
+		orm.Raw(sql).Scan(&foreignKeyList)
 	}
 	// ------------------end
 
 	for _, v := range list {
-		var tmp model.ColumusInfo
+		var tmp model.ColumnsInfo
 		tmp.Name = v.Field
 		tmp.Notes = v.Desc
 		tmp.Type = v.Type
@@ -127,20 +145,20 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumusInfo) 
 		// keys
 		if strings.EqualFold(v.Key, "PRI") { // Set primary key.设置主键
 			tmp.Index = append(tmp.Index, model.KList{
-				Key: model.ColumusKeyPrimary,
+				Key: model.ColumnsKeyPrimary,
 			})
 		} else if strings.EqualFold(v.Key, "UNI") { // unique
 			tmp.Index = append(tmp.Index, model.KList{
-				Key: model.ColumusKeyUnique,
+				Key: model.ColumnsKeyUnique,
 			})
 		} else {
 			for _, v1 := range Keys {
 				if strings.EqualFold(v1.ColumnName, v.Field) {
 					var k model.KList
 					if v1.NonUnique == 1 { // index
-						k.Key = model.ColumusKeyIndex
+						k.Key = model.ColumnsKeyIndex
 					} else {
-						k.Key = model.ColumusKeyUniqueIndex
+						k.Key = model.ColumnsKeyUniqueIndex
 					}
 					if keyNums[v1.KeyName] > 1 { // Composite index.复合索引
 						k.KeyName = v1.KeyName
@@ -200,4 +218,8 @@ func getTables(orm *mysqldb.MySqlDB) map[string]string {
 	rows1.Close()
 
 	return tbDesc
+}
+
+func assemblyTable(name string) string {
+	return "`" + name + "`"
 }

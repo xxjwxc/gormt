@@ -21,6 +21,8 @@ type Config struct {
 	IsOutSQL      bool        `yaml:"is_out_sql"`
 	IsOutFunc     bool        `yaml:"is_out_func"`
 	IsGUI         bool        `yaml:"is_gui"` //
+	IsTableName   bool        `yaml:"is_table_name"`
+	OutFileName   string      `yaml:"-"`
 }
 
 // MysqlDbInfo mysql database information. mysql 数据库信息
@@ -130,6 +132,24 @@ func GetIsGUI() bool {
 // SetIsGUI if is gui show .
 func SetIsGUI(b bool) {
 	_map.IsGUI = b
+}
+
+// GetIsTableName if is table name .
+func GetIsTableName() bool {
+	return _map.IsTableName
+}
+
+// SetIsTableName if is table name .
+func SetIsTableName(b bool) {
+	_map.IsTableName = b
+}
+
+func SetOutFileName(f string) {
+	_map.OutFileName = f
+}
+
+func GetOutFileName() string {
+	return _map.OutFileName
 }
 
 // GetURLTag get url tag.

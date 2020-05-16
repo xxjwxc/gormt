@@ -1,6 +1,12 @@
 package genfunc
 
 const (
+	genTnf = `
+// TableName get sql table name.获取数据库表名
+func (m *{{.StructName}}) TableName() string {
+	return "{{.TableName}}"
+}
+`
 	genBase = `
 package {{.PackageName}}
 import (
@@ -9,9 +15,9 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-var gloabIsRelated bool // 全局预加载
+var globalIsRelated bool // 全局预加载
 
-// prepare for outher
+// prepare for other
 type _BaseMgr struct {
 	*gorm.DB
 	ctx       *context.Context
@@ -61,12 +67,12 @@ func (f optionFunc) apply(o *options) {
 
 // OpenRelated 打开全局预加载
 func OpenRelated() {
-	gloabIsRelated = true
+	globalIsRelated = true
 }
 
 // CloseRelated 关闭全局预加载
 func CloseRelated() {
-	gloabIsRelated = true
+	globalIsRelated = true
 }
 
 	`
@@ -81,7 +87,7 @@ func {{$obj.StructName}}Mgr(db *gorm.DB) *_{{$obj.StructName}}Mgr {
 	if db == nil {
 		panic(fmt.Errorf("{{$obj.StructName}}Mgr need init by db"))
 	}
-	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db, isRelated: gloabIsRelated}}
+	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db, isRelated: globalIsRelated}}
 }
 
 // GetTableName get sql table name.获取数据库名字
@@ -106,8 +112,8 @@ func (obj *_{{$obj.StructName}}Mgr) Gets() (results []*{{$obj.StructName}}, err 
 //////////////////////////option case ////////////////////////////////////////////
 {{range $oem := $obj.Em}}
 // With{{$oem.ColStructName}} {{$oem.ColName}}获取 {{$oem.Notes}}
-func (obj *_{{$obj.StructName}}Mgr) With{{$oem.ColStructName}}({{$oem.ColStructName}} {{$oem.Type}}) Option {
-	return optionFunc(func(o *options) { o.query["{{$oem.ColName}}"] = {{$oem.ColStructName}} })
+func (obj *_{{$obj.StructName}}Mgr) With{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}} {{$oem.Type}}) Option {
+	return optionFunc(func(o *options) { o.query["{{$oem.ColName}}"] = {{CapLowercase $oem.ColStructName}} })
 }
 {{end}}
 
@@ -143,21 +149,21 @@ func (obj *_{{$obj.StructName}}Mgr) GetByOptions(opts ...Option) (results []*{{$
 
 {{range $oem := $obj.Em}}
 // GetFrom{{$oem.ColStructName}} 通过{{$oem.ColName}}获取内容 {{$oem.Notes}} {{if $oem.IsMulti}}
-func (obj *_{{$obj.StructName}}Mgr) GetFrom{{$oem.ColStructName}}({{$oem.ColStructName}} {{$oem.Type}}) (results []*{{$obj.StructName}}, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} = ?", {{$oem.ColStructName}}).Find(&results).Error
+func (obj *_{{$obj.StructName}}Mgr) GetFrom{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}} {{$oem.Type}}) (results []*{{$obj.StructName}}, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} = ?", {{CapLowercase $oem.ColStructName}}).Find(&results).Error
 	{{GenPreloadList $obj.PreloadList true}}
 	return
 }
 {{else}}
-func (obj *_{{$obj.StructName}}Mgr)  GetFrom{{$oem.ColStructName}}({{$oem.ColStructName}} {{$oem.Type}}) (result {{$obj.StructName}}, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} = ?", {{$oem.ColStructName}}).Find(&result).Error
+func (obj *_{{$obj.StructName}}Mgr)  GetFrom{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}} {{$oem.Type}}) (result {{$obj.StructName}}, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} = ?", {{CapLowercase $oem.ColStructName}}).Find(&result).Error
 	{{GenPreloadList $obj.PreloadList false}}
 	return
 }
 {{end}}
 // GetBatchFrom{{$oem.ColStructName}} 批量唯一主键查找 {{$oem.Notes}}
-func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{$oem.ColStructName}}s []{{$oem.Type}}) (results []*{{$obj.StructName}}, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} IN (?)", {{$oem.ColStructName}}s).Find(&results).Error
+func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}}s []{{$oem.Type}}) (results []*{{$obj.StructName}}, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} IN (?)", {{CapLowercase $oem.ColStructName}}s).Find(&results).Error
 	{{GenPreloadList $obj.PreloadList true}}
 	return
 }

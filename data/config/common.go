@@ -2,11 +2,13 @@ package config
 
 import (
 	"fmt"
+	"io/ioutil"
+	"os"
+	"path"
+
 	"github.com/xxjwxc/public/dev"
 	"github.com/xxjwxc/public/tools"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
-	"os"
 )
 
 // CfgBase base config struct
@@ -42,10 +44,10 @@ var _map = Config{
 	IsGUI:         false,
 }
 
-var configPath string = "gormt.yml"
+var configPath string
 
 func init() {
-	// configPath = path.Join(tools.GetModelPath(), "config.yml")
+	configPath = path.Join(tools.GetCurrentDirectory(), "config.yml")
 	onInit()
 	dev.OnSetDev(_map.IsDev)
 }
@@ -61,11 +63,11 @@ func onInit() {
 // InitFile default value from file .
 func InitFile(filename string) error {
 	if _, e := os.Stat(filename); e != nil {
-		fmt.Println("配置文件未初始化,正在自动初始化配置文件", filename)
+		fmt.Println("init default config file: ", filename)
 		if err := SaveToFile(); err == nil {
-			fmt.Println("配置文件初始化完毕")
+			fmt.Println("done,please restart.")
 		} else {
-			fmt.Println("配置文件初始化异常", err)
+			fmt.Println("shit,fail", err)
 		}
 		os.Exit(0)
 	}
