@@ -8,21 +8,22 @@ import (
 
 // Config custom config struct
 type Config struct {
-	CfgBase       `yaml:"base"`
-	MySQLInfo     MysqlDbInfo `yaml:"mysql_info"`
-	OutDir        string      `yaml:"out_dir"`
-	URLTag        string      `yaml:"url_tag"`  // url tag
-	Language      string      `yaml:"language"` // language
-	DbTag         string      `yaml:"db_tag"`   // 数据库标签（gormt,db）
-	Simple        bool        `yaml:"simple"`
-	IsWEBTag      bool        `yaml:"is_web_tag"`
-	SingularTable bool        `yaml:"singular_table"`
-	IsForeignKey  bool        `yaml:"is_foreign_key"`
-	IsOutSQL      bool        `yaml:"is_out_sql"`
-	IsOutFunc     bool        `yaml:"is_out_func"`
-	IsGUI         bool        `yaml:"is_gui"` //
-	IsTableName   bool        `yaml:"is_table_name"`
-	OutFileName   string      `yaml:"-"`
+	CfgBase          `yaml:"base"`
+	MySQLInfo        MysqlDbInfo `yaml:"mysql_info"`
+	OutDir           string      `yaml:"out_dir"`
+	URLTag           string      `yaml:"url_tag"`  // url tag
+	Language         string      `yaml:"language"` // language
+	DbTag            string      `yaml:"db_tag"`   // 数据库标签（gormt,db）
+	Simple           bool        `yaml:"simple"`
+	IsWEBTag         bool        `yaml:"is_web_tag"`
+	IsWebTagPkHidden bool        `yaml:"is_web_tag_pk_hidden"` // web标记是否隐藏主键
+	SingularTable    bool        `yaml:"singular_table"`
+	IsForeignKey     bool        `yaml:"is_foreign_key"`
+	IsOutSQL         bool        `yaml:"is_out_sql"`
+	IsOutFunc        bool        `yaml:"is_out_func"`
+	IsGUI            bool        `yaml:"is_gui"` //
+	IsTableName      bool        `yaml:"is_table_name"`
+	OutFileName      string      `yaml:"-"`
 }
 
 // MysqlDbInfo mysql database information. mysql 数据库信息
@@ -92,6 +93,11 @@ func SetSimple(b bool) {
 // GetIsWEBTag json tag.json标记
 func GetIsWEBTag() bool {
 	return _map.IsWEBTag
+}
+
+// GetIsWebTagPkHidden web tag是否隐藏主键
+func GetIsWebTagPkHidden() bool {
+	return _map.IsWebTagPkHidden
 }
 
 // GetIsForeignKey if is foreign key
