@@ -7,7 +7,6 @@ import (
 	"github.com/xxjwxc/public/mylog"
 
 	"github.com/xxjwxc/gormt/data/view/gtools"
-	"github.com/xxjwxc/public/tools"
 
 	"github.com/xxjwxc/gormt/data/config"
 
@@ -90,7 +89,7 @@ func initConfig() {
 		os.Exit(1)
 	} else {
 		mylog.Info("using database info:")
-		mylog.Info(tools.GetJSONStr(config.GetMysqlDbInfo(), true))
+		mylog.JSON(config.GetMysqlDbInfo())
 	}
 }
 
