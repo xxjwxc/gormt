@@ -141,7 +141,6 @@ func (obj *_{{$obj.StructName}}Mgr) GetByOptions(opts ...Option) (results []*{{$
 	}
 
 	err = obj.DB.Table(obj.GetTableName()).Where(options.query).Find(&results).Error
-
 	{{GenPreloadList $obj.PreloadList true}}
 	return
 }
@@ -189,42 +188,19 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowe
 
 `
 	genPreload = `if err == nil && obj.isRelated { {{range $obj := .}}{{if $obj.IsMulti}}
-		{
-			var info []{{$obj.ForeignkeyStructName}}  // {{$obj.Notes}} 
-			err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&info).Error
-			if err != nil {
-				return
-			}
-			result.{{$obj.ForeignkeyStructName}}List = info
-		}  {{else}} 
-		{
-			var info {{$obj.ForeignkeyStructName}}  // {{$obj.Notes}} 
-			err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&info).Error
-			if err != nil {
-				return
-			}
-			result.{{$obj.ForeignkeyStructName}} = info
-		} {{end}} {{end}}
-	}
+		err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}List).Error // {{$obj.Notes}}
+		{{else}} 
+		err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}).Error // {{$obj.Notes}} 
+		{{end}} {{end}}}
 `
 	genPreloadMulti = `if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ { {{range $obj := .}}{{if $obj.IsMulti}}
-		{
-			var info []{{$obj.ForeignkeyStructName}}  // {{$obj.Notes}} 
-			err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&info).Error
-			if err != nil {
+		if err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&results[i].{{$obj.ForeignkeyStructName}}List).Error;err != nil { // {{$obj.Notes}}
+				return	
+			} {{else}} 
+		if err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&results[i].{{$obj.ForeignkeyStructName}}).Error; err != nil { // {{$obj.Notes}} 
 				return
-			}
-			results[i].{{$obj.ForeignkeyStructName}}List = info
-		}  {{else}} 
-		{
-			var info {{$obj.ForeignkeyStructName}}  // {{$obj.Notes}} 
-			err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&info).Error
-			if err != nil {
-				return
-			}
-			results[i].{{$obj.ForeignkeyStructName}} = info
-		} {{end}} {{end}}
+			} {{end}} {{end}}
 	}
 }`
 )
