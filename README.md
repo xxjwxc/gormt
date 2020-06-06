@@ -23,6 +23,15 @@
 ```
 ./gormt -g=false
 ```
+
+## install
+
+```
+go get -u github.com/xxjwxc/gormt
+```
+
+or: [Dowloading](https://github.com/xxjwxc/gormt/releases)
+
 --------
 
 ## 1. Configure default configuration items through the current directory config.yml file

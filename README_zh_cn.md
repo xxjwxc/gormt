@@ -27,6 +27,14 @@
 ```
 --------
 
+## 安装
+
+```
+go get -u github.com/xxjwxc/gormt
+```
+
+或者: [下载地址](https://github.com/xxjwxc/gormt/releases)
+
 ## 1. 通过当前目录 config.yml 文件配置默认配置项
 ```
 base:
