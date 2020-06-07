@@ -19,3 +19,6 @@ clear:
 	- rm -rf err/ 
 	- rm gormt
 	- rm gormt.exe
+	- rm gormt_linux.zip
+	- rm gormt_mac.zip
+	- rm gormt_windows.zip
