@@ -15,7 +15,7 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-var globalIsRelated bool // 全局预加载
+var globalIsRelated bool = true  // 全局预加载
 
 // prepare for other
 type _BaseMgr struct {
