@@ -107,12 +107,14 @@ func getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 
 // getTableElement Get table columns and comments.获取表列及注释
 func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumnsInfo) {
-	keyNums := make(map[string]int)
+	keyNameCount := make(map[string]int)
+	KeyColumnMp := make(map[string][]keys)
 	// get keys
 	var Keys []keys
 	orm.Raw("show keys from " + assemblyTable(tab)).Scan(&Keys)
 	for _, v := range Keys {
-		keyNums[v.KeyName]++
+		keyNameCount[v.KeyName]++
+		KeyColumnMp[v.ColumnName] = append(KeyColumnMp[v.ColumnName], v)
 	}
 	// ----------end
 
@@ -143,27 +145,35 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumnsInfo) 
 		tmp.Type = v.Type
 
 		// keys
-		if strings.EqualFold(v.Key, "PRI") { // Set primary key.设置主键
-			tmp.Index = append(tmp.Index, model.KList{
-				Key: model.ColumnsKeyPrimary,
-			})
-		} else if strings.EqualFold(v.Key, "UNI") { // unique
-			tmp.Index = append(tmp.Index, model.KList{
-				Key: model.ColumnsKeyUnique,
-			})
-		} else {
-			for _, v1 := range Keys {
-				if strings.EqualFold(v1.ColumnName, v.Field) {
-					var k model.KList
-					if v1.NonUnique == 1 { // index
-						k.Key = model.ColumnsKeyIndex
-					} else {
-						k.Key = model.ColumnsKeyUniqueIndex
+		if keylist, ok := KeyColumnMp[v.Field]; ok { // maybe have index or key
+			for _, v := range keylist {
+				if v.NonUnique == 0 { // primary or unique
+					if strings.EqualFold(v.KeyName, "PRIMARY") { // PRI Set primary key.设置主键
+						tmp.Index = append(tmp.Index, model.KList{
+							Key:   model.ColumnsKeyPrimary,
+							Multi: (keyNameCount[v.KeyName] > 1),
+						})
+					} else { // unique
+						if keyNameCount[v.KeyName] > 1 {
+							tmp.Index = append(tmp.Index, model.KList{
+								Key:     model.ColumnsKeyUniqueIndex,
+								Multi:   (keyNameCount[v.KeyName] > 1),
+								KeyName: v.KeyName,
+							})
+						} else { // unique index key.唯一复合索引
+							tmp.Index = append(tmp.Index, model.KList{
+								Key:     model.ColumnsKeyUnique,
+								Multi:   (keyNameCount[v.KeyName] > 1),
+								KeyName: v.KeyName,
+							})
+						}
 					}
-					if keyNums[v1.KeyName] > 1 { // Composite index.复合索引
-						k.KeyName = v1.KeyName
-					}
-					tmp.Index = append(tmp.Index, k)
+				} else { // mut
+					tmp.Index = append(tmp.Index, model.KList{
+						Key:     model.ColumnsKeyIndex,
+						Multi:   (keyNameCount[v.KeyName] > 1),
+						KeyName: v.KeyName,
+					})
 				}
 			}
 		}

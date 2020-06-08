@@ -91,11 +91,11 @@ func TestFuncFetchBy(t *testing.T) {
 	fmt.Println(err)
 	fmt.Println(account)
 
-	account1, err := accountMgr.FetchByAccountUniqueIndex(2, 2) // unique index
+	account1, err := accountMgr.FetchUniqueIndexByAccount(2, 2) // unique index
 	fmt.Println(err)
 	fmt.Println(account1)
 
-	accounts, err := accountMgr.FetchByTpIndex(2, 2)
+	accounts, err := accountMgr.FetchIndexByTp(2, 2)
 	fmt.Println(err)
 	fmt.Println(accounts)
 }

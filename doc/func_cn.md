@@ -54,5 +54,5 @@
 ### 索引方式获取
     `FetchByPrimaryKey` : 主键获取
     `FetchByUnique` : 唯一索引方式获取
-    `FetchBy[xxx]Index` : 复合索引获取(返回多个)
-    `FetchBy[xxx]UniqueIndex` : 唯一复合索引获取(返回一个)
+    `FetchIndexBy[xxx]` : 复合索引获取(返回多个)
+    `FetchUniqueIndexBy[xxx]` : 唯一复合索引获取(返回一个)

@@ -197,9 +197,9 @@ func widthFunctionName(info FList) string {
 	case ColumnsKeyUnique: // unique key.唯一索引
 		return "FetchByUnique"
 	case ColumnsKeyIndex: // index key.复合索引
-		return "FetchBy" + getCamelName(info.KeyName) + "Index"
+		return "FetchIndexBy" + getCamelName(info.KeyName)
 	case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
-		return "FetchBy" + getCamelName(info.KeyName) + "UniqueIndex"
+		return "FetchUniqueIndexBy" + getCamelName(info.KeyName)
 	}
 
 	return ""

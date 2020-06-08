@@ -244,20 +244,21 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 				buildFList(&primary, ColumnsKeyPrimary, "", "int64", "id")
 			} else {
 				typeName := getTypeName(el.Type)
-				isMulti := true
+				isMulti := (len(el.Index) == 0)
 				for _, v1 := range el.Index {
+					if v1.Multi {
+						isMulti = v1.Multi
+					}
+
 					switch v1.Key {
 					// case ColumnsKeyDefault:
 					case ColumnsKeyPrimary: // primary key.主键
-						isMulti = false
-						buildFList(&primary, ColumnsKeyPrimary, "", typeName, el.Name)
+						buildFList(&primary, ColumnsKeyPrimary, v1.KeyName, typeName, el.Name)
 					case ColumnsKeyUnique: // unique key.唯一索引
-						isMulti = false
-						buildFList(&unique, ColumnsKeyUnique, "", typeName, el.Name)
+						buildFList(&unique, ColumnsKeyUnique, v1.KeyName, typeName, el.Name)
 					case ColumnsKeyIndex: // index key.复合索引
 						buildFList(&index, ColumnsKeyIndex, v1.KeyName, typeName, el.Name)
 					case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
-						isMulti = false
 						buildFList(&uniqueIndex, ColumnsKeyUniqueIndex, v1.KeyName, typeName, el.Name)
 					}
 				}

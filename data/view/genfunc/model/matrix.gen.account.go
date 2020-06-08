@@ -333,8 +333,8 @@ func (obj *_AccountMgr) FetchByPrimaryKey(ID int) (result Account, err error) {
 	return
 }
 
-// FetchByAccountUniqueIndex primay or index 获取唯一内容
-func (obj *_AccountMgr) FetchByAccountUniqueIndex(AccountID int, UserID int) (result Account, err error) {
+// FetchUniqueIndexByAccount primay or index 获取唯一内容
+func (obj *_AccountMgr) FetchUniqueIndexByAccount(AccountID int, UserID int) (result Account, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("account_id = ? AND user_id = ?", AccountID, UserID).Find(&result).Error
 	if err == nil && obj.isRelated {
 		{
@@ -350,8 +350,8 @@ func (obj *_AccountMgr) FetchByAccountUniqueIndex(AccountID int, UserID int) (re
 	return
 }
 
-// FetchByTpIndex  获取多个内容
-func (obj *_AccountMgr) FetchByTpIndex(UserID int, Type int) (results []*Account, err error) {
+// FetchIndexByTp  获取多个内容
+func (obj *_AccountMgr) FetchIndexByTp(UserID int, Type int) (results []*Account, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("user_id = ? AND type = ?", UserID, Type).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
