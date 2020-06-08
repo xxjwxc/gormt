@@ -1,6 +1,5 @@
 all: # 构建
 	make tar 
-	make clear
 windows:
 	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o gormt.exe main.go 
 mac:
