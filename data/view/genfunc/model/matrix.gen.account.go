@@ -7,7 +7,7 @@ import (
 )
 
 type _AccountMgr struct {
-	*_BaseMgr
+	*BaseMgr
 }
 
 // AccountMgr open func
@@ -15,7 +15,7 @@ func AccountMgr(db *gorm.DB) *_AccountMgr {
 	if db == nil {
 		panic(fmt.Errorf("AccountMgr need init by db"))
 	}
-	return &_AccountMgr{_BaseMgr: &_BaseMgr{DB: db, isRelated: globalIsRelated}}
+	return &_AccountMgr{BaseMgr: &BaseMgr{DB: db, isRelated: globalIsRelated}}
 }
 
 // GetTableName get sql table name.获取数据库名字

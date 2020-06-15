@@ -9,34 +9,34 @@ import (
 var globalIsRelated bool // 全局预加载
 
 // prepare for other
-type _BaseMgr struct {
+type BaseMgr struct {
 	*gorm.DB
 	ctx       *context.Context
 	isRelated bool
 }
 
 // SetCtx set context
-func (obj *_BaseMgr) SetCtx(c *context.Context) {
+func (obj *BaseMgr) SetCtx(c *context.Context) {
 	obj.ctx = c
 }
 
 // GetDB get gorm.DB info
-func (obj *_BaseMgr) GetDB() *gorm.DB {
+func (obj *BaseMgr) GetDB() *gorm.DB {
 	return obj.DB
 }
 
 // UpdateDB update gorm.DB info
-func (obj *_BaseMgr) UpdateDB(db *gorm.DB) {
+func (obj *BaseMgr) UpdateDB(db *gorm.DB) {
 	obj.DB = db
 }
 
 // GetIsRelated Query foreign key Association.获取是否查询外键关联(gorm.Related)
-func (obj *_BaseMgr) GetIsRelated() bool {
+func (obj *BaseMgr) GetIsRelated() bool {
 	return obj.isRelated
 }
 
 // SetIsRelated Query foreign key Association.设置是否查询外键关联(gorm.Related)
-func (obj *_BaseMgr) SetIsRelated(b bool) {
+func (obj *BaseMgr) SetIsRelated(b bool) {
 	obj.isRelated = b
 }
 

@@ -1,8 +1,8 @@
 # 快捷函数功能
 - 说明: 快捷函数只是对 gorm 的辅助功能。目前只支持查询功能
 ## 目录
- - [_BaseMgr](#_BaseMgr)
-	- [_BaseMgr](#_BaseMgr)
+ - [BaseMgr](#BaseMgr)
+	- [BaseMgr](#BaseMgr)
 	- [SetCtx](#SetCtx)
 	- [GetDB](#GetDB)
 	- [GetIsRelated](#GetIsRelated)
@@ -15,7 +15,7 @@
     - [单元素方式获取](#单元素方式获取)
     - [索引方式获取](#索引方式获取)
 
-## _BaseMgr
+## BaseMgr
 ### OpenRelated : 打开全局预加载
 ### CloseRelated : 关闭全局预加载
    基础函数。所有管理类型都是继承此函数。此函数提供基础公共函数。
@@ -35,7 +35,7 @@
 ### 简要说明
     查询分为以下几类
 ### 逻辑基础类型
-    `_[xxx]Mgr` : 逻辑表类型
+    `[xxx]Mgr` : 逻辑表类型
 ### 已有条件获取方式
     `Get/Gets` : 批量获取(使用 gormt 预先设置的条件可以使用它来获取最终结果)
 ### 功能选项方式获取

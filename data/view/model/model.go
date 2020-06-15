@@ -22,6 +22,17 @@ type _Model struct {
 
 // Generate build code string.生成代码
 func Generate(info DBInfo) (out []GenOutInfo, m _Model) {
+	// 有些数据库有前缀db_,去掉
+	if strings.HasPrefix(info.DbName,"db_") {
+		info.DbName = info.DbName[3:]
+	}
+	// 表有前缀t_,去掉
+	for i,tab := range info.TabList{
+		if strings.HasPrefix(tab.Name,"t_") {
+			info.TabList[i].Name = tab.Name[2:]
+		}
+	}
+
 	m = _Model{
 		info: info,
 	}
@@ -310,7 +321,7 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 
 		pkg.AddFuncStr(buf.String())
 		genOut = append(genOut, GenOutInfo{
-			FileName: fmt.Sprintf(m.info.DbName+".gen.%v.go", tab.Name),
+			FileName: fmt.Sprintf("%v.go", tab.Name),
 			FileCtx:  pkg.Generate(),
 		})
 	}

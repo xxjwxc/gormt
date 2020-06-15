@@ -1,8 +1,8 @@
 # func export readme
 - Note: the shortcut function is only an auxiliary function of Gorm. Currently only query function is supported
 ## Catalog
- - [_BaseMgr](#_BaseMgr)
-	- [_BaseMgr](#_BaseMgr)
+ - [BaseMgr](#BaseMgr)
+	- [BaseMgr](#BaseMgr)
 	- [SetCtx](#SetCtx)
 	- [GetDB](#GetDB)
 	- [GetIsRelated](#GetIsRelated)
@@ -15,7 +15,7 @@
     - [Single element access](#Single-element-access)
     - [Index access](#Index-access)
 
-## _BaseMgr
+## BaseMgr
 
 ### OpenRelated : open global related
 ### CloseRelated : close global related
