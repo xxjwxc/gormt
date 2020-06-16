@@ -195,7 +195,7 @@ func widthFunctionName(info FList) string {
 	case ColumnsKeyPrimary: // primary key.主键
 		return "FetchByPrimaryKey"
 	case ColumnsKeyUnique: // unique key.唯一索引
-		return "FetchByUnique"
+		return "FetchUniqueBy" + getCamelName(info.KeyName)
 	case ColumnsKeyIndex: // index key.复合索引
 		return "FetchIndexBy" + getCamelName(info.KeyName)
 	case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
@@ -203,4 +203,8 @@ func widthFunctionName(info FList) string {
 	}
 
 	return ""
+}
+
+func fixNotes(str string) string { // 注释
+	return strings.Replace(str, "\n", "\n//", -1)
 }

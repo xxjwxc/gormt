@@ -228,7 +228,7 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 	for _, tab := range m.info.TabList {
 		var pkg genstruct.GenPackage
 		pkg.SetPackage(m.info.PackageName) //package name
-		pkg.AddImport(`"github.com/jinzhu/gorm"`)
+		pkg.AddImport(cnf.EImportsHead["gorm.Model"])
 		pkg.AddImport(`"fmt"`)
 
 		data := funDef{
@@ -265,7 +265,7 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 
 				data.Em = append(data.Em, EmInfo{
 					IsMulti:       isMulti,
-					Notes:         el.Notes,
+					Notes:         fixNotes(el.Notes),
 					Type:          typeName, // Type.类型标记
 					ColName:       el.Name,
 					ColStructName: getCamelName(el.Name),
@@ -283,7 +283,7 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 				if isFind {
 					var info PreloadInfo
 					info.IsMulti = isMulti
-					info.Notes = notes
+					info.Notes = fixNotes(notes)
 					info.ForeignkeyTableName = v.TableName
 					info.ForeignkeyCol = v.ColumnName
 					info.ForeignkeyStructName = getCamelName(v.TableName)

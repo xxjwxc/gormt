@@ -57,6 +57,6 @@
 ### Index access
 
     `FetchByPrimaryKey` : Primary key acquisition
-    `FetchByUnique` : Get by unique index
+    `FetchUniqueBy[xxx]` : Get by unique index
     `FetchIndexBy[xxx]` : Composite index fetch (multiple returned)
     `FetchUniqueIndexBy[xxx]` : Unique composite index fetch (return one)
