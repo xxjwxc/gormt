@@ -23,7 +23,7 @@ type Config struct {
 	IsOutFunc        bool        `yaml:"is_out_func"`
 	IsGUI            bool        `yaml:"is_gui"` //
 	IsTableName      bool        `yaml:"is_table_name"`
-	OutFileName      string      `yaml:"-"`
+	IsNullToPoint    bool        `yaml:"is_null_to_point"` // null to porint
 }
 
 // MysqlDbInfo mysql database information. mysql 数据库信息
@@ -150,14 +150,6 @@ func SetIsTableName(b bool) {
 	_map.IsTableName = b
 }
 
-func SetOutFileName(f string) {
-	_map.OutFileName = f
-}
-
-func GetOutFileName() string {
-	return _map.OutFileName
-}
-
 // GetURLTag get url tag.
 func GetURLTag() string {
 	if _map.URLTag != "json" && _map.URLTag != "url" {
@@ -202,4 +194,14 @@ func GetDBTag() string {
 // SetDBTag get database tag.
 func SetDBTag(s string) {
 	_map.DbTag = s
+}
+
+// SetIsNullToPoint if with null to porint in struct
+func SetIsNullToPoint(b bool) {
+	_map.IsNullToPoint = b
+}
+
+// GetIsNullToPoint get if with null to porint in sturct
+func GetIsNullToPoint() bool {
+	return _map.IsNullToPoint
 }

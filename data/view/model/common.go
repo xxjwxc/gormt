@@ -55,20 +55,37 @@ func FilterKeywords(src string) string {
 }
 
 // getTypeName Type acquisition filtering.类型获取过滤
-func getTypeName(name string) string {
+func getTypeName(name string, isNull bool) string {
 	// Precise matching first.先精确匹配
 	if v, ok := cnf.TypeMysqlDicMp[name]; ok {
-		return v
+		return fixNullToPorint(v, isNull)
 	}
 
 	// Fuzzy Regular Matching.模糊正则匹配
 	for k, v := range cnf.TypeMysqlMatchMp {
 		if ok, _ := regexp.MatchString(k, name); ok {
-			return v
+			return fixNullToPorint(v, isNull)
 		}
 	}
 
 	panic(fmt.Sprintf("type (%v) not match in any way.maybe need to add on (https://github.com/xxjwxc/gormt/blob/master/data/view/cnf/def.go)", name))
+}
+
+// 过滤null point 类型
+func fixNullToPorint(name string, isNull bool) string {
+	if isNull && config.GetIsNullToPoint() {
+		if strings.HasPrefix(name, "uint") {
+			return "*" + name
+		}
+		if strings.HasPrefix(name, "int") {
+			return "*" + name
+		}
+		if strings.HasPrefix(name, "float") {
+			return "*" + name
+		}
+	}
+
+	return name
 }
 
 func getUninStr(left, middle, right string) string {

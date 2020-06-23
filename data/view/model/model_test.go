@@ -9,7 +9,7 @@ import (
 )
 
 func TestTypeName(t *testing.T) {
-	fmt.Println(getTypeName("tinyint"))
+	fmt.Println(getTypeName("tinyint", true))
 }
 
 func TestTools(t *testing.T) {

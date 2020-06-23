@@ -51,6 +51,7 @@ is_url_tag : true # 是否打web标记
 is_foreign_key : true # 是否导出外键关联
 is_gui : false # 是否ui模式显示
 is_table_name : false # 是否直接生成表名函数
+is_null_to_point : false # 数据库默认 'DEFAULT NULL' 时设置结构为指针类型
 mysql_info:
     host : 127.0.0.1
     port : 3306

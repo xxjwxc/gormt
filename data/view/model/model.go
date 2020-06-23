@@ -81,7 +81,7 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 		} else {
 			tmp.SetName(getCamelName(v.Name))
 			tmp.SetNotes(v.Notes)
-			tmp.SetType(getTypeName(v.Type))
+			tmp.SetType(getTypeName(v.Type, v.IsNull))
 			for _, v1 := range v.Index {
 				switch v1.Key {
 				// case ColumnsKeyDefault:
@@ -243,7 +243,7 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 				pkg.AddImport(`"time"`)
 				buildFList(&primary, ColumnsKeyPrimary, "", "int64", "id")
 			} else {
-				typeName := getTypeName(el.Type)
+				typeName := getTypeName(el.Type, el.IsNull)
 				isMulti := (len(el.Index) == 0)
 				for _, v1 := range el.Index {
 					if v1.Multi {

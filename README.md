@@ -48,6 +48,7 @@ is_url_tag : true # Whether to mark web or not
 is_foreign_key : true # Whether to mark foreign key or not
 is_gui : false # Whether to operate on gui
 is_table_name : false # Whether to out GetTableName function
+is_null_to_point : false # database is 'DEFAULT NULL' then set element type as point
 
 mysql_info :
     host : "127.0.0.1"
