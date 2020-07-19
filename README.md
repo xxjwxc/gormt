@@ -5,8 +5,6 @@
  
 ## [中文文档](README_zh_cn.md)
 
-## ad link
-
 <a href="https://tracking.gitads.io/?repo=gormt"> 
 <img src="https://images.gitads.io/gormt" alt="GitAds"/> 
 </a>
