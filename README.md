@@ -9,6 +9,10 @@
 
 ###  mysql database to golang struct conversion tools base on [gorm](https://github.com/jinzhu/gorm)，You can automatically generate golang sturct from mysql database. big Camel-Case Name Rule, JSON tag. 
 
+## ad link
+
+<!--<a href="https://tracking.gitads.io/?repo=YOUR_REPO"> <img src="https://images.gitads.io/YOUR_REPO" alt="GitAds"/> </a>-->
+
 ## gui support
 
 ![show](/image/gormt/ui_en.gif)
