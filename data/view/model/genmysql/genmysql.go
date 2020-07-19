@@ -132,8 +132,8 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumnsInfo) 
 	// ForeignKey
 	var foreignKeyList []genForeignKey
 	if config.GetIsForeignKey() {
-		sql := fmt.Sprintf(`select table_schema,table_name,column_name,referenced_table_schema,referenced_table_name,referenced_column_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
-		where table_schema = '%v' AND REFERENCED_TABLE_NAME IS NOT NULL AND TABLE_NAME = '%v'`, config.GetMysqlDbInfo().Database, tab)
+		sql := fmt.Sprintf(`select table_schema as table_schema,table_name as table_name,column_name as column_name,referenced_table_schema as referenced_table_schema,referenced_table_name as referenced_table_name,referenced_column_name as referenced_column_name
+		from INFORMATION_SCHEMA.KEY_COLUMN_USAGE where table_schema = '%v' AND REFERENCED_TABLE_NAME IS NOT NULL AND TABLE_NAME = '%v'`, config.GetMysqlDbInfo().Database, tab)
 		orm.Raw(sql).Scan(&foreignKeyList)
 	}
 	// ------------------end
