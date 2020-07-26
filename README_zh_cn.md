@@ -206,7 +206,7 @@ go generate
 
 ![图片描述](/image/gormt/4.jpg)
 
-[下载地址](https://github.com/xxjwxc/gormt/releases/download/v1.1.0/v1.0.zip)
+[下载地址](https://github.com/xxjwxc/gormt/releases/download/v0.3.8/v1.0.zip)
 
 
 - ###### [传送门](https://xxjwxc.github.io/post/gormtools/)
