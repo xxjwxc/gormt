@@ -32,7 +32,7 @@
 ## install
 
 ```
-go get -u github.com/xxjwxc/gormt
+go get -u -v github.com/xxjwxc/gormt@master
 ```
 
 or: [Dowloading](https://github.com/xxjwxc/gormt/releases)
