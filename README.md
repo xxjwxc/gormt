@@ -32,7 +32,7 @@
 ## install
 
 ```
-go get -u github.com/xxjwxc/gormt
+go get -u -v github.com/xxjwxc/gormt@master
 ```
 
 or: [Dowloading](https://github.com/xxjwxc/gormt/releases)
@@ -205,7 +205,7 @@ go generate
 
 ![4](/image/gormt/4.jpg)
 
-[Download](https://github.com/xxjwxc/gormt/releases/download/v1.1.0/v1.0.zip)
+[Download](https://github.com/xxjwxc/gormt/releases/download/v0.3.8/v1.0.zip)
 
 
 
