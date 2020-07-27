@@ -87,7 +87,7 @@ func {{$obj.StructName}}Mgr(db *gorm.DB) *_{{$obj.StructName}}Mgr {
 	if db == nil {
 		panic(fmt.Errorf("{{$obj.StructName}}Mgr need init by db"))
 	}
-	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db, isRelated: globalIsRelated}}
+	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db.Table("{{$obj.TableName}}"), isRelated: globalIsRelated}}
 }
 
 // GetTableName get sql table name.获取数据库名字
