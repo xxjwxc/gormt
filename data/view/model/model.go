@@ -245,6 +245,7 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 			} else {
 				typeName := getTypeName(el.Type, el.IsNull)
 				isMulti := (len(el.Index) == 0)
+				isUniquePrimary := false
 				for _, v1 := range el.Index {
 					if v1.Multi {
 						isMulti = v1.Multi
@@ -253,6 +254,7 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 					switch v1.Key {
 					// case ColumnsKeyDefault:
 					case ColumnsKeyPrimary: // primary key.主键
+						isUniquePrimary = !v1.Multi
 						buildFList(&primary, ColumnsKeyPrimary, v1.KeyName, typeName, el.Name)
 					case ColumnsKeyUnique: // unique key.唯一索引
 						buildFList(&unique, ColumnsKeyUnique, v1.KeyName, typeName, el.Name)
@@ -261,6 +263,10 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 					case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
 						buildFList(&uniqueIndex, ColumnsKeyUniqueIndex, v1.KeyName, typeName, el.Name)
 					}
+				}
+
+				if isMulti && isUniquePrimary { // 主键唯一
+					isMulti = false
 				}
 
 				data.Em = append(data.Em, EmInfo{
