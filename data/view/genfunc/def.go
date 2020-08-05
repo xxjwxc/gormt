@@ -188,18 +188,28 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowe
 
 `
 	genPreload = `if err == nil && obj.isRelated { {{range $obj := .}}{{if $obj.IsMulti}}
-		err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}List).Error // {{$obj.Notes}}
-		{{else}} 
-		err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}).Error // {{$obj.Notes}} 
-		{{end}} {{end}}}
+		if err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}List).Error;err != nil { // {{$obj.Notes}}
+				if err != gorm.ErrRecordNotFound { // 没找到
+					return
+				}	
+			} {{else}} 
+		if err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}).Error; err != nil { // {{$obj.Notes}} 
+				if err != gorm.ErrRecordNotFound { // 没找到
+					return
+				}
+			}{{end}} {{end}}}
 `
 	genPreloadMulti = `if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ { {{range $obj := .}}{{if $obj.IsMulti}}
 		if err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&results[i].{{$obj.ForeignkeyStructName}}List).Error;err != nil { // {{$obj.Notes}}
-				return	
+				if err != gorm.ErrRecordNotFound { // 没找到
+					return
+				}
 			} {{else}} 
 		if err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&results[i].{{$obj.ForeignkeyStructName}}).Error; err != nil { // {{$obj.Notes}} 
-				return
+				if err != gorm.ErrRecordNotFound { // 没找到
+					return
+				}
 			} {{end}} {{end}}
 	}
 }`
