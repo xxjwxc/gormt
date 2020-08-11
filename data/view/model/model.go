@@ -165,8 +165,6 @@ func (m *_Model) genForeignKey(col ColumnsInfo) (fklist []genstruct.GenElement) 
 }
 
 func (m *_Model) getColumnsKeyMulti(tableName, col string) (isMulti bool, isFind bool, notes string) {
-	isMulti = true
-
 	var haveGomod bool
 	for _, v := range m.info.TabList {
 		if strings.EqualFold(v.Name, tableName) {
@@ -177,8 +175,7 @@ func (m *_Model) getColumnsKeyMulti(tableName, col string) (isMulti bool, isFind
 						case ColumnsKeyPrimary, ColumnsKeyUnique, ColumnsKeyUniqueIndex: // primary key unique key . 主键，唯一索引
 							{
 								if !v2.Multi {
-									isMulti = false
-									break
+									return false, true, v.Notes
 								}
 							}
 							// case ColumnsKeyIndex: // index key. 复合索引
@@ -187,7 +184,7 @@ func (m *_Model) getColumnsKeyMulti(tableName, col string) (isMulti bool, isFind
 							// 	}
 						}
 					}
-					return isMulti, true, v.Notes
+					return true, true, v.Notes
 				} else if strings.EqualFold(v1.Type, "gorm.Model") {
 					haveGomod = true
 					notes = v.Notes
