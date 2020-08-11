@@ -174,7 +174,7 @@ func (m *_Model) getColumnsKeyMulti(tableName, col string) (isMulti bool, isFind
 						switch v2.Key {
 						case ColumnsKeyPrimary, ColumnsKeyUnique, ColumnsKeyUniqueIndex: // primary key unique key . 主键，唯一索引
 							{
-								if !v2.Multi {
+								if !v2.Multi { // 唯一索引
 									return false, true, v.Notes
 								}
 							}
