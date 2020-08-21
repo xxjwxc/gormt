@@ -171,7 +171,7 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumnsInfo) 
 				} else { // mut
 					tmp.Index = append(tmp.Index, model.KList{
 						Key:     model.ColumnsKeyIndex,
-						Multi:   (keyNameCount[v.KeyName] > 1),
+						Multi:   true,
 						KeyName: v.KeyName,
 					})
 				}
