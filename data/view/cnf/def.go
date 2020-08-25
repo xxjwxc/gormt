@@ -24,7 +24,7 @@ var TypeMysqlDicMp = map[string]string{
 	"tinyint":             "int8",
 	"tinyint unsigned":    "uint8",
 	"tinyint(1)":          "bool", // tinyint(1) 默认设置成bool
-	"tinyint(1) unsigned": "bool", // tinyint(1) 默认设置成bool 
+	"tinyint(1) unsigned": "bool", // tinyint(1) 默认设置成bool
 	"json":                "string",
 	"text":                "string",
 	"timestamp":           "time.Time",
@@ -32,6 +32,7 @@ var TypeMysqlDicMp = map[string]string{
 	"mediumtext":          "string",
 	"longtext":            "string",
 	"float":               "float32",
+	"float unsigned":      "float32",
 	"tinytext":            "string",
 	"enum":                "string",
 	"time":                "time.Time",
@@ -59,4 +60,5 @@ var TypeMysqlMatchMp = map[string]string{
 	`^(float)[(]\d+,\d+[)]`:          "float64",
 	`^(float)[(]\d+,\d+[)] unsigned`: "float64",
 	`^(datetime)[(]\d+[)]`:           "time.Time",
+	`^(bit)[(]\d+[)]`:                "[]uint8",
 }
