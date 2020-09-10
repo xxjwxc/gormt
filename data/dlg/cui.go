@@ -389,6 +389,7 @@ func listUp(g *gocui.Gui, v *gocui.View) error {
 // OnInitDialog init main loop
 func OnInitDialog() {
 	g, err := gocui.NewGui(gocui.OutputNormal)
+	g.ASCII = true
 
 	if err != nil {
 		log.Panicln(err)
