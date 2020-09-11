@@ -38,9 +38,10 @@ type TabInfo struct {
 // ColumnsInfo Columns list .表列信息
 type ColumnsInfo struct {
 	BaseInfo
-	Type           string       // Type.类型标记
-	Index          []KList      // index list.index列表
 	IsNull         bool         // null if db is set null
+	Type           string       // Type.类型标记
+	Default        string       // 默认值
+	Index          []KList      // index list.index列表
 	ForeignKeyList []ForeignKey // Foreign key list . 表的外键信息
 }
 

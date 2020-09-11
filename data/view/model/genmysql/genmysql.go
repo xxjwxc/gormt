@@ -141,8 +141,8 @@ func getTableElement(orm *mysqldb.MySqlDB, tab string) (el []model.ColumnsInfo) 
 	for _, v := range list {
 		var tmp model.ColumnsInfo
 		tmp.Name = v.Field
-		tmp.Notes = v.Desc
 		tmp.Type = v.Type
+		FixElementNote(&tmp, v.Desc)
 
 		// keys
 		if keylist, ok := KeyColumnMp[v.Field]; ok { // maybe have index or key

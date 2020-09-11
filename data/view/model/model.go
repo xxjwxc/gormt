@@ -107,6 +107,10 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 					tmp.AddTag(_tagGorm, "not null")
 				}
 			}
+			// default tag
+			if len(v.Default) > 0 {
+				tmp.AddTag(_tagGorm, "default:"+v.Default)
+			}
 
 			// json tag
 			if config.GetIsWEBTag() {
@@ -116,6 +120,7 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 					tmp.AddTag(_tagJSON, mybigcamel.UnMarshal(v.Name))
 				}
 			}
+
 		}
 
 		el = append(el, tmp)

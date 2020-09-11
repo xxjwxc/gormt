@@ -186,9 +186,15 @@ or
 go generate
 ```
 
-## 8. Next step 
-- update，delete support
-- revew
+### 8 note : in windows not support utf-8 style . ASCALL model
+- Switch encoding mode
+```
+CHCP 65001 
+```
+
+### table notes default
+
+- Add a comment to the column starting with `[@gormt default:'test']`
 
 ## 9. one windows gui tools
 

@@ -17,7 +17,7 @@ CREATE TABLE `user_account_tbl` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `account` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `password` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `account_type` int(11) NOT NULL DEFAULT '0' COMMENT '帐号类型:0手机号，1邮件',
+  `account_type` int(11) NOT NULL DEFAULT '0' COMMENT '[@gormt default:'123456']帐号类型:0手机号，1邮件',
   `app_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT 'authbucket_oauth2_client表的id',
   `user_info_tbl_id` int(11) NOT NULL,
   `reg_time` datetime DEFAULT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE `user_account_tbl` (
   UNIQUE KEY `UNIQ_5696AD037D3656A4` (`app_key`,`user_info_tbl_id`) USING BTREE,
   KEY `user_info_id` (`user_info_tbl_id`) USING BTREE,
   CONSTRAINT `user_account_tbl_ibfk_1` FOREIGN KEY (`user_info_tbl_id`) REFERENCES `user_info_tbl` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='用户账号'
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='[@gormt default:'admin']用户账号'
 ```
 
 -------------

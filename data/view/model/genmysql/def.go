@@ -1,5 +1,7 @@
 package genmysql
 
+import "regexp"
+
 type keys struct {
 	NonUnique  int    `gorm:"column:Non_unique"`
 	KeyName    string `gorm:"column:Key_name"`
@@ -26,3 +28,5 @@ type genForeignKey struct {
 	ReferencedTableName   string `gorm:"column:referenced_table_name"`   // Affected tables . 该索引受影响的表
 	ReferencedColumnName  string `gorm:"column:referenced_column_name"`  // Which column of the affected table.该索引受影响的表的哪一列
 }
+
+var noteRegex = regexp.MustCompile(`^\[@gormt\s(\S+)+\]`)

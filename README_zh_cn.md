@@ -108,6 +108,7 @@ Flags:
 - UNIQUE_INDEX	和 INDEX 类似，只不过创建的是唯一索引
 - 支持外键相关属性 [简单带外键模式导出>>>](https://github.com/xxjwxc/gormt/tree/master/doc/export_cn.md)
 - 支持函数导出(包括:外键，关联体，索引关...)[简单函数导出示例>>>](https://github.com/xxjwxc/gormt/blob/master/data/view/genfunc/genfunc_test.go)
+- 支持默认值default 
 
 ### 您可以在这里丰富数据映射类型 [def](data/view/cnf/def.go) 。
 
@@ -197,6 +198,10 @@ go generate
 ```
 CHCP 65001 
 ```
+
+### 表注释 default
+
+- 给列添加注释以`[@gormt default:'test']`开头即可
 
 
 ## 8. 下一步计划
