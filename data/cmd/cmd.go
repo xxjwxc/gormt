@@ -13,7 +13,7 @@ import (
 	"gopkg.in/go-playground/validator.v9"
 )
 
-var mysqlInfo config.MysqlDbInfo
+var mysqlInfo config.DBInfo
 var outDir string
 var singularTable bool
 var foreignKey bool
@@ -78,20 +78,20 @@ func init() {
 func initConfig() {
 	MergeMysqlDbInfo()
 	validate := validator.New()
-	err := validate.Struct(config.GetMysqlDbInfo())
+	err := validate.Struct(config.GetDbInfo())
 	if err != nil {
 		mylog.Info("Can't read cmd: using （-h, --help) to get more info")
 		mylog.Error(err)
 		os.Exit(1)
 	} else {
 		mylog.Info("using database info:")
-		mylog.JSON(config.GetMysqlDbInfo())
+		mylog.JSON(config.GetDbInfo())
 	}
 }
 
 // MergeMysqlDbInfo merge parm
 func MergeMysqlDbInfo() {
-	var tmp = config.GetMysqlDbInfo()
+	var tmp = config.GetDbInfo()
 	if len(mysqlInfo.Database) > 0 {
 		tmp.Database = mysqlInfo.Database
 	}

@@ -1,4 +1,4 @@
-package genmysql
+package gensqlite
 
 import (
 	"strings"
@@ -17,10 +17,10 @@ func filterModel(list *[]genColumns) bool {
 	var _temp []genColumns
 	num := 0
 	for _, v := range *list {
-		if strings.EqualFold(v.Field, "id") ||
-			strings.EqualFold(v.Field, "created_at") ||
-			strings.EqualFold(v.Field, "updated_at") ||
-			strings.EqualFold(v.Field, "deleted_at") {
+		if strings.EqualFold(v.Name, "id") ||
+			strings.EqualFold(v.Name, "created_at") ||
+			strings.EqualFold(v.Name, "updated_at") ||
+			strings.EqualFold(v.Name, "deleted_at") {
 			num++
 		} else {
 			_temp = append(_temp, v)
@@ -50,7 +50,7 @@ func fixForeignKey(list []genForeignKey, columuName string, result *[]model.Fore
 // GetModel get model interface. 获取model接口
 func GetModel() model.IModel {
 	//now just support mysql
-	return &MySQLModel
+	return &SQLiteModel
 }
 
 // FixElementNote 分析元素表注释

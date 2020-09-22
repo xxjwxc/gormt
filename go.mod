@@ -8,6 +8,7 @@ require (
 	github.com/jinzhu/gorm v1.9.12
 	github.com/jroimartin/gocui v0.4.0
 	github.com/leodido/go-urn v1.2.0 // indirect
+	github.com/mattn/go-sqlite3 v2.0.1+incompatible
 	github.com/nicksnyder/go-i18n/v2 v2.0.3
 	github.com/spf13/cobra v1.0.0
 	github.com/xxjwxc/public v0.0.0-20200605161710-72fc28675475

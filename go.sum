@@ -207,6 +207,7 @@ github.com/xxjwxc/public v0.0.0-20200604090416-5afd146414d5 h1:8AYUDpnj279r9Gf2J
 github.com/xxjwxc/public v0.0.0-20200604090416-5afd146414d5/go.mod h1:0BFWVHqt7nKW8MtIx7R7bOkoGQFFnKsaJeeVbkzY88E=
 github.com/xxjwxc/public v0.0.0-20200605161710-72fc28675475 h1:VDny2T9+fQwq9WZkwrnD7hfANzX5lUOx53l31NPA9T8=
 github.com/xxjwxc/public v0.0.0-20200605161710-72fc28675475/go.mod h1:0BFWVHqt7nKW8MtIx7R7bOkoGQFFnKsaJeeVbkzY88E=
+github.com/xxjwxc/public v0.0.0-20200921104903-7ca9b2863090 h1:cmzvPQvZ94OAA6SY2JWvFr8BKJxFd6pa/TEC7ZZkATs=
 go.etcd.io/bbolt v1.3.2/go.mod h1:IbVyRI1SCnLcuJnV2u8VeU0CEYM7e686BmAb1XKL+uU=
 go.opencensus.io v0.20.1/go.mod h1:6WKK9ahsWS3RSO+PY9ZHZUfv2irvY6gN279GOPZjmmk=
 go.uber.org/atomic v1.4.0 h1:cxzIVoETapQEqDhQu3QfnvXAV4AlzcvUCxkVUFw3+EU=

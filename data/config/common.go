@@ -24,7 +24,7 @@ var _map = Config{
 	CfgBase: CfgBase{
 		IsDev: false,
 	},
-	MySQLInfo: MysqlDbInfo{
+	DBInfo: DBInfo{
 		Host:     "127.0.0.1",
 		Port:     3306,
 		Username: "root",
@@ -65,11 +65,12 @@ func InitFile(filename string) error {
 	if _, e := os.Stat(filename); e != nil {
 		fmt.Println("init default config file: ", filename)
 		if err := SaveToFile(); err == nil {
-			fmt.Println("done,please restart.")
+			InitFile(filename)
+			return nil
 		} else {
 			fmt.Println("shit,fail", err)
 		}
-		os.Exit(0)
+		// os.Exit(0)
 	}
 	bs, err := ioutil.ReadFile(filename)
 	if err != nil {

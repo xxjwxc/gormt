@@ -1,0 +1,42 @@
+dbname: caoguo_db  # 数据库名
+comment: 潮果 # 数据库描述
+dbs: [mysql] # 数据库类型
+tables: # 数据库表
+    name: product_tbl # 表名
+    comment: 递增Id # 表注释
+    columns: # 表列信息
+        [
+            name: id , # 列名
+            comment: 递增Id,  # 列注释
+            isnull: false , # 是否为空
+            type: bigint(20) , # 类型
+            default: 10, # 默认值
+            klist:
+                [
+                    key:  ColumnsKeyPrimary,
+                    multi: true, # 是否多个(复合组建)
+                    keyname: test, 
+                ],
+            foreignkey: # 外键
+                [
+                    tablename: product_tbl, # 该索引受影响的表
+                    columnname: id # 该索引受影响的表的哪一列
+                ]
+        ],[
+            name: id , # 列名
+            comment: 递增Id,  # 列注释
+            isnull: false , # 是否为空
+            type: bigint(20) , # 类型
+            default: 10, # 默认值
+            klist:
+                [
+                    key:  ColumnsKeyPrimary,
+                    multi: true, # 是否多个(复合组建)
+                    keyname: test, 
+                ]
+            foreignkey: # 外键
+                [
+                    tablename: product_tbl, # 该索引受影响的表
+                    columnname: id # 该索引受影响的表的哪一列
+                ]
+        ]

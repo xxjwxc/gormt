@@ -9,50 +9,51 @@ import (
 // Config custom config struct
 type Config struct {
 	CfgBase          `yaml:"base"`
-	MySQLInfo        MysqlDbInfo `yaml:"mysql_info"`
-	OutDir           string      `yaml:"out_dir"`
-	URLTag           string      `yaml:"url_tag"`  // url tag
-	Language         string      `yaml:"language"` // language
-	DbTag            string      `yaml:"db_tag"`   // 数据库标签（gormt,db）
-	Simple           bool        `yaml:"simple"`
-	IsWEBTag         bool        `yaml:"is_web_tag"`
-	IsWebTagPkHidden bool        `yaml:"is_web_tag_pk_hidden"` // web标记是否隐藏主键
-	SingularTable    bool        `yaml:"singular_table"`
-	IsForeignKey     bool        `yaml:"is_foreign_key"`
-	IsOutSQL         bool        `yaml:"is_out_sql"`
-	IsOutFunc        bool        `yaml:"is_out_func"`
-	IsGUI            bool        `yaml:"is_gui"` //
-	IsTableName      bool        `yaml:"is_table_name"`
-	IsNullToPoint    bool        `yaml:"is_null_to_point"` // null to porint
+	DBInfo           DBInfo `yaml:"db_info"`
+	OutDir           string `yaml:"out_dir"`
+	URLTag           string `yaml:"url_tag"`  // url tag
+	Language         string `yaml:"language"` // language
+	DbTag            string `yaml:"db_tag"`   // 数据库标签（gormt,db）
+	Simple           bool   `yaml:"simple"`
+	IsWEBTag         bool   `yaml:"is_web_tag"`
+	IsWebTagPkHidden bool   `yaml:"is_web_tag_pk_hidden"` // web标记是否隐藏主键
+	SingularTable    bool   `yaml:"singular_table"`
+	IsForeignKey     bool   `yaml:"is_foreign_key"`
+	IsOutSQL         bool   `yaml:"is_out_sql"`
+	IsOutFunc        bool   `yaml:"is_out_func"`
+	IsGUI            bool   `yaml:"is_gui"` //
+	IsTableName      bool   `yaml:"is_table_name"`
+	IsNullToPoint    bool   `yaml:"is_null_to_point"` // null to porint
 }
 
-// MysqlDbInfo mysql database information. mysql 数据库信息
-type MysqlDbInfo struct {
+// DBInfo mysql database information. mysql 数据库信息
+type DBInfo struct {
 	Host     string `validate:"required"` // Host. 地址
-	Port     int    `validate:"required"` // Port 端口号
-	Username string `validate:"required"` // Username 用户名
+	Port     int    // Port 端口号
+	Username string // Username 用户名
 	Password string // Password 密码
-	Database string `validate:"required"` // Database 数据库名
+	Database string // Database 数据库名
+	Type     int    // 数据库类型:0:mysql 1:配置
 }
 
 // SetMysqlDbInfo Update MySQL configuration information
-func SetMysqlDbInfo(info *MysqlDbInfo) {
-	_map.MySQLInfo = *info
+func SetMysqlDbInfo(info *DBInfo) {
+	_map.DBInfo = *info
 }
 
-// GetMysqlDbInfo Get MySQL configuration information .获取mysql配置信息
-func GetMysqlDbInfo() MysqlDbInfo {
-	return _map.MySQLInfo
+// GetDbInfo Get configuration information .获取数据配置信息
+func GetDbInfo() DBInfo {
+	return _map.DBInfo
 }
 
 // GetMysqlConStr Get MySQL connection string.获取mysql 连接字符串
 func GetMysqlConStr() string {
 	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local&interpolateParams=True",
-		_map.MySQLInfo.Username,
-		_map.MySQLInfo.Password,
-		_map.MySQLInfo.Host,
-		_map.MySQLInfo.Port,
-		_map.MySQLInfo.Database,
+		_map.DBInfo.Username,
+		_map.DBInfo.Password,
+		_map.DBInfo.Host,
+		_map.DBInfo.Port,
+		_map.DBInfo.Database,
 	)
 }
 

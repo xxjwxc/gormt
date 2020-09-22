@@ -203,16 +203,18 @@ func enterSet(g *gocui.Gui, v *gocui.View) error {
 	// add input field
 	form.AddInputField("out_dir", SLocalize("out_dir"), formPart[0], formPart[1]).SetText(config.GetOutDir()).
 		AddValidate("required input", requireValidator)
-	form.AddInputField("db_host", SLocalize("db_host"), formPart[0], formPart[1]).SetText(config.GetMysqlDbInfo().Host).
+	form.AddInputField("db_host", SLocalize("db_host"), formPart[0], formPart[1]).SetText(config.GetDbInfo().Host).
 		AddValidate("required input", requireValidator)
-	form.AddInputField("db_port", SLocalize("db_port"), formPart[0], formPart[1]).SetText(tools.AsString(config.GetMysqlDbInfo().Port)).
+	form.AddInputField("db_port", SLocalize("db_port"), formPart[0], formPart[1]).SetText(tools.AsString(config.GetDbInfo().Port)).
 		AddValidate("required input", requireValidator)
-	form.AddInputField("db_usename", SLocalize("db_usename"), formPart[0], formPart[1]).SetText(config.GetMysqlDbInfo().Username).
+	form.AddInputField("db_usename", SLocalize("db_usename"), formPart[0], formPart[1]).SetText(config.GetDbInfo().Username).
 		AddValidate("required input", requireValidator)
-	form.AddInputField("db_pwd", SLocalize("db_pwd"), formPart[0], formPart[1]).SetText(config.GetMysqlDbInfo().Password).
+	form.AddInputField("db_pwd", SLocalize("db_pwd"), formPart[0], formPart[1]).SetText(config.GetDbInfo().Password).
 		SetMask().SetMaskKeybinding(gocui.KeyCtrlA).
 		AddValidate("required input", requireValidator)
-	form.AddInputField("db_name", SLocalize("db_name"), formPart[0], formPart[1]).SetText(config.GetMysqlDbInfo().Database).
+	form.AddInputField("db_name", SLocalize("db_name"), formPart[0], formPart[1]).SetText(config.GetDbInfo().Database).
+		AddValidate("required input", requireValidator)
+	form.AddInputField("db_type", SLocalize("db_type"), formPart[0], formPart[1]).SetText(tools.AsString(config.GetDbInfo().Type)).
 		AddValidate("required input", requireValidator)
 
 	// add select
@@ -264,7 +266,7 @@ func buttonSave(g *gocui.Gui, v *gocui.View) error {
 	mp := form.GetFieldTexts()
 	config.SetOutDir(mp["out_dir"])
 
-	var dbInfo config.MysqlDbInfo
+	var dbInfo config.DBInfo
 	dbInfo.Host = mp["db_host"]
 	port, err := strconv.Atoi(mp["db_port"])
 	if err != nil {

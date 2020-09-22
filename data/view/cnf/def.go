@@ -40,6 +40,7 @@ var TypeMysqlDicMp = map[string]string{
 	"blob":                "[]byte",
 	"mediumblob":          "[]byte",
 	"longblob":            "[]byte",
+	"integer":             "int64",
 }
 
 // TypeMysqlMatchMp Fuzzy Matching Types.模糊匹配类型
@@ -58,6 +59,7 @@ var TypeMysqlMatchMp = map[string]string{
 	`^(enum)[(](.)+[)]`:              "string",
 	`^(varchar)[(]\d+[)]`:            "string",
 	`^(varbinary)[(]\d+[)]`:          "[]byte",
+	`^(blob)[(]\d+[)]`:               "[]byte",
 	`^(binary)[(]\d+[)]`:             "[]byte",
 	`^(decimal)[(]\d+,\d+[)]`:        "float64",
 	`^(mediumint)[(]\d+[)]`:          "string",
@@ -66,4 +68,6 @@ var TypeMysqlMatchMp = map[string]string{
 	`^(float)[(]\d+,\d+[)] unsigned`: "float64",
 	`^(datetime)[(]\d+[)]`:           "time.Time",
 	`^(bit)[(]\d+[)]`:                "[]uint8",
+	`^(text)[(]\d+[)]`:               "string",
+	`^(integer)[(]\d+[)]`:            "int",
 }
