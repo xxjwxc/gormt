@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 )
 
 var globalIsRelated bool = true // 全局预加载
@@ -50,10 +49,9 @@ func (obj *_BaseMgr) SetIsRelated(b bool) {
 	obj.isRelated = b
 }
 
-func (obj *_BaseMgr) new() *gorm.DB {
-	newDb := obj.DB.WithContext(obj.ctx)
-	newDb.Statement.Clauses = make(map[string]clause.Clause)
-	return newDb
+// New new gorm.新gorm
+func (obj *_BaseMgr) New() *gorm.DB {
+	return obj.DB.Session(&gorm.Session{WithConditions: false, Context: obj.ctx})
 }
 
 type options struct {

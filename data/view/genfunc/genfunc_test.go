@@ -36,16 +36,18 @@ func GetGorm(dataSourceName string) *gorm.DB {
 	return db.Debug()
 }
 
-func NewDB(){
-	db, _ := gorm.Open(...)
-	db.Model(&AAA).Where("aaa = ?", 2)
-}
+// func NewDB(){
+// 	db, _ := gorm.Open(...)
+// 	db.Model(&AAA).Where("aaa = ?", 2)
+// 	CallFunc(db)
+// }
 
-func CallFunc(db *gorm.DB){
-	// select a...
-	var bbb BBB
-	db.Table("bbb").Where("bbb = ?", 2).Find()
-}
+// func CallFunc(db *gorm.DB){
+// 	// select a...
+// 	var bbb BBB
+// 	db.Table("bbb").Where("bbb = ?", 2).Find(&bbb)// in this case aaa = ?  valid
+// 	// in this func how to us db to query BBB
+// }
 
 // TestFuncGet 测试条件获(Get/Gets)
 func TestFuncGet(t *testing.T) {

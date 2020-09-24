@@ -3,7 +3,6 @@ package model
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"gorm.io/gorm"
 )
@@ -17,9 +16,8 @@ func UserMgr(db *gorm.DB) *_UserMgr {
 	if db == nil {
 		panic(fmt.Errorf("UserMgr need init by db"))
 	}
-	timeout := 10 * time.Second
-	ctx, cancel := context.WithTimeout(context.Background(), timeout)
-	return &_UserMgr{_BaseMgr: &_BaseMgr{DB: db.Table("user"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: timeout}}
+	ctx, cancel := context.WithCancel(context.Background())
+	return &_UserMgr{_BaseMgr: &_BaseMgr{DB: db.Table("user"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: -1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
