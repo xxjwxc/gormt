@@ -11,8 +11,9 @@ func (m *{{.StructName}}) TableName() string {
 package {{.PackageName}}
 import (
 	"context"
+	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 var globalIsRelated bool = true  // 全局预加载
@@ -20,12 +21,20 @@ var globalIsRelated bool = true  // 全局预加载
 // prepare for other
 type _BaseMgr struct {
 	*gorm.DB
-	ctx       *context.Context
+	ctx       context.Context
+	cancel    context.CancelFunc
+	timeout   time.Duration
 	isRelated bool
 }
 
 // SetCtx set context
-func (obj *_BaseMgr) SetCtx(c *context.Context) {
+func (obj *_BaseMgr) SetTimeOut(timeout time.Duration) {
+	obj.ctx, obj.cancel = context.WithTimeout(context.Background(), timeout)
+	obj.timeout = timeout
+}
+
+// SetCtx set context
+func (obj *_BaseMgr) SetCtx(c context.Context) {
 	obj.ctx = c
 }
 
@@ -87,7 +96,9 @@ func {{$obj.StructName}}Mgr(db *gorm.DB) *_{{$obj.StructName}}Mgr {
 	if db == nil {
 		panic(fmt.Errorf("{{$obj.StructName}}Mgr need init by db"))
 	}
-	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db.Table("{{$obj.TableName}}"), isRelated: globalIsRelated}}
+	timeout := 10 * time.Second
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db.Table("{{$obj.TableName}}"), isRelated: globalIsRelated,ctx:ctx,cancel:cancel,timeout:timeout}}
 }
 
 // GetTableName get sql table name.获取数据库名字
@@ -188,12 +199,12 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowe
 
 `
 	genPreload = `if err == nil && obj.isRelated { {{range $obj := .}}{{if $obj.IsMulti}}
-		if err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}List).Error;err != nil { // {{$obj.Notes}}
+		if err = obj.WithContext(obj.ctx).Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}List).Error;err != nil { // {{$obj.Notes}}
 				if err != gorm.ErrRecordNotFound { // 非 没找到
 					return
 				}	
 			} {{else}} 
-		if err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}).Error; err != nil { // {{$obj.Notes}} 
+		if err = obj.WithContext(obj.ctx).Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}).Error; err != nil { // {{$obj.Notes}} 
 				if err != gorm.ErrRecordNotFound { // 非 没找到
 					return
 				}
@@ -201,12 +212,12 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowe
 `
 	genPreloadMulti = `if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ { {{range $obj := .}}{{if $obj.IsMulti}}
-		if err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&results[i].{{$obj.ForeignkeyStructName}}List).Error;err != nil { // {{$obj.Notes}}
+		if err = obj.WithContext(obj.ctx).Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&results[i].{{$obj.ForeignkeyStructName}}List).Error;err != nil { // {{$obj.Notes}}
 				if err != gorm.ErrRecordNotFound { // 非 没找到
 					return
 				}
 			} {{else}} 
-		if err = obj.DB.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&results[i].{{$obj.ForeignkeyStructName}}).Error; err != nil { // {{$obj.Notes}} 
+		if err = obj.WithContext(obj.ctx).Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&results[i].{{$obj.ForeignkeyStructName}}).Error; err != nil { // {{$obj.Notes}} 
 				if err != gorm.ErrRecordNotFound { // 非 没找到
 					return
 				}

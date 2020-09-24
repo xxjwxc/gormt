@@ -4,7 +4,7 @@ package cnf
 var EImportsHead = map[string]string{
 	"stirng":     `"string"`,
 	"time.Time":  `"time"`,
-	"gorm.Model": `"github.com/jinzhu/gorm"`,
+	"gorm.Model": `"gorm.io/gorm"`,
 	"fmt":        `"fmt"`,
 }
 

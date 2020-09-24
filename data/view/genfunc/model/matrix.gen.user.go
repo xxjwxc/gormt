@@ -1,9 +1,11 @@
 package model
 
 import (
+	"context"
 	"fmt"
+	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 type _UserMgr struct {
@@ -15,7 +17,9 @@ func UserMgr(db *gorm.DB) *_UserMgr {
 	if db == nil {
 		panic(fmt.Errorf("UserMgr need init by db"))
 	}
-	return &_UserMgr{_BaseMgr: &_BaseMgr{DB: db, isRelated: globalIsRelated}}
+	timeout := 10 * time.Second
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	return &_UserMgr{_BaseMgr: &_BaseMgr{DB: db.Table("user"), isRelated: globalIsRelated, ctx: ctx, cancel: cancel, timeout: timeout}}
 }
 
 // GetTableName get sql table name.获取数据库名字
@@ -40,23 +44,23 @@ func (obj *_UserMgr) Gets() (results []*User, err error) {
 //////////////////////////option case ////////////////////////////////////////////
 
 // WithUserID user_id获取
-func (obj *_UserMgr) WithUserID(UserID int) Option {
-	return optionFunc(func(o *options) { o.query["user_id"] = UserID })
+func (obj *_UserMgr) WithUserID(userID int) Option {
+	return optionFunc(func(o *options) { o.query["user_id"] = userID })
 }
 
 // WithName name获取
-func (obj *_UserMgr) WithName(Name string) Option {
-	return optionFunc(func(o *options) { o.query["name"] = Name })
+func (obj *_UserMgr) WithName(name string) Option {
+	return optionFunc(func(o *options) { o.query["name"] = name })
 }
 
 // WithSex sex获取
-func (obj *_UserMgr) WithSex(Sex int) Option {
-	return optionFunc(func(o *options) { o.query["sex"] = Sex })
+func (obj *_UserMgr) WithSex(sex int) Option {
+	return optionFunc(func(o *options) { o.query["sex"] = sex })
 }
 
 // WithJob job获取
-func (obj *_UserMgr) WithJob(Job int) Option {
-	return optionFunc(func(o *options) { o.query["job"] = Job })
+func (obj *_UserMgr) WithJob(job int) Option {
+	return optionFunc(func(o *options) { o.query["job"] = job })
 }
 
 // GetByOption 功能选项模式获取
@@ -90,57 +94,57 @@ func (obj *_UserMgr) GetByOptions(opts ...Option) (results []*User, err error) {
 //////////////////////////enume case ////////////////////////////////////////////
 
 // GetFromUserID 通过user_id获取内容
-func (obj *_UserMgr) GetFromUserID(UserID int) (result User, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("user_id = ?", UserID).Find(&result).Error
+func (obj *_UserMgr) GetFromUserID(userID int) (result User, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("user_id = ?", userID).Find(&result).Error
 
 	return
 }
 
 // GetBatchFromUserID 批量唯一主键查找
-func (obj *_UserMgr) GetBatchFromUserID(UserIDs []int) (results []*User, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("user_id IN (?)", UserIDs).Find(&results).Error
+func (obj *_UserMgr) GetBatchFromUserID(userIDs []int) (results []*User, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("user_id IN (?)", userIDs).Find(&results).Error
 
 	return
 }
 
 // GetFromName 通过name获取内容
-func (obj *_UserMgr) GetFromName(Name string) (results []*User, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("name = ?", Name).Find(&results).Error
+func (obj *_UserMgr) GetFromName(name string) (results []*User, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("name = ?", name).Find(&results).Error
 
 	return
 }
 
 // GetBatchFromName 批量唯一主键查找
-func (obj *_UserMgr) GetBatchFromName(Names []string) (results []*User, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("name IN (?)", Names).Find(&results).Error
+func (obj *_UserMgr) GetBatchFromName(names []string) (results []*User, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("name IN (?)", names).Find(&results).Error
 
 	return
 }
 
 // GetFromSex 通过sex获取内容
-func (obj *_UserMgr) GetFromSex(Sex int) (results []*User, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("sex = ?", Sex).Find(&results).Error
+func (obj *_UserMgr) GetFromSex(sex int) (results []*User, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("sex = ?", sex).Find(&results).Error
 
 	return
 }
 
 // GetBatchFromSex 批量唯一主键查找
-func (obj *_UserMgr) GetBatchFromSex(Sexs []int) (results []*User, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("sex IN (?)", Sexs).Find(&results).Error
+func (obj *_UserMgr) GetBatchFromSex(sexs []int) (results []*User, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("sex IN (?)", sexs).Find(&results).Error
 
 	return
 }
 
 // GetFromJob 通过job获取内容
-func (obj *_UserMgr) GetFromJob(Job int) (results []*User, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("job = ?", Job).Find(&results).Error
+func (obj *_UserMgr) GetFromJob(job int) (results []*User, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("job = ?", job).Find(&results).Error
 
 	return
 }
 
 // GetBatchFromJob 批量唯一主键查找
-func (obj *_UserMgr) GetBatchFromJob(Jobs []int) (results []*User, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("job IN (?)", Jobs).Find(&results).Error
+func (obj *_UserMgr) GetBatchFromJob(jobs []int) (results []*User, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("job IN (?)", jobs).Find(&results).Error
 
 	return
 }
@@ -148,8 +152,8 @@ func (obj *_UserMgr) GetBatchFromJob(Jobs []int) (results []*User, err error) {
 //////////////////////////primary index case ////////////////////////////////////////////
 
 // FetchByPrimaryKey primay or index 获取唯一内容
-func (obj *_UserMgr) FetchByPrimaryKey(UserID int) (result User, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("user_id = ?", UserID).Find(&result).Error
+func (obj *_UserMgr) FetchByPrimaryKey(userID int) (result User, err error) {
+	err = obj.DB.Table(obj.GetTableName()).Where("user_id = ?", userID).Find(&result).Error
 
 	return
 }

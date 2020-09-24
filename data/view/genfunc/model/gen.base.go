@@ -2,21 +2,31 @@ package model
 
 import (
 	"context"
+	"time"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
-var globalIsRelated bool // 全局预加载
+var globalIsRelated bool = true // 全局预加载
 
 // prepare for other
 type _BaseMgr struct {
 	*gorm.DB
-	ctx       *context.Context
+	ctx       context.Context
+	cancel    context.CancelFunc
+	timeout   time.Duration
 	isRelated bool
 }
 
 // SetCtx set context
-func (obj *_BaseMgr) SetCtx(c *context.Context) {
+func (obj *_BaseMgr) SetTimeOut(timeout time.Duration) {
+	obj.ctx, obj.cancel = context.WithTimeout(context.Background(), timeout)
+	obj.timeout = timeout
+}
+
+// SetCtx set context
+func (obj *_BaseMgr) SetCtx(c context.Context) {
 	obj.ctx = c
 }
 
@@ -38,6 +48,12 @@ func (obj *_BaseMgr) GetIsRelated() bool {
 // SetIsRelated Query foreign key Association.设置是否查询外键关联(gorm.Related)
 func (obj *_BaseMgr) SetIsRelated(b bool) {
 	obj.isRelated = b
+}
+
+func (obj *_BaseMgr) new() *gorm.DB {
+	newDb := obj.DB.WithContext(obj.ctx)
+	newDb.Statement.Clauses = make(map[string]clause.Clause)
+	return newDb
 }
 
 type options struct {

@@ -19,7 +19,7 @@ db_info:
     port : 3306
     username : root
     password : 123456
-    database : oauth_db
+    database : matrix
     type: 0 # 数据库类型:0:mysql , 1:sqlite , 2:mssql
 
 # sqlite

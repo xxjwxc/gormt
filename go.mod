@@ -16,6 +16,8 @@ require (
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v9 v9.30.2
 	gopkg.in/yaml.v3 v3.0.0-20191120175047-4206685974f2
+	gorm.io/driver/mysql v1.0.1
+	gorm.io/gorm v1.20.1
 )
 
 // replace github.com/xxjwxc/public => ../public
