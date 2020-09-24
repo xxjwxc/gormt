@@ -22,3 +22,11 @@ db_info:
     database : oauth_db
     type: 0 # 数据库类型:0:mysql , 1:sqlite , 2:mssql
 
+# sqlite
+# db_info:
+#     host : /Users/xxj/Downloads/caoguo # type=1的时候，host为yml文件全路径
+#     port : 
+#     username : 
+#     password : 
+#     database : 
+#     type: 1 # 数据库类型:0:mysql , 1:sqlite , 2:mssql

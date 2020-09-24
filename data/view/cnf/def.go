@@ -44,17 +44,15 @@ var TypeMysqlDicMp = map[string]string{
 }
 
 // TypeMysqlMatchMp Fuzzy Matching Types.模糊匹配类型
-
-// TypeMysqlMatchMp Fuzzy Matching Types.模糊匹配类型
 var TypeMysqlMatchMp = map[string]string{
 	`^(tinyint)[(]\d+[)] unsigned`:   "uint8",
 	`^(smallint)[(]\d+[)] unsigned`:  "uint16",
 	`^(int)[(]\d+[)] unsigned`:       "uint32",
 	`^(bigint)[(]\d+[)] unsigned`:    "uint64",
-	`^(tinyint)[(]\d+[)]$`:            "int8",
-	`^(smallint)[(]\d+[)]$`:           "int16",
-	`^(int)[(]\d+[)]$`:                "int",
-	`^(bigint)[(]\d+[)]$`:             "int64",
+	`^(tinyint)[(]\d+[)]`:            "int8",
+	`^(smallint)[(]\d+[)]`:           "int16",
+	`^(int)[(]\d+[)]`:                "int",
+	`^(bigint)[(]\d+[)]`:             "int64",
 	`^(char)[(]\d+[)]`:               "string",
 	`^(enum)[(](.)+[)]`:              "string",
 	`^(varchar)[(]\d+[)]`:            "string",
