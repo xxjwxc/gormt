@@ -5,7 +5,7 @@
  
 ## [中文文档](README_zh_cn.md)
 
-###  mysql database to golang struct conversion tools base on [gorm](https://github.com/jinzhu/gorm)，You can automatically generate golang sturct from mysql database. big Camel-Case Name Rule, JSON tag. 
+###  mysql database to golang struct conversion tools base on [gorm(v1/v2)](https://github.com/go-gorm/gorm)，You can automatically generate golang sturct from mysql database. big Camel-Case Name Rule, JSON tag. 
 
 
 
