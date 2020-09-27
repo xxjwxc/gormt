@@ -26,7 +26,19 @@ func (obj *_BaseMgr) SetTimeOut(timeout time.Duration) {
 
 // SetCtx set context
 func (obj *_BaseMgr) SetCtx(c context.Context) {
-	obj.ctx = c
+	if c != nil {
+		obj.ctx = c
+	}
+}
+
+// Ctx get context
+func (obj *_BaseMgr) GetCtx() context.Context {
+	return obj.ctx
+}
+
+// Cancel cancel context
+func (obj *_BaseMgr) Cancel(c context.Context) {
+	obj.cancel()
 }
 
 // GetDB get gorm.DB info

@@ -27,7 +27,7 @@ func (obj *_AccountMgr) GetTableName() string {
 
 // Get 获取
 func (obj *_AccountMgr) Get() (result Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Find(&result).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&result).Error
 	if err == nil && obj.isRelated {
 		if err = obj.New().Table("user").Where("user_id = ?", result.UserID).Find(&result.User).Error; err != nil { //
 			if err != gorm.ErrRecordNotFound { // 非 没找到
@@ -41,7 +41,7 @@ func (obj *_AccountMgr) Get() (result Account, err error) {
 
 // Gets 获取批量结果
 func (obj *_AccountMgr) Gets() (results []*Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			if err = obj.New().Table("user").Where("user_id = ?", results[i].UserID).Find(&results[i].User).Error; err != nil { //
@@ -90,7 +90,7 @@ func (obj *_AccountMgr) GetByOption(opts ...Option) (result Account, err error) 
 		o.apply(&options)
 	}
 
-	err = obj.DB.Table(obj.GetTableName()).Where(options.query).Find(&result).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&result).Error
 	if err == nil && obj.isRelated {
 		if err = obj.New().Table("user").Where("user_id = ?", result.UserID).Find(&result.User).Error; err != nil { //
 			if err != gorm.ErrRecordNotFound { // 非 没找到
@@ -111,7 +111,7 @@ func (obj *_AccountMgr) GetByOptions(opts ...Option) (results []*Account, err er
 		o.apply(&options)
 	}
 
-	err = obj.DB.Table(obj.GetTableName()).Where(options.query).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			if err = obj.New().Table("user").Where("user_id = ?", results[i].UserID).Find(&results[i].User).Error; err != nil { //
@@ -128,7 +128,7 @@ func (obj *_AccountMgr) GetByOptions(opts ...Option) (results []*Account, err er
 
 // GetFromID 通过id获取内容
 func (obj *_AccountMgr) GetFromID(id int) (result Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("id = ?", id).Find(&result).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id = ?", id).Find(&result).Error
 	if err == nil && obj.isRelated {
 		if err = obj.New().Table("user").Where("user_id = ?", result.UserID).Find(&result.User).Error; err != nil { //
 			if err != gorm.ErrRecordNotFound { // 非 没找到
@@ -142,7 +142,7 @@ func (obj *_AccountMgr) GetFromID(id int) (result Account, err error) {
 
 // GetBatchFromID 批量唯一主键查找
 func (obj *_AccountMgr) GetBatchFromID(ids []int) (results []*Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("id IN (?)", ids).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id IN (?)", ids).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			if err = obj.New().Table("user").Where("user_id = ?", results[i].UserID).Find(&results[i].User).Error; err != nil { //
@@ -157,7 +157,7 @@ func (obj *_AccountMgr) GetBatchFromID(ids []int) (results []*Account, err error
 
 // GetFromAccountID 通过account_id获取内容
 func (obj *_AccountMgr) GetFromAccountID(accountID int) (results []*Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("account_id = ?", accountID).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("account_id = ?", accountID).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			if err = obj.New().Table("user").Where("user_id = ?", results[i].UserID).Find(&results[i].User).Error; err != nil { //
@@ -172,7 +172,7 @@ func (obj *_AccountMgr) GetFromAccountID(accountID int) (results []*Account, err
 
 // GetBatchFromAccountID 批量唯一主键查找
 func (obj *_AccountMgr) GetBatchFromAccountID(accountIDs []int) (results []*Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("account_id IN (?)", accountIDs).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("account_id IN (?)", accountIDs).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			if err = obj.New().Table("user").Where("user_id = ?", results[i].UserID).Find(&results[i].User).Error; err != nil { //
@@ -187,7 +187,7 @@ func (obj *_AccountMgr) GetBatchFromAccountID(accountIDs []int) (results []*Acco
 
 // GetFromUserID 通过user_id获取内容
 func (obj *_AccountMgr) GetFromUserID(userID int) (results []*Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("user_id = ?", userID).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("user_id = ?", userID).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			if err = obj.New().Table("user").Where("user_id = ?", results[i].UserID).Find(&results[i].User).Error; err != nil { //
@@ -202,7 +202,7 @@ func (obj *_AccountMgr) GetFromUserID(userID int) (results []*Account, err error
 
 // GetBatchFromUserID 批量唯一主键查找
 func (obj *_AccountMgr) GetBatchFromUserID(userIDs []int) (results []*Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("user_id IN (?)", userIDs).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("user_id IN (?)", userIDs).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			if err = obj.New().Table("user").Where("user_id = ?", results[i].UserID).Find(&results[i].User).Error; err != nil { //
@@ -217,7 +217,7 @@ func (obj *_AccountMgr) GetBatchFromUserID(userIDs []int) (results []*Account, e
 
 // GetFromType 通过type获取内容
 func (obj *_AccountMgr) GetFromType(_type int) (results []*Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("type = ?", _type).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("type = ?", _type).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			if err = obj.New().Table("user").Where("user_id = ?", results[i].UserID).Find(&results[i].User).Error; err != nil { //
@@ -232,7 +232,7 @@ func (obj *_AccountMgr) GetFromType(_type int) (results []*Account, err error) {
 
 // GetBatchFromType 批量唯一主键查找
 func (obj *_AccountMgr) GetBatchFromType(_types []int) (results []*Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("type IN (?)", _types).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("type IN (?)", _types).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			if err = obj.New().Table("user").Where("user_id = ?", results[i].UserID).Find(&results[i].User).Error; err != nil { //
@@ -247,7 +247,7 @@ func (obj *_AccountMgr) GetBatchFromType(_types []int) (results []*Account, err 
 
 // GetFromName 通过name获取内容
 func (obj *_AccountMgr) GetFromName(name string) (results []*Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("name = ?", name).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("name = ?", name).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			if err = obj.New().Table("user").Where("user_id = ?", results[i].UserID).Find(&results[i].User).Error; err != nil { //
@@ -262,7 +262,7 @@ func (obj *_AccountMgr) GetFromName(name string) (results []*Account, err error)
 
 // GetBatchFromName 批量唯一主键查找
 func (obj *_AccountMgr) GetBatchFromName(names []string) (results []*Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("name IN (?)", names).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("name IN (?)", names).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			if err = obj.New().Table("user").Where("user_id = ?", results[i].UserID).Find(&results[i].User).Error; err != nil { //
@@ -279,7 +279,7 @@ func (obj *_AccountMgr) GetBatchFromName(names []string) (results []*Account, er
 
 // FetchByPrimaryKey primay or index 获取唯一内容
 func (obj *_AccountMgr) FetchByPrimaryKey(id int) (result Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("id = ?", id).Find(&result).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id = ?", id).Find(&result).Error
 	if err == nil && obj.isRelated {
 		if err = obj.New().Table("user").Where("user_id = ?", result.UserID).Find(&result.User).Error; err != nil { //
 			if err != gorm.ErrRecordNotFound { // 非 没找到
@@ -293,7 +293,7 @@ func (obj *_AccountMgr) FetchByPrimaryKey(id int) (result Account, err error) {
 
 // FetchUniqueIndexByAccount primay or index 获取唯一内容
 func (obj *_AccountMgr) FetchUniqueIndexByAccount(accountID int, userID int) (result Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("account_id = ? AND user_id = ?", accountID, userID).Find(&result).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("account_id = ? AND user_id = ?", accountID, userID).Find(&result).Error
 	if err == nil && obj.isRelated {
 		if err = obj.New().Table("user").Where("user_id = ?", result.UserID).Find(&result.User).Error; err != nil { //
 			if err != gorm.ErrRecordNotFound { // 非 没找到
@@ -307,7 +307,7 @@ func (obj *_AccountMgr) FetchUniqueIndexByAccount(accountID int, userID int) (re
 
 // FetchIndexByTp  获取多个内容
 func (obj *_AccountMgr) FetchIndexByTp(userID int, _type int) (results []*Account, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("user_id = ? AND type = ?", userID, _type).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("user_id = ? AND type = ?", userID, _type).Find(&results).Error
 	if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ {
 			if err = obj.New().Table("user").Where("user_id = ?", results[i].UserID).Find(&results[i].User).Error; err != nil { //

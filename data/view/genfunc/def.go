@@ -35,7 +35,19 @@ func (obj *_BaseMgr) SetTimeOut(timeout time.Duration) {
 
 // SetCtx set context
 func (obj *_BaseMgr) SetCtx(c context.Context) {
-	obj.ctx = c
+	if c != nil {
+		obj.ctx = c
+	}
+}
+
+// Ctx get context
+func (obj *_BaseMgr) GetCtx() context.Context {
+	return obj.ctx
+}
+
+// Cancel cancel context
+func (obj *_BaseMgr) Cancel(c context.Context) {
+	obj.cancel()
 }
 
 // GetDB get gorm.DB info
@@ -112,14 +124,14 @@ func (obj *_{{$obj.StructName}}Mgr) GetTableName() string {
 
 // Get 获取
 func (obj *_{{$obj.StructName}}Mgr) Get() (result {{$obj.StructName}}, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Find(&result).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&result).Error
 	{{GenPreloadList $obj.PreloadList false}}
 	return
 }
 
 // Gets 获取批量结果
 func (obj *_{{$obj.StructName}}Mgr) Gets() (results []*{{$obj.StructName}}, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Find(&results).Error
 	{{GenPreloadList $obj.PreloadList true}}
 	return
 }
@@ -141,7 +153,7 @@ func (obj *_{{$obj.StructName}}Mgr) GetByOption(opts ...Option) (result {{$obj.S
 		o.apply(&options)
 	}
 
-	err = obj.DB.Table(obj.GetTableName()).Where(options.query).Find(&result).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&result).Error
 	{{GenPreloadList $obj.PreloadList false}}
 	return
 }
@@ -155,7 +167,7 @@ func (obj *_{{$obj.StructName}}Mgr) GetByOptions(opts ...Option) (results []*{{$
 		o.apply(&options)
 	}
 
-	err = obj.DB.Table(obj.GetTableName()).Where(options.query).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where(options.query).Find(&results).Error
 	{{GenPreloadList $obj.PreloadList true}}
 	return
 }
@@ -164,20 +176,20 @@ func (obj *_{{$obj.StructName}}Mgr) GetByOptions(opts ...Option) (results []*{{$
 {{range $oem := $obj.Em}}
 // GetFrom{{$oem.ColStructName}} 通过{{$oem.ColName}}获取内容 {{$oem.Notes}} {{if $oem.IsMulti}}
 func (obj *_{{$obj.StructName}}Mgr) GetFrom{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}} {{$oem.Type}}) (results []*{{$obj.StructName}}, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} = ?", {{CapLowercase $oem.ColStructName}}).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("{{$oem.ColName}} = ?", {{CapLowercase $oem.ColStructName}}).Find(&results).Error
 	{{GenPreloadList $obj.PreloadList true}}
 	return
 }
 {{else}}
 func (obj *_{{$obj.StructName}}Mgr)  GetFrom{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}} {{$oem.Type}}) (result {{$obj.StructName}}, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} = ?", {{CapLowercase $oem.ColStructName}}).Find(&result).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("{{$oem.ColName}} = ?", {{CapLowercase $oem.ColStructName}}).Find(&result).Error
 	{{GenPreloadList $obj.PreloadList false}}
 	return
 }
 {{end}}
 // GetBatchFrom{{$oem.ColStructName}} 批量唯一主键查找 {{$oem.Notes}}
 func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}}s []{{$oem.Type}}) (results []*{{$obj.StructName}}, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("{{$oem.ColName}} IN (?)", {{CapLowercase $oem.ColStructName}}s).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("{{$oem.ColName}} IN (?)", {{CapLowercase $oem.ColStructName}}s).Find(&results).Error
 	{{GenPreloadList $obj.PreloadList true}}
 	return
 }
@@ -186,7 +198,7 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowe
  {{range $ofm := $obj.Primay}}
  // {{GenFListIndex $ofm 1}} primay or index 获取唯一内容
  func (obj *_{{$obj.StructName}}Mgr) {{GenFListIndex $ofm 1}}({{GenFListIndex $ofm 2}}) (result {{$obj.StructName}}, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("{{GenFListIndex $ofm 3}}", {{GenFListIndex $ofm 4}}).Find(&result).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("{{GenFListIndex $ofm 3}}", {{GenFListIndex $ofm 4}}).Find(&result).Error
 	{{GenPreloadList $obj.PreloadList false}}
 	return
 }
@@ -195,7 +207,7 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowe
  {{range $ofm := $obj.Index}}
  // {{GenFListIndex $ofm 1}}  获取多个内容
  func (obj *_{{$obj.StructName}}Mgr) {{GenFListIndex $ofm 1}}({{GenFListIndex $ofm 2}}) (results []*{{$obj.StructName}}, err error) {
-	err = obj.DB.Table(obj.GetTableName()).Where("{{GenFListIndex $ofm 3}}", {{GenFListIndex $ofm 4}}).Find(&results).Error
+	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("{{GenFListIndex $ofm 3}}", {{GenFListIndex $ofm 4}}).Find(&results).Error
 	{{GenPreloadList $obj.PreloadList true}}
 	return
 }
