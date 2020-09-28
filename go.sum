@@ -212,6 +212,8 @@ github.com/xxjwxc/public v0.0.0-20200605161710-72fc28675475/go.mod h1:0BFWVHqt7n
 github.com/xxjwxc/public v0.0.0-20200921104903-7ca9b2863090 h1:cmzvPQvZ94OAA6SY2JWvFr8BKJxFd6pa/TEC7ZZkATs=
 github.com/xxjwxc/public v0.0.0-20200928064309-56390a763e14 h1:oOHZrCjoj9pL+EBiQlgpB1E0+WsbhSxwY9HUSsAZMGw=
 github.com/xxjwxc/public v0.0.0-20200928064309-56390a763e14/go.mod h1:E8+hfDT+dh3uoJ40kWqTcvnpDv1DJIMTFySzPZd8rTs=
+github.com/xxjwxc/public v0.0.0-20200928160257-3db1045537d1 h1:dwdQOwu3wGgoXso9XaHuIkZDvoSiyJl89FUYFfVmPi0=
+github.com/xxjwxc/public v0.0.0-20200928160257-3db1045537d1/go.mod h1:E8+hfDT+dh3uoJ40kWqTcvnpDv1DJIMTFySzPZd8rTs=
 go.etcd.io/bbolt v1.3.2/go.mod h1:IbVyRI1SCnLcuJnV2u8VeU0CEYM7e686BmAb1XKL+uU=
 go.opencensus.io v0.20.1/go.mod h1:6WKK9ahsWS3RSO+PY9ZHZUfv2irvY6gN279GOPZjmmk=
 go.uber.org/atomic v1.4.0 h1:cxzIVoETapQEqDhQu3QfnvXAV4AlzcvUCxkVUFw3+EU=

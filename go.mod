@@ -11,7 +11,7 @@ require (
 	github.com/mattn/go-sqlite3 v2.0.1+incompatible
 	github.com/nicksnyder/go-i18n/v2 v2.0.3
 	github.com/spf13/cobra v1.0.0
-	github.com/xxjwxc/public v0.0.0-20200928064309-56390a763e14
+	github.com/xxjwxc/public v0.0.0-20200928160257-3db1045537d1
 	golang.org/x/text v0.3.2
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v9 v9.30.2
