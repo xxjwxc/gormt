@@ -210,6 +210,8 @@ github.com/xxjwxc/public v0.0.0-20200604090416-5afd146414d5/go.mod h1:0BFWVHqt7n
 github.com/xxjwxc/public v0.0.0-20200605161710-72fc28675475 h1:VDny2T9+fQwq9WZkwrnD7hfANzX5lUOx53l31NPA9T8=
 github.com/xxjwxc/public v0.0.0-20200605161710-72fc28675475/go.mod h1:0BFWVHqt7nKW8MtIx7R7bOkoGQFFnKsaJeeVbkzY88E=
 github.com/xxjwxc/public v0.0.0-20200921104903-7ca9b2863090 h1:cmzvPQvZ94OAA6SY2JWvFr8BKJxFd6pa/TEC7ZZkATs=
+github.com/xxjwxc/public v0.0.0-20200928064309-56390a763e14 h1:oOHZrCjoj9pL+EBiQlgpB1E0+WsbhSxwY9HUSsAZMGw=
+github.com/xxjwxc/public v0.0.0-20200928064309-56390a763e14/go.mod h1:E8+hfDT+dh3uoJ40kWqTcvnpDv1DJIMTFySzPZd8rTs=
 go.etcd.io/bbolt v1.3.2/go.mod h1:IbVyRI1SCnLcuJnV2u8VeU0CEYM7e686BmAb1XKL+uU=
 go.opencensus.io v0.20.1/go.mod h1:6WKK9ahsWS3RSO+PY9ZHZUfv2irvY6gN279GOPZjmmk=
 go.uber.org/atomic v1.4.0 h1:cxzIVoETapQEqDhQu3QfnvXAV4AlzcvUCxkVUFw3+EU=
@@ -316,6 +318,8 @@ gorm.io/driver/mysql v1.0.1/go.mod h1:KtqSthtg55lFp3S5kUXqlGaelnWpKitn4k1xZTnoiP
 gorm.io/gorm v1.9.19/go.mod h1:0HFTzE/SqkGTzK6TlDPPQbAYCluiVvhzoA1+aVyzenw=
 gorm.io/gorm v1.20.1 h1:+hOwlHDqvqmBIMflemMVPLJH7tZYK4RxFDBHEfJTup0=
 gorm.io/gorm v1.20.1/go.mod h1:0HFTzE/SqkGTzK6TlDPPQbAYCluiVvhzoA1+aVyzenw=
+gorm.io/gorm v1.20.2 h1:bZzSEnq7NDGsrd+n3evOOedDrY5oLM5QPlCjZJUK2ro=
+gorm.io/gorm v1.20.2/go.mod h1:0HFTzE/SqkGTzK6TlDPPQbAYCluiVvhzoA1+aVyzenw=
 honnef.co/go/tools v0.0.0-20180728063816-88497007e858/go.mod h1:rf3lG4BRIbNafJWhAfAdb/ePZxsR/4RtNHQocxwk9r4=
 honnef.co/go/tools v0.0.0-20190102054323-c2f93a96b099/go.mod h1:rf3lG4BRIbNafJWhAfAdb/ePZxsR/4RtNHQocxwk9r4=
 honnef.co/go/tools v0.0.0-20190106161140-3f1c8253044a/go.mod h1:rf3lG4BRIbNafJWhAfAdb/ePZxsR/4RtNHQocxwk9r4=

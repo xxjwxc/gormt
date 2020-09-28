@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/xxjwxc/gormt/data/view/genfunc/model"
+	"github.com/xxjwxc/public/mysqldb"
 	"gorm.io/gorm"
 
 	"gorm.io/driver/mysql"
@@ -73,14 +74,14 @@ func TestFuncGet(t *testing.T) {
 
 // TestFuncOption 功能选项方式获取
 func TestFuncOption(t *testing.T) {
-	db := GetGorm("root:qwer@tcp(127.0.0.1:3306)/matrix?charset=utf8&parseTime=True&loc=Local&interpolateParams=True")
-	defer func() {
-		sqldb, _ := db.DB()
-		sqldb.Close()
-	}()
-	// orm := mysqldb.OnInitDBOrm("root:qwer@tcp(127.0.0.1:3306)/matrix?charset=utf8&parseTime=True&loc=Local&interpolateParams=True") // 推荐方式
-	// defer orm.OnDestoryDB()
-	// db := orm.DB
+	// db := GetGorm("root:qwer@tcp(127.0.0.1:3306)/matrix?charset=utf8&parseTime=True&loc=Local&interpolateParams=True")
+	// defer func() {
+	// 	sqldb, _ := db.DB()
+	// 	sqldb.Close()
+	// }()
+	orm := mysqldb.OnInitDBOrm("root:123456@tcp(127.0.0.1:3306)/matrix?charset=utf8&parseTime=True&loc=Local&interpolateParams=True") // 推荐方式
+	defer orm.OnDestoryDB()
+	db := orm.DB
 
 	accountMgr := model.AccountMgr(db)
 	accountMgr.SetIsRelated(true)                                                          // 打开预加载 (外键)
