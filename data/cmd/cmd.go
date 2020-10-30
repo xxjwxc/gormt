@@ -10,16 +10,9 @@ import (
 	"github.com/xxjwxc/gormt/data/config"
 
 	"github.com/spf13/cobra"
+	"github.com/xxjwxc/public/mycobra"
 	"gopkg.in/go-playground/validator.v9"
 )
-
-var mysqlInfo config.DBInfo
-var outDir string
-var singularTable bool
-var foreignKey bool
-var funcKey bool
-var ui bool
-var urlTag string
 
 var rootCmd = &cobra.Command{
 	Use:   "main",
@@ -42,36 +35,36 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVarP(&mysqlInfo.Host, "host", "H", "", "数据库地址.(注意-H为大写)")
+	rootCmd.PersistentFlags().StringP("host", "H", "", "数据库地址.(注意-H为大写)")
 	rootCmd.MarkFlagRequired("host")
-	rootCmd.PersistentFlags().StringVarP(&mysqlInfo.Username, "user", "u", "", "用户名.")
+	rootCmd.PersistentFlags().StringP("user", "u", "", "用户名.")
 	rootCmd.MarkFlagRequired("user")
 
-	rootCmd.PersistentFlags().StringVarP(&mysqlInfo.Password, "password", "p", "", "密码.")
+	rootCmd.PersistentFlags().StringP("password", "p", "", "密码.")
 	rootCmd.MarkFlagRequired("password")
 
-	rootCmd.PersistentFlags().StringVarP(&mysqlInfo.Database, "database", "d", "", "数据库名")
+	rootCmd.PersistentFlags().StringP("database", "d", "", "数据库名")
 	rootCmd.MarkFlagRequired("database")
 
-	rootCmd.PersistentFlags().StringVarP(&outDir, "outdir", "o", "", "输出目录")
+	rootCmd.PersistentFlags().StringP("outdir", "o", "", "输出目录")
 	rootCmd.MarkFlagRequired("outdir")
 
-	rootCmd.PersistentFlags().BoolVarP(&singularTable, "singular", "s", true, "是否禁用表名复数")
+	rootCmd.PersistentFlags().BoolP("singular", "s", true, "是否禁用表名复数")
 	rootCmd.MarkFlagRequired("singular")
 
-	rootCmd.PersistentFlags().BoolVarP(&foreignKey, "foreign", "f", false, "是否导出外键关联")
+	rootCmd.PersistentFlags().BoolP("foreign", "f", false, "是否导出外键关联")
 	rootCmd.MarkFlagRequired("foreign key")
 
-	rootCmd.PersistentFlags().BoolVarP(&funcKey, "fun", "F", false, "是否导出函数")
+	rootCmd.PersistentFlags().BoolP("fun", "F", false, "是否导出函数")
 	rootCmd.MarkFlagRequired("func export")
 
-	rootCmd.PersistentFlags().BoolVarP(&ui, "gui", "g", false, "是否ui显示模式")
+	rootCmd.PersistentFlags().BoolP("gui", "g", false, "是否ui显示模式")
 	rootCmd.MarkFlagRequired("show on gui")
 
-	rootCmd.PersistentFlags().StringVarP(&urlTag, "url", "l", "", "url标签(json,url)")
+	rootCmd.PersistentFlags().StringP("url", "l", "", "url标签(json,url)")
 	rootCmd.MarkFlagRequired("url tag")
 
-	rootCmd.Flags().IntVar(&mysqlInfo.Port, "port", 3306, "端口号")
+	rootCmd.Flags().Int("port", 3306, "端口号")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -92,45 +85,34 @@ func initConfig() {
 // MergeMysqlDbInfo merge parm
 func MergeMysqlDbInfo() {
 	var tmp = config.GetDbInfo()
-	if len(mysqlInfo.Database) > 0 {
-		tmp.Database = mysqlInfo.Database
-	}
-	if len(mysqlInfo.Host) > 0 {
-		tmp.Host = mysqlInfo.Host
-	}
-	if len(mysqlInfo.Password) > 0 {
-		tmp.Password = mysqlInfo.Password
-	}
-	if mysqlInfo.Port != 3306 {
-		tmp.Port = mysqlInfo.Port
-	}
-	if len(mysqlInfo.Username) > 0 {
-		tmp.Username = mysqlInfo.Username
-	}
-	if len(urlTag) > 0 {
-		config.SetURLTag(urlTag)
-	}
-
+	mycobra.IfReplace(rootCmd, "database", &tmp.Database) // 如果设置了，更新
+	mycobra.IfReplace(rootCmd, "host", &tmp.Host)         // 如果设置了，更新
+	mycobra.IfReplace(rootCmd, "password", &tmp.Password) // 如果设置了，更新
+	mycobra.IfReplace(rootCmd, "port", &tmp.Port)         // 如果设置了，更新
+	mycobra.IfReplace(rootCmd, "user", &tmp.Username)     // 如果设置了，更新
 	config.SetMysqlDbInfo(&tmp)
 
-	if len(outDir) > 0 {
-		config.SetOutDir(outDir)
-	}
+	url := config.GetURLTag()
+	mycobra.IfReplace(rootCmd, "url", &url) // 如果设置了，更新
+	config.SetURLTag(url)
 
-	if singularTable {
-		config.SetSingularTable(singularTable)
-	}
+	dir := config.GetOutDir()
+	mycobra.IfReplace(rootCmd, "outdir", &dir) // 如果设置了，更新
+	config.SetOutDir(dir)
 
-	if foreignKey {
-		config.SetForeignKey(foreignKey)
-	}
+	st := config.GetSingularTable()
+	mycobra.IfReplace(rootCmd, "singular", &st) // 如果设置了，更新
+	config.SetSingularTable(st)
 
-	if funcKey {
-		config.SetIsOutFunc(funcKey)
-	}
+	fk := config.GetIsForeignKey()
+	mycobra.IfReplace(rootCmd, "foreign", &fk) // 如果设置了，更新
+	config.SetForeignKey(st)
 
-	if ui {
-		config.SetIsGUI(ui)
-	}
+	funcKey := config.GetIsOutFunc()
+	mycobra.IfReplace(rootCmd, "fun", &funcKey) // 如果设置了，更新
+	config.SetIsOutFunc(funcKey)
 
+	ig := config.GetIsGUI()
+	mycobra.IfReplace(rootCmd, "gui", &ig) // 如果设置了，更新
+	config.SetIsGUI(ig)
 }
