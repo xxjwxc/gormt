@@ -54,6 +54,9 @@ func addChinese() error {
 		ID:    "out_dir",
 		Other: " 输 出 目 录 :",
 	}, &i18n.Message{
+		ID:    "db_type",
+		Other: " 数 据 库 类 型 :",
+	}, &i18n.Message{
 		ID:    "db_host",
 		Other: " 数 据 库 地 址 :",
 	}, &i18n.Message{
@@ -147,6 +150,9 @@ func addEnglish() error {
 	}, &i18n.Message{
 		ID:    "out_dir",
 		Other: "out dir:",
+	}, &i18n.Message{
+		ID:    "db_type",
+		Other: " db type:",
 	}, &i18n.Message{
 		ID:    "db_host",
 		Other: "db host:",
