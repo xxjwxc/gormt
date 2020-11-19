@@ -35,8 +35,9 @@ or: [Dowloading](https://github.com/xxjwxc/gormt/releases)
 --------
 
 ## 1. Configure default configuration items through the current directory config.yml file
-```
-out_dir : "."  # out dir
+note: for latest version of config format, please check /data/config/MyIni.go
+```yml
+out_dir : "./model"  # out dir
 url_tag : json # web url tag(json,db(https://github.com/google/go-querystring))
 language :  # language(English,中 文)
 db_tag : gorm # DB tag(gorm,db)
@@ -44,18 +45,21 @@ singular_table : true  # Table name plural (big Camel-Case):gorm.SingularTable
 simple : false #simple output
 is_out_sql : false # Whether to output sql
 is_out_func : true # Whether to output function
-is_url_tag : true # Whether to mark web or not
 is_foreign_key : true # Whether to mark foreign key or not
 is_gui : false # Whether to operate on gui
 is_table_name : false # Whether to out GetTableName function
 is_null_to_point : false # database is 'DEFAULT NULL' then set element type as point
+is_web_tag: false
+is_web_tag_pk_hidden: false
 
-mysql_info :
+db_info :
     host : "127.0.0.1"
     port : 3306
     username : "root"
     password : "qwer"
     database : "oauth_db"
+    type: 0
+
 
 ```
 ## 2. get help
