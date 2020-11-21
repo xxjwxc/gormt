@@ -58,7 +58,7 @@ db_info :
     username : "root"
     password : "qwer"
     database : "oauth_db"
-    type: 0
+    type: 0 # database type (0:mysql , 1:sqlite , 2:mssql)
 
 
 ```

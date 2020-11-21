@@ -61,7 +61,7 @@ db_info:
     username : root
     password : qwer
     database : oauth_db
-    type: 0
+    type: 0 # 数据库类型:0:mysql , 1:sqlite , 2:mssql
 
 
 ```

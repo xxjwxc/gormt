@@ -33,7 +33,7 @@ type DBInfo struct {
 	Username string // Username 用户名
 	Password string // Password 密码
 	Database string // Database 数据库名
-	Type     int    // 数据库类型:0:mysql 1:配置
+	Type     int    // 数据库类型: 0:mysql , 1:sqlite , 2:mssql
 }
 
 // SetMysqlDbInfo Update MySQL configuration information
