@@ -214,9 +214,8 @@ func enterSet(g *gocui.Gui, v *gocui.View) error {
 		AddValidate("required input", requireValidator)
 	form.AddInputField("db_name", SLocalize("db_name"), formPart[0], formPart[1]).SetText(config.GetDbInfo().Database).
 		AddValidate("required input", requireValidator)
-	form.AddInputField("db_type", SLocalize("db_type"), formPart[0], formPart[1]).SetText(tools.AsString(config.GetDbInfo().Type)).
-		AddValidate("required input", requireValidator)
-
+	form.AddSelect("db_type", SLocalize("db_type"), formPart[0], formPart[2]).AddOptions(getDBTypeList()...).
+		SetSelected(GetDBTypeStr(config.GetDbInfo().Type))
 	// add select
 	form.AddSelect("is_dev", SLocalize("is_dev"), formPart[0], formPart[2]).
 		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetIsDev())))
@@ -288,9 +287,11 @@ func buttonSave(g *gocui.Gui, v *gocui.View) error {
 	dbInfo.Username = mp["db_usename"]
 	dbInfo.Password = mp["db_pwd"]
 	dbInfo.Database = mp["db_name"]
-
-	config.SetMysqlDbInfo(&dbInfo)
 	mp = form.GetSelectedOpts()
+
+	dbInfo.Type = GetDBTypeID(mp["db_type"])
+	config.SetMysqlDbInfo(&dbInfo)
+
 	config.SetIsDev(getBool(mp["is_dev"]))
 	config.SetSimple(getBool(mp["is_simple"]))
 	config.SetSingularTable(getBool(mp["is_singular"]))
@@ -410,4 +411,36 @@ func OnInitDialog() {
 	if err := g.MainLoop(); err != nil && err != gocui.ErrQuit { // 主循环
 		log.Panicln(err)
 	}
+}
+
+// GetDBTypeStr 0:mysql , 1:sqlite , 2:mssql
+func GetDBTypeStr(tp int) string {
+	switch tp {
+	case 0:
+		return "mysql"
+	case 1:
+		return "sqlite"
+	case 2:
+		return "mssql"
+	}
+	// default
+	return "mysql"
+}
+
+// GetDBTypeID 0:mysql , 1:sqlite , 2:mssql
+func GetDBTypeID(name string) int {
+	switch name {
+	case "mysql":
+		return 0
+	case "sqlite":
+		return 1
+	case "mssql":
+		return 2
+	}
+	// default
+	return 0
+}
+
+func getDBTypeList() []string {
+	return []string{"mysql", "sqlite", "mssql"}
 }

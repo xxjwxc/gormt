@@ -86,14 +86,14 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 				switch v1.Key {
 				// case ColumnsKeyDefault:
 				case ColumnsKeyPrimary: // primary key.主键
-					tmp.AddTag(_tagGorm, "primary_key")
+					tmp.AddTag(_tagGorm, "primaryKey")
 					isPK = true
 				case ColumnsKeyUnique: // unique key.唯一索引
 					tmp.AddTag(_tagGorm, "unique")
 				case ColumnsKeyIndex: // index key.复合索引
 					tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName))
 				case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
-					tmp.AddTag(_tagGorm, getUninStr("unique_index", ":", v1.KeyName))
+					tmp.AddTag(_tagGorm, getUninStr("uniqueIndex", ":", v1.KeyName))
 				}
 			}
 		}
@@ -154,8 +154,8 @@ func (m *_Model) genForeignKey(col ColumnsInfo) (fklist []genstruct.GenElement) 
 				tmp.SetType(getCamelName(v.TableName))
 			}
 
-			tmp.AddTag(_tagGorm, "association_foreignkey:"+col.Name)
-			tmp.AddTag(_tagGorm, "foreignkey:"+v.ColumnName)
+			tmp.AddTag(_tagGorm, "joinForeignKey:"+col.Name) // association_foreignkey
+			tmp.AddTag(_tagGorm, "foreignKey:"+v.ColumnName)
 
 			// json tag
 			if config.GetIsWEBTag() {
