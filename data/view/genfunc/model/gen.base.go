@@ -63,7 +63,7 @@ func (obj *_BaseMgr) SetIsRelated(b bool) {
 
 // New new gorm.新gorm
 func (obj *_BaseMgr) New() *gorm.DB {
-	return obj.DB.Session(&gorm.Session{WithConditions: false, Context: obj.ctx})
+	return obj.DB.Session(&gorm.Session{Context: obj.ctx})
 }
 
 type options struct {

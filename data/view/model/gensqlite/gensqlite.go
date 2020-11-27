@@ -7,11 +7,11 @@ import (
 
 	"github.com/xxjwxc/public/mylog"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/xxjwxc/gormt/data/config"
 	"github.com/xxjwxc/gormt/data/view/model"
 	"github.com/xxjwxc/public/tools"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 // SQLiteModel mysql model from IModel
@@ -22,12 +22,15 @@ type sqliteModel struct {
 
 // GenModel get model.DBInfo info.获取数据库相关属性
 func (m *sqliteModel) GenModel() model.DBInfo {
-	db, err := gorm.Open("sqlite3", config.GetDbInfo().Host)
+	db, err := gorm.Open(sqlite.Open(config.GetDbInfo().Host), &gorm.Config{})
 	if err != nil {
 		mylog.Error(err)
 		return model.DBInfo{}
 	}
-	defer db.Close()
+	defer func() {
+		sqldb, _ := db.DB()
+		sqldb.Close()
+	}()
 
 	var dbInfo model.DBInfo
 	m.getPackageInfo(db, &dbInfo)
