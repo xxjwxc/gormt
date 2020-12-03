@@ -235,8 +235,9 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 	for _, tab := range m.info.TabList {
 		var pkg genstruct.GenPackage
 		pkg.SetPackage(m.info.PackageName) //package name
-		pkg.AddImport(cnf.EImportsHead["gorm.Model"])
 		pkg.AddImport(`"fmt"`)
+		pkg.AddImport(`"context"`) // 添加import信息
+		pkg.AddImport(cnf.EImportsHead["gorm.Model"])
 
 		data := funDef{
 			StructName: getCamelName(tab.Name),
