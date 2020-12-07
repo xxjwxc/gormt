@@ -199,6 +199,7 @@ CHCP 65001
 ### table notes default
 
 - Add a comment to the column starting with `[@gormt default:'test']`
+- example `[@gormt default:'test';->;<-:create]this is my notes` Indicates that the default value is 'test',can read/creat/write
 
 ## 9. one windows gui tools
 

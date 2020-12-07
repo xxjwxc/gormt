@@ -142,7 +142,7 @@ func (m *mysqlModel) getTableElement(orm *mysqldb.MySqlDB, tab string) (el []mod
 		var tmp model.ColumnsInfo
 		tmp.Name = v.Field
 		tmp.Type = v.Type
-		FixElementNote(&tmp, v.Desc)
+		FixElementTag(&tmp, v.Desc) // 分析表注释
 
 		// keys
 		if keylist, ok := KeyColumnMp[v.Field]; ok { // maybe have index or key

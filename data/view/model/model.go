@@ -108,8 +108,8 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 				}
 			}
 			// default tag
-			if len(v.Default) > 0 {
-				tmp.AddTag(_tagGorm, "default:"+v.Default)
+			if len(v.Gormt) > 0 {
+				tmp.AddTag(_tagGorm, v.Gormt)
 			}
 
 			// json tag

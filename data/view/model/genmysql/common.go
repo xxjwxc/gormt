@@ -53,22 +53,13 @@ func GetModel() model.IModel {
 	return &MySQLModel
 }
 
-// FixElementNote 分析元素表注释
-func FixElementNote(em *model.ColumnsInfo, note string) {
+// FixElementTag 分析元素表注释
+func FixElementTag(em *model.ColumnsInfo, note string) {
 	matches := noteRegex.FindStringSubmatch(note)
 	if len(matches) < 2 {
 		em.Notes = note
 		return
 	}
 	em.Notes = note[len(matches[0]):]
-
-	list := strings.Split(matches[1], ";")
-	for _, v := range list {
-		tmp := strings.Split(v, ":")
-		if len(tmp) == 2 {
-			if strings.EqualFold(tmp[0], "default") { // 默认值
-				em.Default = tmp[1]
-			}
-		}
-	}
+	em.Gormt = matches[1]
 }
