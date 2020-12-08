@@ -75,9 +75,6 @@ func addChinese() error {
 		ID:    "is_dev",
 		Other: " 开 发 模 式:",
 	}, &i18n.Message{
-		ID:    "is_singular",
-		Other: " 单 表 模 式 :",
-	}, &i18n.Message{
 		ID:    "is_simple",
 		Other: " 简 单 输 出 :",
 	}, &i18n.Message{
@@ -174,9 +171,6 @@ func addEnglish() error {
 	}, &i18n.Message{
 		ID:    "is_simple",
 		Other: "is simple :",
-	}, &i18n.Message{
-		ID:    "is_singular",
-		Other: "is singular :",
 	}, &i18n.Message{
 		ID:    "is_out_sql",
 		Other: "is out sql :",

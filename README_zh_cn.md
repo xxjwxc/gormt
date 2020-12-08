@@ -45,7 +45,6 @@ out_dir: ./model  # 输出目录
 url_tag: json # web url tag(json,db(https://github.com/google/go-querystring))
 language: 中 文  # 语言(English,中 文)
 db_tag: gorm # 数据库标签(gorm,db)
-singular_table: true  # 单表模式:true:禁用表名复数,false:采用表明复数 参考:gorm.SingularTable
 simple: false # 简单输出(默认gorm标签不输出)
 is_out_sql: false # 是否输出 sql 原信息
 is_out_func: true # 是否输出 快捷函数
@@ -105,7 +104,6 @@ Flags:
 ## 4. 支持gorm 相关属性 
    
 - 数据库表,列字段注释支持
-- singular_table 表名复数(大驼峰)
 - json tag json标签输出
 - gorm.Model 基本模型   [支持gorm.Model模式导出>>>](https://github.com/xxjwxc/gormt/tree/master/doc/export_cn.md)
 - PRIMARY_KEY	将列指定为主键

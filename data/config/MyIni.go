@@ -17,7 +17,6 @@ type Config struct {
 	Simple           bool   `yaml:"simple"`
 	IsWEBTag         bool   `yaml:"is_web_tag"`
 	IsWebTagPkHidden bool   `yaml:"is_web_tag_pk_hidden"` // web标记是否隐藏主键
-	SingularTable    bool   `yaml:"singular_table"`
 	IsForeignKey     bool   `yaml:"is_foreign_key"`
 	IsOutSQL         bool   `yaml:"is_out_sql"`
 	IsOutFunc        bool   `yaml:"is_out_func"`
@@ -71,15 +70,15 @@ func GetOutDir() string {
 	return _map.OutDir
 }
 
-// SetSingularTable Set Disabled Table Name Plurals.设置禁用表名复数
-func SetSingularTable(b bool) {
-	_map.SingularTable = b
-}
+// // SetSingularTable Set Disabled Table Name Plurals.设置禁用表名复数
+// func SetSingularTable(b bool) {
+// 	_map.SingularTable = b
+// }
 
-// GetSingularTable Get Disabled Table Name Plurals.获取禁用表名复数
-func GetSingularTable() bool {
-	return _map.SingularTable
-}
+// // GetSingularTable Get Disabled Table Name Plurals.获取禁用表名复数
+// func GetSingularTable() bool {
+// 	return _map.SingularTable
+// }
 
 // GetSimple simple output.简单输出
 func GetSimple() bool {

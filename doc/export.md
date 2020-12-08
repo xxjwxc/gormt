@@ -36,7 +36,7 @@ CREATE TABLE `user_account_tbl` (
 
 ### Mult complex export without foreign key
 
-- param:singular_table = false simple = false  is_foreign_key = false
+- param: simple = false  is_foreign_key = false
 
 ###### --->export result
 
@@ -60,7 +60,7 @@ type UserAccountTbl struct {
 
 ### Simple-export-with-JSON
 
-- param:singular_table = false simple = true is_web_tag = true  is_foreign_key = false
+- param: simple = true is_web_tag = true  is_foreign_key = false
 
 ###### --->export result
 
@@ -84,7 +84,7 @@ type UserAccountTbl struct {
 
 ### Simple export without JSON
 
-- param:singular_table = false simple = true is_web_tag = false  is_foreign_key = false
+- param: simple = true is_web_tag = false  is_foreign_key = false
 
 ###### --->export result
 
@@ -108,7 +108,7 @@ type UserAccountTbl struct {
 
 ### Simple with foreign key mode export
 
-- param:singular_table = false simple = true is_web_tag = false  is_foreign_key = true
+- param: simple = true is_web_tag = false  is_foreign_key = true
 
 ###### --->export result
 
@@ -147,7 +147,7 @@ CREATE TABLE `user_info_tbl` (
 
 ### Support export gorm.model
 
-- param:singular_table = false simple = true is_web_tag = false 
+- param: simple = true is_web_tag = false 
 
 ###### --->export result
 

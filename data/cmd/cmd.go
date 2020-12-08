@@ -100,13 +100,9 @@ func MergeMysqlDbInfo() {
 	mycobra.IfReplace(rootCmd, "outdir", &dir) // 如果设置了，更新
 	config.SetOutDir(dir)
 
-	st := config.GetSingularTable()
-	mycobra.IfReplace(rootCmd, "singular", &st) // 如果设置了，更新
-	config.SetSingularTable(st)
-
 	fk := config.GetIsForeignKey()
 	mycobra.IfReplace(rootCmd, "foreign", &fk) // 如果设置了，更新
-	config.SetForeignKey(st)
+	config.SetForeignKey(fk)
 
 	funcKey := config.GetIsOutFunc()
 	mycobra.IfReplace(rootCmd, "fun", &funcKey) // 如果设置了，更新

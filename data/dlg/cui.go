@@ -221,8 +221,6 @@ func enterSet(g *gocui.Gui, v *gocui.View) error {
 		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetIsDev())))
 	form.AddSelect("is_simple", SLocalize("is_simple"), formPart[0], formPart[2]).
 		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetSimple())))
-	form.AddSelect("is_singular", SLocalize("is_singular"), formPart[0], formPart[2]).
-		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetSingularTable())))
 	form.AddSelect("is_out_sql", SLocalize("is_out_sql"), formPart[0], formPart[2]).
 		AddOptions(SLocalize("true"), SLocalize("false")).SetSelected(SLocalize(tools.AsString(config.GetIsOutSQL())))
 	form.AddSelect("is_out_func", SLocalize("is_out_func"), formPart[0], formPart[2]).
@@ -294,7 +292,6 @@ func buttonSave(g *gocui.Gui, v *gocui.View) error {
 
 	config.SetIsDev(getBool(mp["is_dev"]))
 	config.SetSimple(getBool(mp["is_simple"]))
-	config.SetSingularTable(getBool(mp["is_singular"]))
 	config.SetIsOutSQL(getBool(mp["is_out_sql"]))
 	config.SetIsOutFunc(getBool(mp["is_out_func"]))
 	config.SetForeignKey(getBool(mp["is_foreign_key"]))

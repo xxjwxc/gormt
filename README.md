@@ -41,7 +41,6 @@ out_dir : "./model"  # out dir
 url_tag : json # web url tag(json,db(https://github.com/google/go-querystring))
 language :  # language(English,中 文)
 db_tag : gorm # DB tag(gorm,db)
-singular_table : true  # Table name plural (big Camel-Case):gorm.SingularTable
 simple : false #simple output
 is_out_sql : false # Whether to output sql
 is_out_func : true # Whether to output function
@@ -97,7 +96,6 @@ Flags:
 ## 4. Support for gorm attributes
    
 - Database tables, column field annotation support
-- singular_table, Table name plural (big Camel-Case)
 - json tag json tag output
 - gorm.Model [Support export gorm.model>>>](doc/export.md)
 - PRIMARY_KEY	Specifies column as primary key

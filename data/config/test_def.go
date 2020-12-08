@@ -13,7 +13,6 @@ service_displayname :  #服务显示名
 sercice_desc :    #服务描述
 is_dev : false  # 是否开发者模式
 out_dir : ./db  # 输出目录
-singular_table : true  # 单表模式:true:禁用表名复数,false:采用表明复数 参考:gorm.SingularTable
 simple : true #简单输出
 isJsonTag : true #是否打json标记
 mysql_info:
