@@ -2,10 +2,11 @@ package genstruct
 
 // GenElement element of sturct.元素类
 type GenElement struct {
-	Name  string              // Name.元素名
-	Type  string              // Type.类型标记
-	Notes string              // Notes.注释
-	Tags  map[string][]string // tages.标记
+	Name       string              // Name.元素名
+	ColumnName string              // table name.表名
+	Type       string              // Type.类型标记
+	Notes      string              // Notes.注释
+	Tags       map[string][]string // tages.标记
 }
 
 // GenStruct struct of IStruct .结构体

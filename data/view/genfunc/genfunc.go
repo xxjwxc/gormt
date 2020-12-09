@@ -1,8 +1,13 @@
 package genfunc
 
-// GetGenTableNameTemp get gen base template str
+// GetGenTableNameTemp get gen table template str
 func GetGenTableNameTemp() string {
 	return genTnf
+}
+
+// GetGenColumnNameTemp get gen column template str
+func GetGenColumnNameTemp() string {
+	return genColumn
 }
 
 // GetGenBaseTemp get gen base template str

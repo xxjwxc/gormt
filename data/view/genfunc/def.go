@@ -7,6 +7,14 @@ func (m *{{.StructName}}) TableName() string {
 	return "{{.TableName}}"
 }
 `
+	genColumn = `
+// {{.StructName}}Columns get sql column name.获取数据库列名
+var {{.StructName}}Columns = struct { {{range $em := .Em}}
+	{{$em.StructName}} string{{end}}    
+	}{ {{range $em := .Em}}
+		{{$em.StructName}}:"{{$em.ColumnName}}",  {{end}}           
+	}
+`
 	genBase = `
 package {{.PackageName}}
 import (

@@ -123,6 +123,7 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 
 		}
 
+		tmp.ColumnName = v.Name // 列名
 		el = append(el, tmp)
 
 		// ForeignKey
