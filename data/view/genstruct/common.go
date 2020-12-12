@@ -164,12 +164,25 @@ func (s *GenStruct) GenerateColumnName() []string {
 	}
 	data.StructName = s.Name
 	for _, v := range s.Em {
-		data.Em = append(data.Em, struct {
-			ColumnName string
-			StructName string
-		}{ColumnName: v.ColumnName,
-			StructName: v.Name,
-		})
+		if strings.EqualFold(v.Type, "gorm.Model") { // gorm model
+			data.Em = append(data.Em, []struct {
+				ColumnName string
+				StructName string
+			}{
+				{ColumnName: "id", StructName: "ID"},
+				{ColumnName: "created_at", StructName: "CreatedAt"},
+				{ColumnName: "updated_at", StructName: "UpdatedAt"},
+				{ColumnName: "deleted_at", StructName: "DeletedAt"},
+			}...)
+		} else {
+			data.Em = append(data.Em, struct {
+				ColumnName string
+				StructName string
+			}{ColumnName: v.ColumnName,
+				StructName: v.Name,
+			})
+		}
+
 	}
 
 	var buf bytes.Buffer
