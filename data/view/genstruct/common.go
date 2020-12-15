@@ -174,7 +174,7 @@ func (s *GenStruct) GenerateColumnName() []string {
 				{ColumnName: "updated_at", StructName: "UpdatedAt"},
 				{ColumnName: "deleted_at", StructName: "DeletedAt"},
 			}...)
-		} else {
+		} else if len(v.ColumnName) > 0 {
 			data.Em = append(data.Em, struct {
 				ColumnName string
 				StructName string
