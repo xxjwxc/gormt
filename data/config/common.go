@@ -3,8 +3,9 @@ package config
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
 	"path"
+
+	"github.com/xxjwxc/public/mylog"
 
 	"github.com/xxjwxc/public/dev"
 	"github.com/xxjwxc/public/tools"
@@ -47,7 +48,14 @@ var _map = Config{
 var configPath string
 
 func init() {
-	configPath = path.Join(tools.GetCurrentDirectory(), "config.yml")
+	configPath = path.Join(tools.GetCurrentDirectory(), "config.yml") // 先找本程序文件夹
+	if !tools.CheckFileIsExist(configPath) {                          // dont find it
+		configPath = path.Join(tools.GetModelPath(), "config.yml")
+		if !tools.CheckFileIsExist(configPath) {
+			mylog.ErrorString("config.yml not exit. using default config")
+		}
+	}
+
 	onInit()
 	dev.OnSetDev(_map.IsDev)
 }
@@ -62,16 +70,16 @@ func onInit() {
 
 // InitFile default value from file .
 func InitFile(filename string) error {
-	if _, e := os.Stat(filename); e != nil {
-		fmt.Println("init default config file: ", filename)
-		if err := SaveToFile(); err == nil {
-			InitFile(filename)
-			return nil
-		} else {
-			fmt.Println("shit,fail", err)
-		}
-		// os.Exit(0)
-	}
+	// if _, e := os.Stat(filename); e != nil {
+	// 	fmt.Println("init default config file: ", filename)
+	// 	if err := SaveToFile(); err == nil {
+	// 		InitFile(filename)
+	// 		return nil
+	// 	} else {
+	// 		fmt.Println("shit,fail", err)
+	// 	}
+	// 	// os.Exit(0)
+	// }
 	bs, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return err
