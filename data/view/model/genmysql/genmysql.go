@@ -144,6 +144,14 @@ func (m *mysqlModel) getTableElement(orm *mysqldb.MySqlDB, tab string) (el []mod
 		tmp.Type = v.Type
 		FixElementTag(&tmp, v.Desc) // 分析表注释
 
+		if v.Default != nil {
+			if *v.Default == "" {
+				tmp.Gormt = "default:''"
+			} else {
+				tmp.Gormt = fmt.Sprintf("default:%s", *v.Default)
+			}
+		}
+
 		// keys
 		if keylist, ok := KeyColumnMp[v.Field]; ok { // maybe have index or key
 			for _, v := range keylist {
@@ -152,6 +160,7 @@ func (m *mysqlModel) getTableElement(orm *mysqldb.MySqlDB, tab string) (el []mod
 						tmp.Index = append(tmp.Index, model.KList{
 							Key:   model.ColumnsKeyPrimary,
 							Multi: (keyNameCount[v.KeyName] > 1),
+							KeyType: v.IndexType,
 						})
 					} else { // unique
 						if keyNameCount[v.KeyName] > 1 {
@@ -159,12 +168,14 @@ func (m *mysqlModel) getTableElement(orm *mysqldb.MySqlDB, tab string) (el []mod
 								Key:     model.ColumnsKeyUniqueIndex,
 								Multi:   (keyNameCount[v.KeyName] > 1),
 								KeyName: v.KeyName,
+								KeyType: v.IndexType,
 							})
 						} else { // unique index key.唯一复合索引
 							tmp.Index = append(tmp.Index, model.KList{
 								Key:     model.ColumnsKeyUnique,
 								Multi:   (keyNameCount[v.KeyName] > 1),
 								KeyName: v.KeyName,
+								KeyType: v.IndexType,
 							})
 						}
 					}
@@ -173,6 +184,7 @@ func (m *mysqlModel) getTableElement(orm *mysqldb.MySqlDB, tab string) (el []mod
 						Key:     model.ColumnsKeyIndex,
 						Multi:   true,
 						KeyName: v.KeyName,
+						KeyType: v.IndexType,
 					})
 				}
 			}

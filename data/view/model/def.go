@@ -56,6 +56,7 @@ type KList struct {
 	Key     ColumnsKey // non_unique of (show keys from [table])
 	Multi   bool       // Multiple .是否多个(复合组建)
 	KeyName string     // key_name of (show keys from [table])
+	KeyType string     // Key_type of (show keys from [Index_type])
 }
 
 // BaseInfo base common attribute. 基础属性
