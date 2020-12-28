@@ -62,9 +62,9 @@ func getTypeName(name string, isNull bool) string {
 	}
 
 	// Fuzzy Regular Matching.模糊正则匹配
-	for k, v := range cnf.TypeMysqlMatchMp {
-		if ok, _ := regexp.MatchString(k, name); ok {
-			return fixNullToPorint(v, isNull)
+	for _, l := range cnf.TypeMysqlMatchList {
+		if ok, _ := regexp.MatchString(l.Key, name); ok {
+			return fixNullToPorint(l.Value, isNull)
 		}
 	}
 
