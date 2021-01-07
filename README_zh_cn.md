@@ -54,6 +54,7 @@ is_table_name: false # 是否直接生成表名,列名
 is_null_to_point: false # 数据库默认 'DEFAULT NULL' 时设置结构为指针类型
 is_web_tag: false
 is_web_tag_pk_hidden: false
+table_prefix: "" #表前缀
 db_info:
     host : 127.0.0.1
     port : 3306

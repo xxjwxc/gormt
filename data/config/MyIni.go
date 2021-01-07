@@ -23,6 +23,7 @@ type Config struct {
 	IsGUI            bool   `yaml:"is_gui"` //
 	IsTableName      bool   `yaml:"is_table_name"`
 	IsNullToPoint    bool   `yaml:"is_null_to_point"` // null to porint
+	TablePrefix      string `yaml:"table_prefix"`     // 表前缀
 }
 
 // DBInfo mysql database information. mysql 数据库信息
@@ -204,4 +205,14 @@ func SetIsNullToPoint(b bool) {
 // GetIsNullToPoint get if with null to porint in sturct
 func GetIsNullToPoint() bool {
 	return _map.IsNullToPoint
+}
+
+// SetTablePrefix set table prefix
+func SetTablePrefix(t string) {
+	_map.TablePrefix = t
+}
+
+// GetTablePrefix get table prefix
+func GetTablePrefix() string {
+	return _map.TablePrefix
 }

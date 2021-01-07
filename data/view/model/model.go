@@ -47,9 +47,19 @@ func (m *_Model) GetPackage() genstruct.GenPackage {
 	if m.pkg == nil {
 		var pkg genstruct.GenPackage
 		pkg.SetPackage(m.info.PackageName) //package name
+
+		tablePrefix := config.GetTablePrefix()
+
 		for _, tab := range m.info.TabList {
 			var sct genstruct.GenStruct
+
 			sct.SetTableName(tab.Name)
+
+			//如果设置了表前缀
+			if tablePrefix != "" {
+				tab.Name = strings.TrimLeft(tab.Name, tablePrefix)
+			}
+
 			sct.SetStructName(getCamelName(tab.Name)) // Big hump.大驼峰
 			sct.SetNotes(tab.Notes)
 			sct.AddElement(m.genTableElement(tab.Em)...) // build element.构造元素
@@ -92,7 +102,7 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 					tmp.AddTag(_tagGorm, "unique")
 				case ColumnsKeyIndex: // index key.复合索引
 					tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName))
-					if v1.KeyType=="FULLTEXT" {
+					if v1.KeyType == "FULLTEXT" {
 						tmp.AddTag(_tagGorm, "class:FULLTEXT")
 					}
 				case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引

@@ -43,6 +43,7 @@ var _map = Config{
 	IsOutSQL:     false,
 	IsOutFunc:    true,
 	IsGUI:        false,
+	TablePrefix:  "",
 }
 
 var configPath string

@@ -13,6 +13,7 @@ is_foreign_key : true # 是否导出外键关联
 is_gui : false # 是否ui模式显示
 is_table_name : true # 是否直接生成表名,列名
 is_null_to_point : false # 数据库默认 'DEFAULT NULL' 时设置结构为指针类型
+table_prefix : "" # 表前缀, 如果有则使用, 没有留空
 db_info:
     host : 127.0.0.1 # type=1的时候，host为yml文件全路径
     port : 3306
