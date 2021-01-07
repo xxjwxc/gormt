@@ -101,9 +101,10 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 				case ColumnsKeyUnique: // unique key.唯一索引
 					tmp.AddTag(_tagGorm, "unique")
 				case ColumnsKeyIndex: // index key.复合索引
-					tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName))
-					if v1.KeyType == "FULLTEXT" {
-						tmp.AddTag(_tagGorm, "class:FULLTEXT")
+					if v1.KeyType=="FULLTEXT" {
+						tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName)+",class:FULLTEXT")
+					}else{
+						tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName))
 					}
 				case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
 					tmp.AddTag(_tagGorm, getUninStr("uniqueIndex", ":", v1.KeyName))
