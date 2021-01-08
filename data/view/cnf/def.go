@@ -2,10 +2,12 @@ package cnf
 
 // EImportsHead imports head options. import包含选项
 var EImportsHead = map[string]string{
-	"stirng":     `"string"`,
-	"time.Time":  `"time"`,
-	"gorm.Model": `"gorm.io/gorm"`,
-	"fmt":        `"fmt"`,
+	"stirng":         `"string"`,
+	"time.Time":      `"time"`,
+	"gorm.Model":     `"gorm.io/gorm"`,
+	"fmt":            `"fmt"`,
+	"datatypes.JSON": `"gorm.io/datatypes"`,
+	"datatypes.Date": `"gorm.io/datatypes"`,
 }
 
 // TypeMysqlDicMp Accurate matching type.精确匹配类型
@@ -18,14 +20,14 @@ var TypeMysqlDicMp = map[string]string{
 	"bigint unsigned":     "uint64",
 	"varchar":             "string",
 	"char":                "string",
-	"date":                "time.Time",
+	"date":                "datatypes.Date",
 	"datetime":            "time.Time",
 	"bit(1)":              "[]uint8",
 	"tinyint":             "int8",
 	"tinyint unsigned":    "uint8",
 	"tinyint(1)":          "bool", // tinyint(1) 默认设置成bool
 	"tinyint(1) unsigned": "bool", // tinyint(1) 默认设置成bool
-	"json":                "string",
+	"json":                "datatypes.JSON",
 	"text":                "string",
 	"timestamp":           "time.Time",
 	"double":              "float64",
