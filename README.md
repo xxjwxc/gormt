@@ -50,6 +50,7 @@ is_table_name : false # Whether to out GetTableName/column function
 is_null_to_point : false # database is 'DEFAULT NULL' then set element type as point
 is_web_tag: false
 is_web_tag_pk_hidden: false
+table_prefix: "" #table prefix
 
 db_info :
     host : "127.0.0.1"

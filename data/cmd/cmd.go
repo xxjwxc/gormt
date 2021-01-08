@@ -65,6 +65,8 @@ func init() {
 	rootCmd.MarkFlagRequired("url tag")
 
 	rootCmd.Flags().Int("port", 3306, "端口号")
+
+	rootCmd.Flags().StringP("table_prefix", "t", "", "表前缀")
 }
 
 // initConfig reads in config file and ENV variables if set.
@@ -111,4 +113,8 @@ func MergeMysqlDbInfo() {
 	ig := config.GetIsGUI()
 	mycobra.IfReplace(rootCmd, "gui", &ig) // 如果设置了，更新
 	config.SetIsGUI(ig)
+
+	tablePrefix := config.GetTablePrefix()
+	mycobra.IfReplace(rootCmd, "tablePrefix", &tablePrefix) // 如果设置了，更新
+	config.SetTablePrefix(tablePrefix)
 }
