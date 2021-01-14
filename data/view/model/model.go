@@ -57,7 +57,11 @@ func (m *_Model) GetPackage() genstruct.GenPackage {
 
 			//如果设置了表前缀
 			if tablePrefix != "" {
-				tab.Name = strings.TrimLeft(tab.Name, tablePrefix)
+				var hasPrefix = strings.Contains(tab.Name, tablePrefix)
+				if !hasPrefix {
+					// 不包含前缀则跳过
+					continue
+				}
 			}
 
 			sct.SetStructName(getCamelName(tab.Name)) // Big hump.大驼峰
@@ -248,6 +252,11 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 	// -------end------
 
 	for _, tab := range m.info.TabList {
+		tablePrefix := config.GetTablePrefix()
+		if tablePrefix != "" && !strings.Contains(tab.Name, tablePrefix) {
+			// 不包含前缀则跳过
+			continue
+		}
 		var pkg genstruct.GenPackage
 		pkg.SetPackage(m.info.PackageName) //package name
 		pkg.AddImport(`"fmt"`)

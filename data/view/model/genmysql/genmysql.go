@@ -218,6 +218,11 @@ func (m *mysqlModel) getTables(orm *mysqldb.MySqlDB) map[string]string {
 	for rows.Next() {
 		var table string
 		rows.Scan(&table)
+		tablePrefix := config.GetTablePrefix()
+		if tablePrefix != "" && !strings.Contains(table, tablePrefix) {
+			// 不包含前缀则跳过
+			continue
+		}
 		tables = append(tables, table)
 		tbDesc[table] = ""
 	}
