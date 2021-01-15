@@ -57,11 +57,7 @@ func (m *_Model) GetPackage() genstruct.GenPackage {
 
 			//如果设置了表前缀
 			if tablePrefix != "" {
-				var hasPrefix = strings.Contains(tab.Name, tablePrefix)
-				if !hasPrefix {
-					// 不包含前缀则跳过
-					continue
-				}
+				tab.Name = strings.TrimLeft(tab.Name, tablePrefix)
 			}
 
 			sct.SetStructName(getCamelName(tab.Name)) // Big hump.大驼峰
@@ -105,9 +101,9 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 				case ColumnsKeyUnique: // unique key.唯一索引
 					tmp.AddTag(_tagGorm, "unique")
 				case ColumnsKeyIndex: // index key.复合索引
-					if v1.KeyType=="FULLTEXT" {
+					if v1.KeyType == "FULLTEXT" {
 						tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName)+",class:FULLTEXT")
-					}else{
+					} else {
 						tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName))
 					}
 				case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
@@ -252,11 +248,6 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 	// -------end------
 
 	for _, tab := range m.info.TabList {
-		tablePrefix := config.GetTablePrefix()
-		if tablePrefix != "" && !strings.Contains(tab.Name, tablePrefix) {
-			// 不包含前缀则跳过
-			continue
-		}
 		var pkg genstruct.GenPackage
 		pkg.SetPackage(m.info.PackageName) //package name
 		pkg.AddImport(`"fmt"`)

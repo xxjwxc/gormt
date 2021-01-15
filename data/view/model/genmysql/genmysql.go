@@ -158,8 +158,8 @@ func (m *mysqlModel) getTableElement(orm *mysqldb.MySqlDB, tab string) (el []mod
 				if v.NonUnique == 0 { // primary or unique
 					if strings.EqualFold(v.KeyName, "PRIMARY") { // PRI Set primary key.设置主键
 						tmp.Index = append(tmp.Index, model.KList{
-							Key:   model.ColumnsKeyPrimary,
-							Multi: (keyNameCount[v.KeyName] > 1),
+							Key:     model.ColumnsKeyPrimary,
+							Multi:   (keyNameCount[v.KeyName] > 1),
 							KeyType: v.IndexType,
 						})
 					} else { // unique
@@ -218,11 +218,6 @@ func (m *mysqlModel) getTables(orm *mysqldb.MySqlDB) map[string]string {
 	for rows.Next() {
 		var table string
 		rows.Scan(&table)
-		tablePrefix := config.GetTablePrefix()
-		if tablePrefix != "" && !strings.Contains(table, tablePrefix) {
-			// 不包含前缀则跳过
-			continue
-		}
 		tables = append(tables, table)
 		tbDesc[table] = ""
 	}
