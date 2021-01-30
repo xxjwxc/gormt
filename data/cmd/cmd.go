@@ -115,6 +115,6 @@ func MergeMysqlDbInfo() {
 	config.SetIsGUI(ig)
 
 	tablePrefix := config.GetTablePrefix()
-	mycobra.IfReplace(rootCmd, "tablePrefix", &tablePrefix) // 如果设置了，更新
+	mycobra.IfReplace(rootCmd, "table_prefix", &tablePrefix) // 如果设置了，更新
 	config.SetTablePrefix(tablePrefix)
 }
