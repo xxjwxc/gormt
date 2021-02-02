@@ -142,7 +142,7 @@ func (m *mysqlModel) getTableElement(orm *mysqldb.MySqlDB, tab string) (el []mod
 		var tmp model.ColumnsInfo
 		tmp.Name = v.Field
 		tmp.Type = v.Type
-		FixElementTag(&tmp, v.Desc) // 分析表注释
+		FixNotes(&tmp, v.Desc) // 分析表注释
 
 		if v.Default != nil {
 			if *v.Default == "" {

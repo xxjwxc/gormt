@@ -28,4 +28,5 @@ type genForeignKey struct {
 	ReferencedColumnName  string `gorm:"column:referenced_column_name"`  // Which column of the affected table.该索引受影响的表的哪一列
 }
 
-var noteRegex = regexp.MustCompile(`^\[@gormt\s(\S+)+\]`)
+var noteRegex = regexp.MustCompile(`^\[@gorm\s(\S+)+\]`)
+var foreignKeyRegex = regexp.MustCompile(`^\[@fk\s(\S+)+\]`)

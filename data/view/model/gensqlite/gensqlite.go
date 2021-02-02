@@ -147,7 +147,7 @@ func (m *sqliteModel) getTableElement(orm *gorm.DB, tab string) (el []model.Colu
 		var tmp model.ColumnsInfo
 		tmp.Name = v.Name
 		tmp.Type = v.Type
-		FixElementTag(&tmp, "")
+		FixNotes(&tmp, "")
 		if v.Pk == 1 { // 主键
 			tmp.Index = append(tmp.Index, model.KList{
 				Key:   model.ColumnsKeyPrimary,

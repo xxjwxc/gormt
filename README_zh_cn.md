@@ -207,8 +207,9 @@ CHCP 65001
 
 ### 表注释 tag
 
-- 给列添加注释以`[@gormt default:'test']`开头即可 
-- 比如`[@gormt default:'test';->;<-:create]这是注释内容` 表示默认值为'test',允许读，更新创建
+- 给列添加注释以`[@gorm default:'test']`开头即可 
+- 比如`[@gorm default:'test';->;<-:create]这是注释内容` 表示默认值为'test',允许读，更新创建
+- 外键注释使用`[@fk tableName.columnName]这是注释内容` 表示关联到`tableName`的`columnName`列
 
 
 ## 8. 下一步计划

@@ -197,9 +197,10 @@ CHCP 65001
 
 ### table notes default
 
-- Add a comment to the column starting with `[@gormt default:'test']`
-- example `[@gormt default:'test';->;<-:create]this is my notes` Indicates that the default value is 'test',can read/creat/write
-
+- Add a comment to the column starting with `[@gorm default:'test']`
+- example `[@gorm default:'test';->;<-:create]this is my notes` Indicates that the default value is 'test',can read/creat/write
+- Use of foreign key notes`[@fk tableName.columnName]this is my notes` Represents the 'columnName' column associated with the 'tableName'
+  
 ## 9. one windows gui tools
 
 ![1](/image/gormt/1.png)
