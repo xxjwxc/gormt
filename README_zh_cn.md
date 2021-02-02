@@ -205,7 +205,7 @@ go generate
 CHCP 65001 
 ```
 
-### 表注释 tag
+### 列注释 tag
 
 - 给列添加注释以`[@gorm default:'test']`开头即可 
 - 比如`[@gorm default:'test';->;<-:create]这是注释内容` 表示默认值为'test',允许读，更新创建
