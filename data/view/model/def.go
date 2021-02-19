@@ -106,6 +106,7 @@ type EmInfo struct {
 	Notes         string // 注释
 	Type          string // 类型
 	ColName       string // 列名
+	ColNameEx     string // `列名`
 	ColStructName string // 列结构体
 }
 

@@ -297,6 +297,7 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 					Notes:         fixNotes(el.Notes),
 					Type:          typeName, // Type.类型标记
 					ColName:       el.Name,
+					ColNameEx:     fmt.Sprintf("`%v`", el.Name),
 					ColStructName: getCamelName(el.Name),
 				})
 				if v2, ok := cnf.EImportsHead[typeName]; ok {
