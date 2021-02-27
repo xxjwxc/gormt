@@ -148,7 +148,7 @@ func (obj *_{{$obj.StructName}}Mgr) Gets() (results []*{{$obj.StructName}}, err 
 {{range $oem := $obj.Em}}
 // With{{$oem.ColStructName}} {{$oem.ColName}}获取 {{$oem.Notes}}
 func (obj *_{{$obj.StructName}}Mgr) With{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}} {{$oem.Type}}) Option {
-	return optionFunc(func(o *options) { o.query["{{$oem.ColNameEx}}"] = {{CapLowercase $oem.ColStructName}} })
+	return optionFunc(func(o *options) { o.query["{{$oem.ColName}}"] = {{CapLowercase $oem.ColStructName}} })
 }
 {{end}}
 
