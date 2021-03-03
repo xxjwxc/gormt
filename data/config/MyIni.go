@@ -96,6 +96,11 @@ func GetIsWEBTag() bool {
 	return _map.IsWEBTag
 }
 
+// SetIsWEBTag json tag.json标记
+func SetIsWEBTag(b bool) {
+	_map.IsWEBTag = b
+}
+
 // GetIsWebTagPkHidden web tag是否隐藏主键
 func GetIsWebTagPkHidden() bool {
 	return _map.IsWebTagPkHidden

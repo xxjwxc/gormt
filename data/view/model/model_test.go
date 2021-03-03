@@ -3,9 +3,8 @@ package model
 import (
 	"encoding/json"
 	"fmt"
-	"testing"
-
 	"github.com/xxjwxc/gormt/data/config"
+	"testing"
 )
 
 func TestTypeName(t *testing.T) {
@@ -19,6 +18,8 @@ func TestTools(t *testing.T) {
 	// out, _ := json.Marshal(pkg)
 	// tools.WriteFile("test.txt", []string{string(out)}, true)
 
+	config.SetIsWEBTag(true)
+	config.SetIsOutFunc(false)
 	list, _ := Generate(pkg)
 	fmt.Println(list)
 
