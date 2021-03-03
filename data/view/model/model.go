@@ -131,7 +131,7 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 				if isPK && config.GetIsWebTagPkHidden() {
 					tmp.AddTag(_tagJSON, "-")
 				} else {
-					tmp.AddTag(_tagJSON, mybigcamel.UnMarshal(v.Name))
+					tmp.AddTag(_tagJSON, mybigcamel.UnSmallMarshal(mybigcamel.Marshal(v.Name)))
 				}
 			}
 
@@ -174,7 +174,7 @@ func (m *_Model) genForeignKey(col ColumnsInfo) (fklist []genstruct.GenElement) 
 
 			// json tag
 			if config.GetIsWEBTag() {
-				tmp.AddTag(_tagJSON, mybigcamel.UnMarshal(v.TableName)+"_list")
+				tmp.AddTag(_tagJSON, mybigcamel.UnSmallMarshal(mybigcamel.Marshal(v.TableName))+"List")
 			}
 
 			fklist = append(fklist, tmp)
