@@ -254,10 +254,15 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 		pkg.AddImport(`"context"`) // 添加import信息
 		pkg.AddImport(cnf.EImportsHead["gorm.Model"])
 
-		data := funDef{
-			StructName: getCamelName(tab.Name),
-			TableName:  tab.Name,
+		// wxw 2021.2.26 17:17
+		var data funDef
+		data.TableName = tab.Name
+		tablePrefix := config.GetTablePrefix()
+		//如果设置了表前缀
+		if tablePrefix != "" {
+			tab.Name = strings.TrimLeft(tab.Name, tablePrefix)
 		}
+		data.StructName = getCamelName(tab.Name)
 
 		var primary, unique, uniqueIndex, index []FList
 		for _, el := range tab.Em {
