@@ -48,7 +48,7 @@ func (m *_Model) GetPackage() genstruct.GenPackage {
 		var pkg genstruct.GenPackage
 		pkg.SetPackage(m.info.PackageName) //package name
 
-		tablePrefix := config.GetTablePrefix()
+		// tablePrefix := config.GetTablePrefix()
 
 		for _, tab := range m.info.TabList {
 			var sct genstruct.GenStruct
@@ -56,9 +56,9 @@ func (m *_Model) GetPackage() genstruct.GenPackage {
 			sct.SetTableName(tab.Name)
 
 			//如果设置了表前缀
-			if tablePrefix != "" {
-				tab.Name = strings.TrimLeft(tab.Name, tablePrefix)
-			}
+			// if tablePrefix != "" {
+			// 	tab.Name = strings.TrimLeft(tab.Name, tablePrefix)
+			// }
 
 			sct.SetStructName(getCamelName(tab.Name)) // Big hump.大驼峰
 			sct.SetNotes(tab.Notes)
@@ -257,11 +257,11 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 		// wxw 2021.2.26 17:17
 		var data funDef
 		data.TableName = tab.Name
-		tablePrefix := config.GetTablePrefix()
-		//如果设置了表前缀
-		if tablePrefix != "" {
-			tab.Name = strings.TrimLeft(tab.Name, tablePrefix)
-		}
+		// tablePrefix := config.GetTablePrefix()
+		// //如果设置了表前缀
+		// if tablePrefix != "" {
+		// 	tab.Name = strings.TrimLeft(tab.Name, tablePrefix)
+		// }
 		data.StructName = getCamelName(tab.Name)
 
 		var primary, unique, uniqueIndex, index []FList
@@ -335,7 +335,7 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 		data.Primay = append(data.Primay, uniqueIndex...)
 		data.Index = append(data.Index, index...)
 		tmpl, err := template.New("gen_logic").
-			Funcs(template.FuncMap{"GenPreloadList": GenPreloadList, "GenFListIndex": GenFListIndex, "CapLowercase": CapLowercase}).
+			Funcs(template.FuncMap{"GenPreloadList": GenPreloadList, "GenFListIndex": GenFListIndex, "CapLowercase": CapLowercase, "GetTablePrefixName": GetTablePrefixName}).
 			Parse(genfunc.GetGenLogicTemp())
 		if err != nil {
 			panic(err)

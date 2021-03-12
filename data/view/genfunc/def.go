@@ -122,12 +122,12 @@ func {{$obj.StructName}}Mgr(db *gorm.DB) *_{{$obj.StructName}}Mgr {
 		panic(fmt.Errorf("{{$obj.StructName}}Mgr need init by db"))
 	}
 	ctx, cancel := context.WithCancel(context.Background())
-	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db.Table("{{$obj.TableName}}"), isRelated: globalIsRelated,ctx:ctx,cancel:cancel,timeout:-1}}
+	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db.Table("{{GetTablePrefixName $obj.TableName}}"), isRelated: globalIsRelated,ctx:ctx,cancel:cancel,timeout:-1}}
 }
 
 // GetTableName get sql table name.获取数据库名字
 func (obj *_{{$obj.StructName}}Mgr) GetTableName() string {
-	return "{{$obj.TableName}}"
+	return "{{GetTablePrefixName $obj.TableName}}"
 }
 
 // Get 获取

@@ -47,6 +47,17 @@ func CapLowercase(name string) string { // IDAPIID == > idAPIID
 	return FilterKeywords(re)
 }
 
+// GetTablePrefixName 获取带表前缀名字的tablename
+func GetTablePrefixName(name string) string { //
+	tablePrefix := config.GetTablePrefix()
+	//如果设置了表前缀
+	if tablePrefix != "" {
+		return fmt.Sprintf("%v.%v", tablePrefix, name)
+	}
+
+	return name
+}
+
 func FilterKeywords(src string) string {
 	if tools.IsKeywords(src) {
 		return "_" + src
