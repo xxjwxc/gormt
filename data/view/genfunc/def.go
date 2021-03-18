@@ -195,7 +195,7 @@ func (obj *_{{$obj.StructName}}Mgr)  GetFrom{{$oem.ColStructName}}({{CapLowercas
 	return
 }
 {{end}}
-// GetBatchFrom{{$oem.ColStructName}} 批量唯一主键查找 {{$oem.Notes}}
+// GetBatchFrom{{$oem.ColStructName}} 批量查找 {{$oem.Notes}}
 func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowercase $oem.ColStructName}}s []{{$oem.Type}}) (results []*{{$obj.StructName}}, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("{{$oem.ColName}} IN (?)", {{CapLowercase $oem.ColStructName}}s).Find(&results).Error
 	{{GenPreloadList $obj.PreloadList true}}
