@@ -21,6 +21,11 @@ db_info:
     password : 123456
     database : matrix
     type: 0 # 数据库类型:0:mysql , 1:sqlite , 2:mssql
+self_define_type_mysql_dic_map: # 自定义数据类型映射
+    datetime: time.Time
+    date: time.Time
+out_file_name: "" # 自定义生成文件名
+web_tag_type: 0 # json tag类型 0: 下划线 1: 小驼峰
 
 # sqlite
 # db_info:

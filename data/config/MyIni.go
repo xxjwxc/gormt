@@ -24,6 +24,9 @@ type Config struct {
 	IsTableName      bool   `yaml:"is_table_name"`
 	IsNullToPoint    bool   `yaml:"is_null_to_point"` // null to porint
 	TablePrefix      string `yaml:"table_prefix"`     // 表前缀
+	SelfDefineTypeMysqlDicMap map[string]string `yaml:"self_define_type_mysql_dic_map"`
+	OutFileName      string `yaml:"out_file_name"`
+	WebTagType       int    `yaml:"web_tag_type"`
 }
 
 // DBInfo mysql database information. mysql 数据库信息
@@ -220,4 +223,34 @@ func SetTablePrefix(t string) {
 // GetTablePrefix get table prefix
 func GetTablePrefix() string {
 	return _map.TablePrefix
+}
+
+// SetSelfDefineTypeMysqlDicMap 设置自定义字段映射
+func SetSelfDefineTypeMysqlDicMap(data map[string]string) {
+	_map.SelfDefineTypeMysqlDicMap = data
+}
+
+// GetSelfDefineTypeMysqlDicMap 获取自定义字段映射
+func GetSelfDefineTypeMysqlDicMap() map[string]string {
+	return _map.SelfDefineTypeMysqlDicMap
+}
+
+// SetOutFileName 设置输出文件名
+func SetOutFileName(s string)  {
+	_map.OutFileName = s
+}
+
+// GetOutFileName 获取输出文件名
+func GetOutFileName() string {
+	return _map.OutFileName
+}
+
+// SetWebTagType 设置json tag类型
+func SetWebTagType(i int) {
+	_map.WebTagType = i
+}
+
+// GetWebTagType 获取json tag类型
+func GetWebTagType() int {
+	return _map.WebTagType
 }

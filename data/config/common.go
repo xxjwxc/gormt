@@ -44,6 +44,9 @@ var _map = Config{
 	IsOutFunc:    true,
 	IsGUI:        false,
 	TablePrefix:  "",
+	SelfDefineTypeMysqlDicMap: make(map[string]string),
+	OutFileName:  "",
+	WebTagType: 0,
 }
 
 var configPath string
