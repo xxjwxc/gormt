@@ -44,6 +44,8 @@ var _map = Config{
 	IsOutFunc:    true,
 	IsGUI:        false,
 	TablePrefix:  "",
+	SelfTypeDef:  make(map[string]string),
+	WebTagType:   0,
 }
 
 var configPath string

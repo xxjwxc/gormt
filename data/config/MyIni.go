@@ -9,21 +9,24 @@ import (
 // Config custom config struct
 type Config struct {
 	CfgBase          `yaml:"base"`
-	DBInfo           DBInfo `yaml:"db_info"`
-	OutDir           string `yaml:"out_dir"`
-	URLTag           string `yaml:"url_tag"`  // url tag
-	Language         string `yaml:"language"` // language
-	DbTag            string `yaml:"db_tag"`   // 数据库标签（gormt,db）
-	Simple           bool   `yaml:"simple"`
-	IsWEBTag         bool   `yaml:"is_web_tag"`
-	IsWebTagPkHidden bool   `yaml:"is_web_tag_pk_hidden"` // web标记是否隐藏主键
-	IsForeignKey     bool   `yaml:"is_foreign_key"`
-	IsOutSQL         bool   `yaml:"is_out_sql"`
-	IsOutFunc        bool   `yaml:"is_out_func"`
-	IsGUI            bool   `yaml:"is_gui"` //
-	IsTableName      bool   `yaml:"is_table_name"`
-	IsNullToPoint    bool   `yaml:"is_null_to_point"` // null to porint
-	TablePrefix      string `yaml:"table_prefix"`     // 表前缀
+	DBInfo           DBInfo            `yaml:"db_info"`
+	OutDir           string            `yaml:"out_dir"`
+	URLTag           string            `yaml:"url_tag"`  // url tag
+	Language         string            `yaml:"language"` // language
+	DbTag            string            `yaml:"db_tag"`   // 数据库标签（gormt,db）
+	Simple           bool              `yaml:"simple"`
+	IsWEBTag         bool              `yaml:"is_web_tag"`
+	IsWebTagPkHidden bool              `yaml:"is_web_tag_pk_hidden"` // web标记是否隐藏主键
+	IsForeignKey     bool              `yaml:"is_foreign_key"`
+	IsOutSQL         bool              `yaml:"is_out_sql"`
+	IsOutFunc        bool              `yaml:"is_out_func"`
+	IsGUI            bool              `yaml:"is_gui"` //
+	IsTableName      bool              `yaml:"is_table_name"`
+	IsNullToPoint    bool              `yaml:"is_null_to_point"` // null to porint
+	TablePrefix      string            `yaml:"table_prefix"`     // 表前缀
+	SelfTypeDef      map[string]string `yaml:"self_type_define"`
+	OutFileName      string            `yaml:"out_file_name"`
+	WebTagType       int               `yaml:"web_tag_type"` // 默认小驼峰
 }
 
 // DBInfo mysql database information. mysql 数据库信息
@@ -220,4 +223,34 @@ func SetTablePrefix(t string) {
 // GetTablePrefix get table prefix
 func GetTablePrefix() string {
 	return _map.TablePrefix
+}
+
+// SetSelfTypeDefine 设置自定义字段映射
+func SetSelfTypeDefine(data map[string]string) {
+	_map.SelfTypeDef = data
+}
+
+// GetSelfTypeDefine 获取自定义字段映射
+func GetSelfTypeDefine() map[string]string {
+	return _map.SelfTypeDef
+}
+
+// SetOutFileName 设置输出文件名
+func SetOutFileName(s string) {
+	_map.OutFileName = s
+}
+
+// GetOutFileName 获取输出文件名
+func GetOutFileName() string {
+	return _map.OutFileName
+}
+
+// SetWebTagType 设置json tag类型
+func SetWebTagType(i int) {
+	_map.WebTagType = i
+}
+
+// GetWebTagType 获取json tag类型
+func GetWebTagType() int {
+	return _map.WebTagType
 }

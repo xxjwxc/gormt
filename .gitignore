@@ -6,3 +6,4 @@ db/oauth_db.go
 /model
 gormt.yml
 gormt
+/vendor
