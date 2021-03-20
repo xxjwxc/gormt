@@ -29,10 +29,10 @@ func Generate(info DBInfo) (out []GenOutInfo, m _Model) {
 	// struct
 	var stt GenOutInfo
 	stt.FileCtx = m.generate()
-	if name := config.GetOutFileName(); name != "" {
+	stt.FileName = info.DbName + ".go"
+
+	if name := config.GetOutFileName(); len(name) > 0 {
 		stt.FileName = name + ".go"
-	} else {
-		stt.FileName = info.DbName + ".go"
 	}
 
 	out = append(out, stt)
@@ -136,9 +136,9 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 					tmp.AddTag(_tagJSON, "-")
 				} else {
 					if config.GetWebTagType() == 0 {
-						tmp.AddTag(_tagJSON, mybigcamel.UnMarshal(v.Name))
-					} else {
 						tmp.AddTag(_tagJSON, mybigcamel.UnSmallMarshal(mybigcamel.Marshal(v.Name)))
+					} else {
+						tmp.AddTag(_tagJSON, mybigcamel.UnMarshal(v.Name))
 					}
 				}
 			}
@@ -183,11 +183,10 @@ func (m *_Model) genForeignKey(col ColumnsInfo) (fklist []genstruct.GenElement) 
 			// json tag
 			if config.GetIsWEBTag() {
 				if config.GetWebTagType() == 0 {
-					tmp.AddTag(_tagJSON, mybigcamel.UnMarshal(v.TableName)+"_list")
-				} else {
 					tmp.AddTag(_tagJSON, mybigcamel.UnSmallMarshal(mybigcamel.Marshal(v.TableName))+"List")
+				} else {
+					tmp.AddTag(_tagJSON, mybigcamel.UnMarshal(v.TableName)+"_list")
 				}
-
 			}
 
 			fklist = append(fklist, tmp)
