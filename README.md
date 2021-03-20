@@ -51,7 +51,6 @@ is_null_to_point : false # database is 'DEFAULT NULL' then set element type as p
 is_web_tag: false
 is_web_tag_pk_hidden: false
 table_prefix: "" #table prefix
-
 db_info :
     host : "127.0.0.1"
     port : 3306
@@ -59,7 +58,11 @@ db_info :
     password : "qwer"
     database : "oauth_db"
     type: 0 # database type (0:mysql , 1:sqlite , 2:mssql)
-
+self_type_define: # Custom data type mapping
+    datetime: time.Time
+    date: time.Time
+out_file_name: "" # Custom build file name
+web_tag_type: 0 # json tag 0: Small Camel-Case 1: _
 
 ```
 ## 2. get help
