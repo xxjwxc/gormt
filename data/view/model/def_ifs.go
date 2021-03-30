@@ -4,5 +4,6 @@ package model
 type IModel interface {
 	GenModel() DBInfo
 	GetDbName() string
-	GetPkgName() string // Getting package names through config outdir configuration.通过config outdir 配置获取包名
+	GetPkgName() string    // Getting package names through config outdir configuration.通过config outdir 配置获取包名
+	GetTableNames() string //获取设置表名
 }

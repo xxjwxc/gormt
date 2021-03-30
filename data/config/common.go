@@ -46,6 +46,7 @@ var _map = Config{
 	TablePrefix:  "",
 	SelfTypeDef:  make(map[string]string),
 	WebTagType:   0,
+	TableNames:   "",
 }
 
 var configPath string

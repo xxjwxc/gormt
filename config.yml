@@ -14,6 +14,8 @@ is_gui : false # 是否ui模式显示
 is_table_name : true # 是否直接生成表名,列名
 is_null_to_point : false # 数据库默认 'DEFAULT NULL' 时设置结构为指针类型
 table_prefix : "" # 表前缀, 如果有则使用, 没有留空
+table_names: "" # 指定表生成，多个表用,隔开
+
 db_info:
     host : 127.0.0.1 # type=1的时候，host为yml文件全路径
     port : 3306

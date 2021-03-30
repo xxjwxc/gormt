@@ -65,6 +65,11 @@ func (m *sqliteModel) GetDbName() string {
 	return dbName
 }
 
+// GetTableNames get table name.获取指定的表名
+func (m *sqliteModel) GetTableNames() string {
+	return config.GetTableNames()
+}
+
 // GetPkgName package names through config outdir configuration.通过config outdir 配置获取包名
 func (m *sqliteModel) GetPkgName() string {
 	dir := config.GetOutDir()

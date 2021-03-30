@@ -1,6 +1,7 @@
 package genmysql
 
 import (
+	"database/sql"
 	"fmt"
 	"sort"
 	"strings"
@@ -32,6 +33,16 @@ func (m *mysqlModel) GenModel() model.DBInfo {
 // GetDbName get database name.获取数据库名字
 func (m *mysqlModel) GetDbName() string {
 	return config.GetDbInfo().Database
+}
+
+// GetTableNames get table name.获取格式化后指定的表名
+func (m *mysqlModel) GetTableNames() string {
+	return config.GetTableNames()
+}
+
+// GetTableNames get table name.获取原始指定的表名
+func (m *mysqlModel) GetOriginTableNames() string {
+	return config.GetOriginTableNames()
 }
 
 // GetPkgName package names through config outdir configuration.通过config outdir 配置获取包名
@@ -73,6 +84,7 @@ func (m *mysqlModel) getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 	// 	}
 	// 	tabls = newTabls
 	// }
+	fmt.Println(tabls)
 	for tabName, notes := range tabls {
 		var tab model.TabInfo
 		tab.Name = tabName
@@ -99,6 +111,7 @@ func (m *mysqlModel) getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 
 		info.TabList = append(info.TabList, tab)
 	}
+	fmt.Println(info.TabList)
 	// sort tables
 	sort.Slice(info.TabList, func(i, j int) bool {
 		return info.TabList[i].Name < info.TabList[j].Name
@@ -207,24 +220,42 @@ func (m *mysqlModel) getTables(orm *mysqldb.MySqlDB) map[string]string {
 	// Get column names.获取列名
 	var tables []string
 
-	rows, err := orm.Raw("show tables").Rows()
-	if err != nil {
-		if !config.GetIsGUI() {
-			fmt.Println(err)
+	if m.GetOriginTableNames() != "" {
+		sarr := strings.Split(m.GetOriginTableNames(), ",")
+		if len(sarr) != 0 {
+			for _, val := range sarr {
+				tbDesc[val] = ""
+			}
 		}
-		return tbDesc
-	}
+	} else {
+		rows, err := orm.Raw("show tables").Rows()
+		if err != nil {
+			if !config.GetIsGUI() {
+				fmt.Println(err)
+			}
+			return tbDesc
+		}
 
-	for rows.Next() {
-		var table string
-		rows.Scan(&table)
-		tables = append(tables, table)
-		tbDesc[table] = ""
+		for rows.Next() {
+			var table string
+			rows.Scan(&table)
+			tables = append(tables, table)
+			tbDesc[table] = ""
+		}
+		rows.Close()
 	}
-	rows.Close()
 
 	// Get table annotations.获取表注释
-	rows1, err := orm.Raw("SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.TABLES WHERE table_schema= '" + m.GetDbName() + "'").Rows()
+	var err error
+	var rows1 *sql.Rows
+	if m.GetTableNames() != "" {
+		rows1, err = orm.Raw("SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.TABLES WHERE table_schema= '" + m.GetDbName() + "'and TABLE_NAME IN(" + m.GetTableNames() + ")").Rows()
+		fmt.Println("getTables:" + m.GetTableNames())
+		fmt.Println("SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.TABLES WHERE table_schema= '" + m.GetDbName() + "'and TABLE_NAME IN(" + m.GetTableNames() + ")")
+	} else {
+		rows1, err = orm.Raw("SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.TABLES WHERE table_schema= '" + m.GetDbName() + "'").Rows()
+	}
+
 	if err != nil {
 		if !config.GetIsGUI() {
 			fmt.Println(err)
