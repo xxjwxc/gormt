@@ -40,7 +40,7 @@ func (m *mysqlModel) GetTableNames() string {
 	return config.GetTableNames()
 }
 
-// GetTableNames get table name.获取原始指定的表名
+// GetOriginTableNames get table name.获取原始指定的表名
 func (m *mysqlModel) GetOriginTableNames() string {
 	return config.GetOriginTableNames()
 }
@@ -84,7 +84,6 @@ func (m *mysqlModel) getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 	// 	}
 	// 	tabls = newTabls
 	// }
-	fmt.Println(tabls)
 	for tabName, notes := range tabls {
 		var tab model.TabInfo
 		tab.Name = tabName
@@ -111,7 +110,6 @@ func (m *mysqlModel) getPackageInfo(orm *mysqldb.MySqlDB, info *model.DBInfo) {
 
 		info.TabList = append(info.TabList, tab)
 	}
-	fmt.Println(info.TabList)
 	// sort tables
 	sort.Slice(info.TabList, func(i, j int) bool {
 		return info.TabList[i].Name < info.TabList[j].Name

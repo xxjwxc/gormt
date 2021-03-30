@@ -55,6 +55,7 @@ is_null_to_point: false # 数据库默认 'DEFAULT NULL' 时设置结构为指�
 is_web_tag: false
 is_web_tag_pk_hidden: false
 table_prefix: "" #表前缀
+table_names: "" #指定表生成，多个表用,隔开
 db_info:
     host : 127.0.0.1
     port : 3306
@@ -101,6 +102,7 @@ Flags:
   -p, --password string   密码.
       --port int          端口号 (default 3306)
   -s, --singular          是否禁用表名复数
+  -b, --table_names string 表名称  
   -l, --url string        url标签(json,url)
   -u, --user string       用户名.
   
