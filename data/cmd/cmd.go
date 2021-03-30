@@ -68,7 +68,7 @@ func init() {
 	rootCmd.Flags().Int("port", 3306, "端口号")
 
 	rootCmd.Flags().StringP("table_prefix", "t", "", "表前缀")
-	//增加表名称
+	//add table name. 增加表名称
 	rootCmd.Flags().StringP("table_names", "b", "", "表名称")
 
 }
@@ -122,7 +122,7 @@ func MergeMysqlDbInfo() {
 	mycobra.IfReplace(rootCmd, "table_prefix", &tablePrefix) // 如果设置了，更新
 	config.SetTablePrefix(tablePrefix)
 
-	//更新tableNames
+	//update tableNames. 更新tableNames
 	tableNames := config.GetTableNames()
 	if tableNames != "" {
 		tableNames = strings.Replace(tableNames, "'", "", -1)

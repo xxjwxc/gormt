@@ -257,7 +257,7 @@ func GetWebTagType() int {
 	return _map.WebTagType
 }
 
-//获取设置的表名
+//GetTableNames get format tableNames by config. 获取格式化后设置的表名
 func GetTableNames() string {
 	var sb strings.Builder
 	if _map.TableNames != "" {
@@ -284,12 +284,12 @@ func GetTableNames() string {
 	return sb.String()
 }
 
-//获取设置的表名
+//GetOriginTableNames get origin tableNames. 获取原始的设置的表名
 func GetOriginTableNames() string {
 	return _map.TableNames
 }
 
-//设置生成的表名
+//SetTableNames set tableNames. 设置生成的表名
 func SetTableNames(tableNames string) {
 	_map.TableNames = tableNames
 }

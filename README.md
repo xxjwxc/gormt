@@ -51,6 +51,7 @@ is_null_to_point : false # database is 'DEFAULT NULL' then set element type as p
 is_web_tag: false
 is_web_tag_pk_hidden: false
 table_prefix: "" #table prefix
+table_names: "" # Specified table generation, multiple tables with , separated
 db_info :
     host : "127.0.0.1"
     port : 3306
@@ -88,6 +89,7 @@ Flags:
   -p, --password string   密码.
       --port int          端口号 (default 3306)
   -s, --singular          是否禁用表名复数
+  -b, --table_names string 表名称  
   -l, --url string        url标签(json,url)
   -u, --user string       用户名.
   
