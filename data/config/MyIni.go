@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/xxjwxc/public/tools"
 )
@@ -27,6 +28,7 @@ type Config struct {
 	SelfTypeDef      map[string]string `yaml:"self_type_define"`
 	OutFileName      string            `yaml:"out_file_name"`
 	WebTagType       int               `yaml:"web_tag_type"` // 默认小驼峰
+	TableNames       string            `yaml:"table_names"`  // 表名（多个表名用","隔开）
 }
 
 // DBInfo mysql database information. mysql 数据库信息
@@ -253,4 +255,41 @@ func SetWebTagType(i int) {
 // GetWebTagType 获取json tag类型
 func GetWebTagType() int {
 	return _map.WebTagType
+}
+
+//获取设置的表名
+func GetTableNames() string {
+	var sb strings.Builder
+	if _map.TableNames != "" {
+		tableNames := _map.TableNames
+		tableNames = strings.TrimLeft(tableNames, ",")
+		tableNames = strings.TrimRight(tableNames, ",")
+		if tableNames == "" {
+			return ""
+		}
+
+		sarr := strings.Split(_map.TableNames, ",")
+		if len(sarr) == 0 {
+			fmt.Printf("tableNames is vailed, genmodel will by default global")
+			return ""
+		}
+
+		for i, val := range sarr {
+			sb.WriteString(fmt.Sprintf("'%s'", val))
+			if i != len(sarr)-1 {
+				sb.WriteString(",")
+			}
+		}
+	}
+	return sb.String()
+}
+
+//获取设置的表名
+func GetOriginTableNames() string {
+	return _map.TableNames
+}
+
+//设置生成的表名
+func SetTableNames(tableNames string) {
+	_map.TableNames = tableNames
 }

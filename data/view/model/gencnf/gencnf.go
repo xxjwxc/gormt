@@ -51,6 +51,11 @@ func (m *cnfModel) GenModel() model.DBInfo {
 	return dbInfo
 }
 
+// GetTableNames get table name.获取指定的表名
+func (m *cnfModel) GetTableNames() string {
+	return config.GetTableNames()
+}
+
 // GetDbName get database name.获取数据库名字
 func (m *cnfModel) GetDbName() string {
 	dir := config.GetDbInfo().Host
