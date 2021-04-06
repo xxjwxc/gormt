@@ -56,6 +56,8 @@ is_web_tag: false
 is_web_tag_pk_hidden: false
 table_prefix: "" #表前缀
 table_names: "" #指定表生成，多个表用,隔开
+is_column_name: true # 是否生成列名
+is_out_file_by_table_name: false # 是否根据表名生成多个model
 db_info:
     host : 127.0.0.1
     port : 3306

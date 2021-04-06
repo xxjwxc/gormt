@@ -9,26 +9,28 @@ import (
 
 // Config custom config struct
 type Config struct {
-	CfgBase          `yaml:"base"`
-	DBInfo           DBInfo            `yaml:"db_info"`
-	OutDir           string            `yaml:"out_dir"`
-	URLTag           string            `yaml:"url_tag"`  // url tag
-	Language         string            `yaml:"language"` // language
-	DbTag            string            `yaml:"db_tag"`   // 数据库标签（gormt,db）
-	Simple           bool              `yaml:"simple"`
-	IsWEBTag         bool              `yaml:"is_web_tag"`
-	IsWebTagPkHidden bool              `yaml:"is_web_tag_pk_hidden"` // web标记是否隐藏主键
-	IsForeignKey     bool              `yaml:"is_foreign_key"`
-	IsOutSQL         bool              `yaml:"is_out_sql"`
-	IsOutFunc        bool              `yaml:"is_out_func"`
-	IsGUI            bool              `yaml:"is_gui"` //
-	IsTableName      bool              `yaml:"is_table_name"`
-	IsNullToPoint    bool              `yaml:"is_null_to_point"` // null to porint
-	TablePrefix      string            `yaml:"table_prefix"`     // 表前缀
-	SelfTypeDef      map[string]string `yaml:"self_type_define"`
-	OutFileName      string            `yaml:"out_file_name"`
-	WebTagType       int               `yaml:"web_tag_type"` // 默认小驼峰
-	TableNames       string            `yaml:"table_names"`  // 表名（多个表名用","隔开）
+	CfgBase              `yaml:"base"`
+	DBInfo               DBInfo            `yaml:"db_info"`
+	OutDir               string            `yaml:"out_dir"`
+	URLTag               string            `yaml:"url_tag"`  // url tag
+	Language             string            `yaml:"language"` // language
+	DbTag                string            `yaml:"db_tag"`   // 数据库标签（gormt,db）
+	Simple               bool              `yaml:"simple"`
+	IsWEBTag             bool              `yaml:"is_web_tag"`
+	IsWebTagPkHidden     bool              `yaml:"is_web_tag_pk_hidden"` // web标记是否隐藏主键
+	IsForeignKey         bool              `yaml:"is_foreign_key"`
+	IsOutSQL             bool              `yaml:"is_out_sql"`
+	IsOutFunc            bool              `yaml:"is_out_func"`
+	IsGUI                bool              `yaml:"is_gui"` //
+	IsTableName          bool              `yaml:"is_table_name"`
+	IsNullToPoint        bool              `yaml:"is_null_to_point"` // null to porint
+	TablePrefix          string            `yaml:"table_prefix"`     // 表前缀
+	SelfTypeDef          map[string]string `yaml:"self_type_define"`
+	OutFileName          string            `yaml:"out_file_name"`
+	WebTagType           int               `yaml:"web_tag_type"`              // 默认小驼峰
+	TableNames           string            `yaml:"table_names"`               // 表名（多个表名用","隔开）
+	IsColumnName         bool              `yaml:"is_column_name"`            //是否输出列名
+	IsOutFileByTableName bool              `yaml:"is_out_file_by_table_name"` //是否根据表名生成文件(多个表名生成多个文件)
 }
 
 // DBInfo mysql database information. mysql 数据库信息
@@ -292,4 +294,24 @@ func GetOriginTableNames() string {
 //SetTableNames set tableNames. 设置生成的表名
 func SetTableNames(tableNames string) {
 	_map.TableNames = tableNames
+}
+
+//GetIsColumnName get  gen columnName config . 获取生成列名的config
+func GetIsColumnName() bool {
+	return _map.IsColumnName
+}
+
+//SetIsColumnName set gen ColumnName config. 设置生成列名的config
+func SetIsColumnName(isColumnName bool) {
+	_map.IsColumnName = isColumnName
+}
+
+//GetIsOutFileByTableName get  gen columnName config . 设置是否根据表名生成文件
+func GetIsOutFileByTableName() bool {
+	return _map.IsOutFileByTableName
+}
+
+//SetIsOutFileByTableName set gen ColumnName config. 设置是否根据表名生成文件
+func SetIsOutFileByTableName(isOutFileByTableName bool) {
+	_map.IsColumnName = isOutFileByTableName
 }

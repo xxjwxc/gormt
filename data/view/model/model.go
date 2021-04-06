@@ -27,20 +27,29 @@ func Generate(info DBInfo) (out []GenOutInfo, m _Model) {
 	}
 
 	// struct
-	var stt GenOutInfo
-	stt.FileCtx = m.generate()
-	stt.FileName = info.DbName + ".go"
+	if config.GetIsOutFileByTableName() {
+		outByTable := m.GenerateByTableName()
+		out = append(out, outByTable...)
+	} else {
+		var stt GenOutInfo
+		stt.FileCtx = m.generate()
+		stt.FileName = info.DbName + ".go"
 
-	if name := config.GetOutFileName(); len(name) > 0 {
-		stt.FileName = name + ".go"
+		if name := config.GetOutFileName(); len(name) > 0 {
+			stt.FileName = name + ".go"
+		}
+		out = append(out, stt)
 	}
 
-	out = append(out, stt)
 	// ------end
 
 	// gen function
 	if config.GetIsOutFunc() {
 		out = append(out, m.generateFunc()...)
+	}
+	for i, outInfo := range out {
+		fmt.Printf("-------------%d-----------", i)
+		fmt.Println(outInfo)
 	}
 	// -------------- end
 	return
@@ -76,6 +85,28 @@ func (m *_Model) GetPackage() genstruct.GenPackage {
 	return *m.pkg
 }
 
+// GetPackageByTableName Generate multiple model files based on the table name. 根据表名生成多个model文件
+func (m *_Model) GenerateByTableName() (out []GenOutInfo) {
+	if m.pkg == nil {
+		for _, tab := range m.info.TabList {
+			var pkg genstruct.GenPackage
+			pkg.SetPackage(m.info.PackageName) //package name
+			var sct genstruct.GenStruct
+			sct.SetStructName(getCamelName(tab.Name)) // Big hump.大驼峰
+			sct.SetNotes(tab.Notes)
+			sct.AddElement(m.genTableElement(tab.Em)...) // build element.构造元素
+			sct.SetCreatTableStr(tab.SQLBuildStr)
+			sct.SetTableName(tab.Name)
+			pkg.AddStruct(sct)
+			var stt GenOutInfo
+			stt.FileCtx = pkg.Generate()
+			stt.FileName = tab.Name + ".go"
+			out = append(out, stt)
+		}
+	}
+	return
+}
+
 func (m *_Model) generate() string {
 	m.pkg = nil
 	m.GetPackage()
@@ -96,22 +127,25 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 			tmp.SetName(getCamelName(v.Name))
 			tmp.SetNotes(v.Notes)
 			tmp.SetType(getTypeName(v.Type, v.IsNull))
-			for _, v1 := range v.Index {
-				switch v1.Key {
-				// case ColumnsKeyDefault:
-				case ColumnsKeyPrimary: // primary key.主键
-					tmp.AddTag(_tagGorm, "primaryKey")
-					isPK = true
-				case ColumnsKeyUnique: // unique key.唯一索引
-					tmp.AddTag(_tagGorm, "unique")
-				case ColumnsKeyIndex: // index key.复合索引
-					if v1.KeyType == "FULLTEXT" {
-						tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName)+",class:FULLTEXT")
-					} else {
-						tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName))
+			// not simple output. 默认不输出gorm标签
+			if !config.GetSimple() {
+				for _, v1 := range v.Index {
+					switch v1.Key {
+					// case ColumnsKeyDefault:
+					case ColumnsKeyPrimary: // primary key.主键
+						tmp.AddTag(_tagGorm, "primaryKey")
+						isPK = true
+					case ColumnsKeyUnique: // unique key.唯一索引
+						tmp.AddTag(_tagGorm, "unique")
+					case ColumnsKeyIndex: // index key.复合索引
+						if v1.KeyType == "FULLTEXT" {
+							tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName)+",class:FULLTEXT")
+						} else {
+							tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName))
+						}
+					case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
+						tmp.AddTag(_tagGorm, getUninStr("uniqueIndex", ":", v1.KeyName))
 					}
-				case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
-					tmp.AddTag(_tagGorm, getUninStr("uniqueIndex", ":", v1.KeyName))
 				}
 			}
 		}
@@ -124,10 +158,10 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 				if !v.IsNull {
 					tmp.AddTag(_tagGorm, "not null")
 				}
-			}
-			// default tag
-			if len(v.Gormt) > 0 {
-				tmp.AddTag(_tagGorm, v.Gormt)
+				// default tag
+				if len(v.Gormt) > 0 {
+					tmp.AddTag(_tagGorm, v.Gormt)
+				}
 			}
 
 			// json tag

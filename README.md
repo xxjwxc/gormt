@@ -52,6 +52,8 @@ is_web_tag: false
 is_web_tag_pk_hidden: false
 table_prefix: "" #table prefix
 table_names: "" # Specified table generation, multiple tables with , separated
+is_column_name: true # Whether to generate column names
+is_out_file_by_table_name: false # Whether to generate multiple models based on table names
 db_info :
     host : "127.0.0.1"
     port : 3306

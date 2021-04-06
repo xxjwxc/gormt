@@ -282,7 +282,9 @@ func (p *GenPackage) Generate() string {
 			for _, v1 := range v.GenerateTableName() {
 				pa.Add(v1)
 			}
+		}
 
+		if config.GetIsColumnName() {
 			for _, v2 := range v.GenerateColumnName() { // add column list
 				pa.Add(v2)
 			}
