@@ -47,10 +47,6 @@ func Generate(info DBInfo) (out []GenOutInfo, m _Model) {
 	if config.GetIsOutFunc() {
 		out = append(out, m.generateFunc()...)
 	}
-	for i, outInfo := range out {
-		fmt.Printf("-------------%d-----------", i)
-		fmt.Println(outInfo)
-	}
 	// -------------- end
 	return
 }
