@@ -206,7 +206,7 @@ func GenFListIndex(info FList, status int) string {
 		{
 			var strs []string
 			for _, v := range info.Kem {
-				strs = append(strs, fmt.Sprintf("%v = ?", v.ColName)) //wxw 2021.2.26 16:53
+				strs = append(strs, fmt.Sprintf("`%v` = ?", v.ColName)) //wxw 2021.2.26 16:53
 			}
 			return strings.Join(strs, " AND ")
 		}

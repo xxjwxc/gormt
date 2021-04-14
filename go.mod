@@ -15,7 +15,8 @@ require (
 	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
 	gorm.io/driver/mysql v1.0.1
 	gorm.io/driver/sqlite v1.1.4
-	gorm.io/gorm v1.20.7
+	gorm.io/driver/sqlserver v1.0.7
+	gorm.io/gorm v1.21.4
 )
 
 // replace github.com/xxjwxc/public => ../public
