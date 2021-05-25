@@ -18,6 +18,8 @@ var TypeMysqlDicMp = map[string]string{
 	"int unsigned":        "uint",
 	"bigint":              "int64",
 	"bigint unsigned":     "uint64",
+	"mediumint":           "int32",
+	"mediumint unsigned":  "uint32",
 	"varchar":             "string",
 	"char":                "string",
 	"date":                "datatypes.Date",
