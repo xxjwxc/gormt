@@ -134,11 +134,15 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 					case ColumnsKeyUnique: // unique key.唯一索引
 						tmp.AddTag(_tagGorm, "unique")
 					case ColumnsKeyIndex: // index key.复合索引
-						if v1.KeyType == "FULLTEXT" {
-							tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName)+",class:FULLTEXT")
-						} else {
-							tmp.AddTag(_tagGorm, getUninStr("index", ":", v1.KeyName))
+						uninStr := getUninStr("index", ":", v1.KeyName)
+						// 兼容 gorm 本身 sort 标签
+						if v1.KeyName == "sort" {
+							uninStr = "index"
 						}
+						if v1.KeyType == "FULLTEXT" {
+							uninStr += ",class:FULLTEXT"
+						}
+						tmp.AddTag(_tagGorm, uninStr)
 					case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
 						tmp.AddTag(_tagGorm, getUninStr("uniqueIndex", ":", v1.KeyName))
 					}
