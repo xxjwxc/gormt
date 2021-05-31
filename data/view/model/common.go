@@ -52,7 +52,7 @@ func GetTablePrefixName(name string) string { //
 	tablePrefix := config.GetTablePrefix()
 	//如果设置了表前缀
 	if tablePrefix != "" {
-		return fmt.Sprintf("%v.%v", tablePrefix, name)
+		name = tablePrefix + name
 	}
 
 	return name

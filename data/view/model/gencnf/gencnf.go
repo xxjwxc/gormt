@@ -98,7 +98,9 @@ func (m *cnfModel) GetPkgName() string {
 	}
 
 	if len(pkgName) == 0 || pkgName == "." {
-		list = strings.Split(tools.GetModelPath(), "/")
+		curDir := tools.GetModelPath()
+		curDir = strings.Replace(curDir, "\\", "/", -1)
+		list = strings.Split(curDir, "/")
 		if len(list) > 0 {
 			pkgName = list[len(list)-1]
 		}

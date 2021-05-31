@@ -57,12 +57,12 @@ func (m *_Model) GetPackage() genstruct.GenPackage {
 		var pkg genstruct.GenPackage
 		pkg.SetPackage(m.info.PackageName) //package name
 
-		// tablePrefix := config.GetTablePrefix()
+		tablePrefix := config.GetTablePrefix()
 
 		for _, tab := range m.info.TabList {
 			var sct genstruct.GenStruct
 
-			sct.SetTableName(tab.Name)
+			sct.SetTableName(tablePrefix + tab.Name)
 
 			//如果设置了表前缀
 			// if tablePrefix != "" {
