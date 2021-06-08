@@ -203,8 +203,8 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowe
 }
  {{end}}
  //////////////////////////primary index case ////////////////////////////////////////////
- {{range $ofm := $obj.Primay}}
- // {{GenFListIndex $ofm 1}} primay or index 获取唯一内容
+ {{range $ofm := $obj.Primary}}
+ // {{GenFListIndex $ofm 1}} primary or index 获取唯一内容
  func (obj *_{{$obj.StructName}}Mgr) {{GenFListIndex $ofm 1}}({{GenFListIndex $ofm 2}}) (result {{$obj.StructName}}, err error) {
 	err = obj.DB.WithContext(obj.ctx).Table(obj.GetTableName()).Where("{{GenFListIndex $ofm 3}}", {{GenFListIndex $ofm 4}}).Find(&result).Error
 	{{GenPreloadList $obj.PreloadList false}}

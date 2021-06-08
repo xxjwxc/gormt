@@ -149,7 +149,7 @@ func (obj *_UserMgr) GetBatchFromJob(jobs []int) (results []*User, err error) {
 
 //////////////////////////primary index case ////////////////////////////////////////////
 
-// FetchByPrimaryKey primay or index 获取唯一内容
+// FetchByPrimaryKey primary or index 获取唯一内容
 func (obj *_UserMgr) FetchByPrimaryKey(userID int) (result User, err error) {
 	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("user_id = ?", userID).Find(&result).Error
 

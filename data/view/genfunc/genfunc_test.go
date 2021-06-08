@@ -125,7 +125,7 @@ func TestFuncFetchBy(t *testing.T) {
 	accountMgr := model.AccountMgr(db)
 	accountMgr.SetIsRelated(true) // 打开预加载 (外键)
 
-	account, err := accountMgr.FetchByPrimaryKey(2) // primay key
+	account, err := accountMgr.FetchByPrimaryKey(2) // primary key
 	fmt.Println(err)
 	fmt.Println(account)
 
