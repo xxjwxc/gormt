@@ -162,7 +162,7 @@ type UserAccountTbl struct {
 ## 6. support func export
 ### The exported function is only the auxiliary class function of Gorm, and calls Gorm completely
 ```
-// FetchByPrimaryKey primay or index 获取唯一内容
+// FetchByPrimaryKey primary or index 获取唯一内容
 func (obj *_UserAccountTblMgr) FetchByPrimaryKey(ID int) (result UserAccountTbl, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("id = ?", ID).Find(&result).Error
 	if err == nil && obj.isRelated {

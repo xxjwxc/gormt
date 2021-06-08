@@ -115,7 +115,7 @@ type funDef struct {
 	TableName   string
 	PreloadList []PreloadInfo // 外键列表，(生成关联数据)
 	Em          []EmInfo      // index 列表
-	Primay      []FList       // primay unique
+	Primary     []FList       // primary unique
 	Index       []FList       // index
 }
 

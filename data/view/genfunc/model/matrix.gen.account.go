@@ -277,7 +277,7 @@ func (obj *_AccountMgr) GetBatchFromName(names []string) (results []*Account, er
 
 //////////////////////////primary index case ////////////////////////////////////////////
 
-// FetchByPrimaryKey primay or index 获取唯一内容
+// FetchByPrimaryKey primary or index 获取唯一内容
 func (obj *_AccountMgr) FetchByPrimaryKey(id int) (result Account, err error) {
 	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("id = ?", id).Find(&result).Error
 	if err == nil && obj.isRelated {
@@ -291,7 +291,7 @@ func (obj *_AccountMgr) FetchByPrimaryKey(id int) (result Account, err error) {
 	return
 }
 
-// FetchUniqueIndexByAccount primay or index 获取唯一内容
+// FetchUniqueIndexByAccount primary or index 获取唯一内容
 func (obj *_AccountMgr) FetchUniqueIndexByAccount(accountID int, userID int) (result Account, err error) {
 	err = obj.WithContext(obj.ctx).Table(obj.GetTableName()).Where("account_id = ? AND user_id = ?", accountID, userID).Find(&result).Error
 	if err == nil && obj.isRelated {
