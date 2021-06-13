@@ -280,7 +280,7 @@ func (m *_Model) getColumnsKeyMulti(tableName, col string) (isMulti bool, isFind
 // ///////////////////////// func
 func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 	// getn base
-	tmpl, err := template.New("gen_base").Parse(genfunc.GetGenBaseTemp())
+	tmpl, err := template.New("gen_base").Funcs(template.FuncMap{"GetVV": func() string { return "`%v`" }}).Parse(genfunc.GetGenBaseTemp())
 	if err != nil {
 		panic(err)
 	}

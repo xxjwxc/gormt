@@ -2,6 +2,7 @@ package model
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -89,4 +90,63 @@ func OpenRelated() {
 // CloseRelated 关闭全局预加载
 func CloseRelated() {
 	globalIsRelated = true
+}
+
+// 自定义sql查询
+type Condetion struct {
+	list []*condetionInfo
+}
+
+// And a condition by and .and 一个条件
+func (c *Condetion) And(column string, cases string, value ...interface{}) {
+	c.list = append(c.list, &condetionInfo{
+		andor:  "and",
+		column: column, // 列名
+		case_:  cases,  // 条件(and,or,in,>=,<=)
+		value:  value,
+	})
+}
+
+// Or a condition by or .or 一个条件
+func (c *Condetion) Or(column string, cases string, value ...interface{}) {
+	c.list = append(c.list, &condetionInfo{
+		andor:  "or",
+		column: column, // 列名
+		case_:  cases,  // 条件(and,or,in,>=,<=)
+		value:  value,
+	})
+}
+
+func (c *Condetion) Get() (where string, out []interface{}) {
+	firstAnd := -1
+	for i := 0; i < len(c.list); i++ { // 查找第一个and
+		if c.list[i].andor == "and" {
+			where = fmt.Sprintf("`%v` %v ?", c.list[i].column, c.list[i].case_)
+			out = append(out, c.list[i].value)
+			firstAnd = i
+			break
+		}
+	}
+
+	if firstAnd < 0 && len(c.list) > 0 { // 补刀
+		where = fmt.Sprintf("`%v` %v ?", c.list[0].column, c.list[0].case_)
+		out = append(out, c.list[0].value)
+		firstAnd = 0
+	}
+
+	for i := 0; i < len(c.list); i++ { // 添加剩余的
+		if firstAnd != i {
+			where += fmt.Sprintf(" %v `%v` %v ?", c.list[i].andor, c.list[i].column, c.list[i].case_)
+			out = append(out, c.list[i].value)
+		}
+	}
+
+	return
+}
+
+type condetionInfo struct {
+	andor  string
+	column string // 列名
+	case_  string // 条件(in,>=,<=)
+	value  interface{}
 }

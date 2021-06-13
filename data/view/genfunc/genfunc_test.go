@@ -137,3 +137,24 @@ func TestFuncFetchBy(t *testing.T) {
 	fmt.Println(err)
 	fmt.Println(accounts)
 }
+
+// TestCondetion 测试sql构建
+func TestCondetion(t *testing.T) {
+	condetion := model.Condetion{}
+	condetion.And(model.AccountColumns.AccountID, ">=", "1")
+	condetion.And(model.AccountColumns.UserID, "in", "1", "2", "3")
+	condetion.Or(model.AccountColumns.Type, "in", "1", "2", "3")
+
+	where, obj := condetion.Get()
+	fmt.Println(where)
+	fmt.Println(obj...)
+
+	db := GetGorm("root:qwer@tcp(127.0.0.1:3306)/matrix?charset=utf8&parseTime=True&loc=Local&interpolateParams=True")
+	defer func() {
+		sqldb, _ := db.DB()
+		sqldb.Close()
+	}()
+
+	accountMgr := model.AccountMgr(db.Where(condetion.Get()))
+	accountMgr.Gets()
+}
