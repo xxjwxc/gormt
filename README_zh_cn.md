@@ -171,7 +171,7 @@ type UserAccountTbl struct {
 ## 6. 支持函数导出(导出函数只是 gorm 的辅助类函数，完全兼调用 gorm)
 
 ```
-// FetchByPrimaryKey primay or index 获取唯一内容
+// FetchByPrimaryKey primary or index 获取唯一内容
 func (obj *_UserAccountTblMgr) FetchByPrimaryKey(ID int) (result UserAccountTbl, err error) {
 	err = obj.DB.Table(obj.GetTableName()).Where("id = ?", ID).Find(&result).Error
 	if err == nil && obj.isRelated {
