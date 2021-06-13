@@ -123,6 +123,7 @@ Flags:
 - 支持外键相关属性 [简单带外键模式导出>>>](https://github.com/xxjwxc/gormt/tree/master/doc/export_cn.md)
 - 支持函数导出(包括:外键，关联体，索引关...)[简单函数导出示例>>>](https://github.com/xxjwxc/gormt/blob/master/data/view/genfunc/genfunc_test.go)
 - 支持默认值default 
+- model.Condetion{} sql拼接
 
 ### 您可以在这里丰富数据映射类型 [def](data/view/cnf/def.go) 。
 
