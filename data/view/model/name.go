@@ -52,12 +52,11 @@ var commonInitialisms = map[string]bool{
 
 // CamelCase converts field name to pretty struct attribute name
 func CamelCase(fieldName string) string {
-	var b bytes.Buffer
+	var b strings.Builder
 
 	var words []string
 
-	var i int
-	for s := fieldName; s != ""; s = s[i:] { // split on upper letter or _
+	for i, s := 0, fieldName; s != ""; s = s[i:] { // split on upper letter or _
 		i = strings.IndexFunc(s[1:], unicode.IsUpper) + 1
 		if i <= 0 {
 			i = len(s)
@@ -66,7 +65,6 @@ func CamelCase(fieldName string) string {
 		words = append(words, strings.Split(word, "_")...)
 	}
 
-	// words := strings.Split(fieldName, "_")
 	for i, word := range words {
 		if u := strings.ToUpper(word); commonInitialisms[u] {
 			b.WriteString(u)
