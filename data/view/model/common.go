@@ -7,11 +7,12 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/xxjwxc/public/mybigcamel"
+	"github.com/xxjwxc/public/tools"
+
 	"github.com/xxjwxc/gormt/data/config"
 	"github.com/xxjwxc/gormt/data/view/cnf"
 	"github.com/xxjwxc/gormt/data/view/genfunc"
-	"github.com/xxjwxc/public/mybigcamel"
-	"github.com/xxjwxc/public/tools"
 )
 
 // getCamelName Big Hump or Capital Letter.大驼峰或者首字母大写
@@ -20,7 +21,7 @@ func getCamelName(name string) string {
 	// 	return mybigcamel.Marshal(strings.TrimSuffix(name, "s"))
 	// }
 
-	return mybigcamel.Marshal(name)
+	return CamelCase(name)
 }
 
 // titleCase title case.首字母大写
