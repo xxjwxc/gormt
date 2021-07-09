@@ -192,8 +192,8 @@ github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q
 github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77/go.mod h1:aYKd//L2LvnjZzWKhF00oedf4jCCReLcmhLdhm1A27Q=
 github.com/xxjwxc/gowp v0.0.0-20200603130651-4d7368b0e285/go.mod h1:yJ/fY5BorWARfDDsxBU/MyQTHc5MVyNcqBQQYD6MN0k=
 github.com/xxjwxc/public v0.0.0-20200603115833-341beff27850/go.mod h1:fp3M+FEQrCgWD1fZ/PLwZkCTglf086OEhC9LcydAUnc=
-github.com/xxjwxc/public v0.0.0-20210611023445-d5fd9e893ee4 h1:G35nxudFL8q7thdd83VYs/xum7RGvDkPnA7DVdLx9Mg=
-github.com/xxjwxc/public v0.0.0-20210611023445-d5fd9e893ee4/go.mod h1:kNBfZ2iA/e+e3yoD5Zm81BgAHNP5htgZf5XsWiXpCTU=
+github.com/xxjwxc/public v0.0.0-20210709073023-f6ec6fb9bcb4 h1:TNO5yWTW36wGUIM3NDMr6FHTQaNxPcPnVDMEKlj4R/s=
+github.com/xxjwxc/public v0.0.0-20210709073023-f6ec6fb9bcb4/go.mod h1:kNBfZ2iA/e+e3yoD5Zm81BgAHNP5htgZf5XsWiXpCTU=
 go.etcd.io/bbolt v1.3.2/go.mod h1:IbVyRI1SCnLcuJnV2u8VeU0CEYM7e686BmAb1XKL+uU=
 go.opentelemetry.io/otel v0.16.0/go.mod h1:e4GKElweB8W2gWUqbghw0B8t5MCTccc9212eNHnOHwA=
 go.uber.org/atomic v1.4.0 h1:cxzIVoETapQEqDhQu3QfnvXAV4AlzcvUCxkVUFw3+EU=
