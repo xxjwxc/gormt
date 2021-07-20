@@ -113,39 +113,43 @@ func getUninStr(left, middle, right string) string {
 	return re
 }
 
-func getGormModelElement() []EmInfo {
-	var result []EmInfo
-	result = append(result, EmInfo{
-		IsMulti:       false,
-		Notes:         "Primary key",
-		Type:          "int64", // Type.类型标记
-		ColName:       "id",
-		ColStructName: "ID",
-	})
-	result = append(result, EmInfo{
-		IsMulti:       false,
-		Notes:         "created time",
-		Type:          "time.Time", // Type.类型标记
-		ColName:       "created_at",
-		ColStructName: "CreatedAt",
-	})
+func getGormModelElement() []EmInfo {
+    var result []EmInfo
+    result = append(result, EmInfo{
+        IsMulti:       false,
+        Notes:         "Primary key",
+        Type:          "int64", // Type.类型标记
+        ColName:       "id",
+        ColNameEx:     "id",
+        ColStructName: "ID",
+    })
+    result = append(result, EmInfo{
+        IsMulti:       false,
+        Notes:         "created time",
+        Type:          "time.Time", // Type.类型标记
+        ColName:       "created_at",
+        ColNameEx:     "created_at",
+        ColStructName: "CreatedAt",
+    })
 
-	result = append(result, EmInfo{
-		IsMulti:       false,
-		Notes:         "updated at",
-		Type:          "time.Time", // Type.类型标记
-		ColName:       "updated_at",
-		ColStructName: "UpdatedAt",
-	})
+    result = append(result, EmInfo{
+        IsMulti:       false,
+        Notes:         "updated at",
+        Type:          "time.Time", // Type.类型标记
+        ColName:       "updated_at",
+        ColNameEx:     "updated_at",
+        ColStructName: "UpdatedAt",
+    })
 
-	result = append(result, EmInfo{
-		IsMulti:       false,
-		Notes:         "deleted time",
-		Type:          "time.Time", // Type.类型标记
-		ColName:       "deleted_at",
-		ColStructName: "DeletedAt",
-	})
-	return result
+    result = append(result, EmInfo{
+        IsMulti:       false,
+        Notes:         "deleted time",
+        Type:          "time.Time", // Type.类型标记
+        ColName:       "deleted_at",
+        ColNameEx:     "deleted_at",
+        ColStructName: "DeletedAt",
+    })
+    return result
 }
 
 func buildFList(list *[]FList, key ColumnsKey, keyName, tp, colName string) {
