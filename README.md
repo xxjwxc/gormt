@@ -113,7 +113,7 @@ Flags:
 - UNIQUE_INDEX	Like INDEX, create unique index
 - Support foreign key related properties [Support export gorm.model>>>](doc/export.md)
 - Support function export (foreign key, association, index , unique and more)[Support export function >>>](https://github.com/xxjwxc/gormt/blob/master/data/view/genfunc/genfunc_test.go)
-- model.Condetion{} sql link
+- model.Condition{} sql link
 
 ### You can enrich data types in [def](data/view/cnf/def.go) 
 

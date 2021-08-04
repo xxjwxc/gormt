@@ -138,14 +138,14 @@ func TestFuncFetchBy(t *testing.T) {
 	fmt.Println(accounts)
 }
 
-// TestCondetion 测试sql构建
-func TestCondetion(t *testing.T) {
-	condetion := model.Condetion{}
-	condetion.And(model.AccountColumns.AccountID, ">=", "1")
-	condetion.And(model.AccountColumns.UserID, "in", "1", "2", "3")
-	condetion.Or(model.AccountColumns.Type, "in", "1", "2", "3")
+// TestCondition 测试sql构建
+func TestCondition(t *testing.T) {
+	condition := model.Condition{}
+	condition.And(model.AccountColumns.AccountID, ">=", "1")
+	condition.And(model.AccountColumns.UserID, "in", "1", "2", "3")
+	condition.Or(model.AccountColumns.Type, "in", "1", "2", "3")
 
-	where, obj := condetion.Get()
+	where, obj := condition.Get()
 	fmt.Println(where)
 	fmt.Println(obj...)
 
@@ -155,6 +155,6 @@ func TestCondetion(t *testing.T) {
 		sqldb.Close()
 	}()
 
-	accountMgr := model.AccountMgr(db.Where(condetion.Get()))
+	accountMgr := model.AccountMgr(db.Where(condition.Get()))
 	accountMgr.Gets()
 }
