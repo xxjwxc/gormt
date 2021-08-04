@@ -93,13 +93,13 @@ func CloseRelated() {
 }
 
 // 自定义sql查询
-type Condetion struct {
-	list []*condetionInfo
+type Condition struct {
+	list []*conditionInfo
 }
 
 // And a condition by and .and 一个条件
-func (c *Condetion) And(column string, cases string, value ...interface{}) {
-	c.list = append(c.list, &condetionInfo{
+func (c *Condition) And(column string, cases string, value ...interface{}) {
+	c.list = append(c.list, &conditionInfo{
 		andor:  "and",
 		column: column, // 列名
 		case_:  cases,  // 条件(and,or,in,>=,<=)
@@ -108,8 +108,8 @@ func (c *Condetion) And(column string, cases string, value ...interface{}) {
 }
 
 // Or a condition by or .or 一个条件
-func (c *Condetion) Or(column string, cases string, value ...interface{}) {
-	c.list = append(c.list, &condetionInfo{
+func (c *Condition) Or(column string, cases string, value ...interface{}) {
+	c.list = append(c.list, &conditionInfo{
 		andor:  "or",
 		column: column, // 列名
 		case_:  cases,  // 条件(and,or,in,>=,<=)
@@ -117,7 +117,7 @@ func (c *Condetion) Or(column string, cases string, value ...interface{}) {
 	})
 }
 
-func (c *Condetion) Get() (where string, out []interface{}) {
+func (c *Condition) Get() (where string, out []interface{}) {
 	firstAnd := -1
 	for i := 0; i < len(c.list); i++ { // 查找第一个and
 		if c.list[i].andor == "and" {
@@ -144,7 +144,7 @@ func (c *Condetion) Get() (where string, out []interface{}) {
 	return
 }
 
-type condetionInfo struct {
+type conditionInfo struct {
 	andor  string
 	column string // 列名
 	case_  string // 条件(in,>=,<=)
