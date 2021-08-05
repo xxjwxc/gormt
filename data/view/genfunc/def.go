@@ -204,6 +204,13 @@ func (obj *_{{$obj.StructName}}Mgr) Gets() (results []*{{$obj.StructName}}, err 
 	return
 }
 
+////////////////////////////////// gorm replace /////////////////////////////////
+func (obj *_{{$obj.StructName}}Mgr) Count(count *int64) (tx *gorm.DB) {
+	return obj.DB.WithContext(obj.ctx).Model({{$obj.StructName}}{}).Count(count)
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
 //////////////////////////option case ////////////////////////////////////////////
 {{range $oem := $obj.Em}}
 // With{{$oem.ColStructName}} {{$oem.ColName}}获取 {{$oem.Notes}}
