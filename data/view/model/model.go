@@ -123,8 +123,8 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 			tmp.SetName(getCamelName(v.Name))
 			tmp.SetNotes(v.Notes)
 			tmp.SetType(getTypeName(v.Type, v.IsNull))
-			// is_db_tag. 是否输出gorm标签
-			if config.GetIsDbTag() {
+			// 是否输出gorm标签
+			if len(_tagGorm) > 0 {
 				// not simple output. 默认只输出gorm主键和字段标签
 				if !config.GetSimple() {
 					for _, v1 := range v.Index {
@@ -163,8 +163,8 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 		}
 
 		if len(v.Name) > 0 {
-			// is_db_tag. 是否输出gorm标签
-			if config.GetIsDbTag() {
+			// 是否输出gorm标签
+			if len(_tagGorm) > 0 {
 				// not simple output
 				if !config.GetSimple() {
 					tmp.AddTag(_tagGorm, "column:"+v.Name)

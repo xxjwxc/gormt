@@ -16,7 +16,6 @@ type Config struct {
 	Language             string            `yaml:"language"` // language
 	DbTag                string            `yaml:"db_tag"`   // 数据库标签（gormt,db）
 	Simple               bool              `yaml:"simple"`
-	IsDbTag              bool              `yaml:"is_db_tag"` // 是否输出 数据库标签
 	IsWEBTag             bool              `yaml:"is_web_tag"`
 	IsWebTagPkHidden     bool              `yaml:"is_web_tag_pk_hidden"` // web标记是否隐藏主键
 	IsForeignKey         bool              `yaml:"is_foreign_key"`
@@ -97,16 +96,6 @@ func GetSimple() bool {
 // SetSimple simple output.简单输出
 func SetSimple(b bool) {
 	_map.Simple = b
-}
-
-// GetIsDbTag is_db_tag
-func GetIsDbTag() bool {
-	return _map.IsDbTag
-}
-
-// SetIsDbTag is_db_tag
-func SetIsDbTag(b bool) {
-	_map.IsDbTag = b
 }
 
 // GetIsWEBTag json tag.json标记
@@ -320,9 +309,4 @@ func SetIsColumnName(isColumnName bool) {
 //GetIsOutFileByTableName get  gen columnName config . 设置是否根据表名生成文件
 func GetIsOutFileByTableName() bool {
 	return _map.IsOutFileByTableName
-}
-
-//SetIsOutFileByTableName set gen ColumnName config. 设置是否根据表名生成文件
-func SetIsOutFileByTableName(isOutFileByTableName bool) {
-	_map.IsColumnName = isOutFileByTableName
 }
