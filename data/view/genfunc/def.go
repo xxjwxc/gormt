@@ -36,7 +36,7 @@ type _BaseMgr struct {
 	isRelated bool
 }
 
-// SetCtx set context
+// SetTimeOut set timeout
 func (obj *_BaseMgr) SetTimeOut(timeout time.Duration) {
 	obj.ctx, obj.cancel = context.WithTimeout(context.Background(), timeout)
 	obj.timeout = timeout
@@ -49,7 +49,7 @@ func (obj *_BaseMgr) SetCtx(c context.Context) {
 	}
 }
 
-// Ctx get context
+// GetCtx get context
 func (obj *_BaseMgr) GetCtx() context.Context {
 	return obj.ctx
 }
