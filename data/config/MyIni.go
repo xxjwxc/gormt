@@ -310,8 +310,3 @@ func SetIsColumnName(isColumnName bool) {
 func GetIsOutFileByTableName() bool {
 	return _map.IsOutFileByTableName
 }
-
-//SetIsOutFileByTableName set gen ColumnName config. 设置是否根据表名生成文件
-func SetIsOutFileByTableName(isOutFileByTableName bool) {
-	_map.IsColumnName = isOutFileByTableName
-}

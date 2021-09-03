@@ -123,44 +123,61 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 			tmp.SetName(getCamelName(v.Name))
 			tmp.SetNotes(v.Notes)
 			tmp.SetType(getTypeName(v.Type, v.IsNull))
-			// not simple output. 默认不输出gorm标签
-			if !config.GetSimple() {
-				for _, v1 := range v.Index {
-					switch v1.Key {
-					// case ColumnsKeyDefault:
-					case ColumnsKeyPrimary: // primary key.主键
-						tmp.AddTag(_tagGorm, "primaryKey")
-						isPK = true
-					case ColumnsKeyUnique: // unique key.唯一索引
-						tmp.AddTag(_tagGorm, "unique")
-					case ColumnsKeyIndex: // index key.复合索引
-						uninStr := getUninStr("index", ":", v1.KeyName)
-						// 兼容 gorm 本身 sort 标签
-						if v1.KeyName == "sort" {
-							uninStr = "index"
+			// 是否输出gorm标签
+			if len(_tagGorm) > 0 {
+				// not simple output. 默认只输出gorm主键和字段标签
+				if !config.GetSimple() {
+					for _, v1 := range v.Index {
+						switch v1.Key {
+						// case ColumnsKeyDefault:
+						case ColumnsKeyPrimary: // primary key.主键
+							tmp.AddTag(_tagGorm, "primaryKey")
+							isPK = true
+						case ColumnsKeyUnique: // unique key.唯一索引
+							tmp.AddTag(_tagGorm, "unique")
+						case ColumnsKeyIndex: // index key.复合索引
+							uninStr := getUninStr("index", ":", v1.KeyName)
+							// 兼容 gorm 本身 sort 标签
+							if v1.KeyName == "sort" {
+								uninStr = "index"
+							}
+							if v1.KeyType == "FULLTEXT" {
+								uninStr += ",class:FULLTEXT"
+							}
+							tmp.AddTag(_tagGorm, uninStr)
+						case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
+							tmp.AddTag(_tagGorm, getUninStr("uniqueIndex", ":", v1.KeyName))
 						}
-						if v1.KeyType == "FULLTEXT" {
-							uninStr += ",class:FULLTEXT"
+					}
+				} else {
+					for _, v1 := range v.Index {
+						switch v1.Key {
+						// case ColumnsKeyDefault:
+						case ColumnsKeyPrimary: // primary key.主键
+							tmp.AddTag(_tagGorm, "primaryKey")
+							isPK = true
 						}
-						tmp.AddTag(_tagGorm, uninStr)
-					case ColumnsKeyUniqueIndex: // unique index key.唯一复合索引
-						tmp.AddTag(_tagGorm, getUninStr("uniqueIndex", ":", v1.KeyName))
 					}
 				}
 			}
 		}
 
 		if len(v.Name) > 0 {
-			// not simple output
-			if !config.GetSimple() {
-				tmp.AddTag(_tagGorm, "column:"+v.Name)
-				tmp.AddTag(_tagGorm, "type:"+v.Type)
-				if !v.IsNull {
-					tmp.AddTag(_tagGorm, "not null")
-				}
-				// default tag
-				if len(v.Gormt) > 0 {
-					tmp.AddTag(_tagGorm, v.Gormt)
+			// 是否输出gorm标签
+			if len(_tagGorm) > 0 {
+				// not simple output
+				if !config.GetSimple() {
+					tmp.AddTag(_tagGorm, "column:"+v.Name)
+					tmp.AddTag(_tagGorm, "type:"+v.Type)
+					if !v.IsNull {
+						tmp.AddTag(_tagGorm, "not null")
+					}
+					// default tag
+					if len(v.Gormt) > 0 {
+						tmp.AddTag(_tagGorm, v.Gormt)
+					}
+				} else {
+					tmp.AddTag(_tagGorm, "column:"+v.Name)
 				}
 			}
 

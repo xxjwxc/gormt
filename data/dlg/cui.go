@@ -297,6 +297,7 @@ func buttonSave(g *gocui.Gui, v *gocui.View) error {
 	config.SetForeignKey(getBool(mp["is_foreign_key"]))
 	config.SetIsGUI(getBool(mp["is_gui"]))
 	config.SetIsTableName(getBool(mp["is_table_name"]))
+	config.SetIsColumnName(getBool(mp["is_column_name"]))
 	config.SetURLTag(mp["url_tag"])
 	config.SetDBTag(mp["db_tag"])
 	config.SetLG(mp["language"])
