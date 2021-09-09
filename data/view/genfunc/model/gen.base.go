@@ -98,7 +98,7 @@ type Condition struct {
 }
 
 // And a condition by and .and 一个条件
-func (c *Condition) And(column string, cases string, value ...interface{}) {
+func (c *Condition) And(column string, cases string, value interface{}) {
 	c.list = append(c.list, &conditionInfo{
 		andor:  "and",
 		column: column, // 列名
@@ -108,7 +108,7 @@ func (c *Condition) And(column string, cases string, value ...interface{}) {
 }
 
 // Or a condition by or .or 一个条件
-func (c *Condition) Or(column string, cases string, value ...interface{}) {
+func (c *Condition) Or(column string, cases string, value interface{}) {
 	c.list = append(c.list, &conditionInfo{
 		andor:  "or",
 		column: column, // 列名
