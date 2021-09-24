@@ -96,7 +96,13 @@ func (m *_Model) GenerateByTableName() (out []GenOutInfo) {
 			pkg.AddStruct(sct)
 			var stt GenOutInfo
 			stt.FileCtx = pkg.Generate()
-			stt.FileName = tab.Name + ".go"
+      if 	config.IsTableNameUseCamelName() {
+        stt.FileName = getCamelName(tab.Name) + ".go"
+
+      }else{
+
+        stt.FileName = tab.Name + ".go"
+      }
 			out = append(out, stt)
 		}
 	}
