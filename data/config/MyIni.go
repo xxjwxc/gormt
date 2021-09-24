@@ -29,9 +29,8 @@ type Config struct {
 	OutFileName             string            `yaml:"out_file_name"`
 	WebTagType              int               `yaml:"web_tag_type"`                 // 默认小驼峰
 	TableNames              string            `yaml:"table_names"`                  // 表名（多个表名用","隔开）
-	IsColumnName            bool              `yaml:"is_column_name"`               //是否输出列名
-	IsOutFileByTableName    bool              `yaml:"is_out_file_by_table_name"`    //是否根据表名生成文件(多个表名生成多个文件)
-	IsTableNameUseCamelName bool              `yaml:"is_table_name_use_camel_mame"` //多个文件时，是否采用驼峰或下划线
+	IsColumnName            bool              `yaml:"is_column_name"`               // 是否输出列名
+	IsTableNameUseCamelName bool              `yaml:"is_table_name_use_camel_mame"` // 生成的文件名，是否采用驼峰或下划线
 }
 
 // DBInfo mysql database information. mysql 数据库信息
