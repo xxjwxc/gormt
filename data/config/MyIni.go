@@ -311,7 +311,7 @@ func GetIsOutFileByTableName() bool {
 	return _map.IsOutFileByTableName
 }
 
-//getCamelName
+// IsTableNameUseCamelName 生成的文件名，是否采用驼峰或下划线
 func IsTableNameUseCamelName() bool {
 	return _map.IsTableNameUseCamelName
 }
