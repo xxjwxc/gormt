@@ -79,9 +79,14 @@ func (obj *_BaseMgr) SetIsRelated(b bool) {
 	obj.isRelated = b
 }
 
-// New new gorm.新gorm
-func (obj *_BaseMgr) New() *gorm.DB {
-	return obj.DB.Session(&gorm.Session{ Context: obj.ctx})
+// New new gorm.新gorm,重置条件
+func (obj *_BaseMgr) New() {
+	obj.DB = obj.NewDB()
+}
+
+// NewDB new gorm.新gorm
+func (obj *_BaseMgr) NewDB() *gorm.DB {
+	return obj.DB.Session(&gorm.Session{NewDB: true, Context: obj.ctx})
 }
 
 type options struct {
@@ -290,12 +295,12 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowe
 
 `
 	genPreload = `if err == nil && obj.isRelated { {{range $obj := .}}{{if $obj.IsMulti}}
-		if err = obj.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}List).Error;err != nil { // {{$obj.Notes}}
+		if err = obj.NewDB().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}List).Error;err != nil { // {{$obj.Notes}}
 				if err != gorm.ErrRecordNotFound { // 非 没找到
 					return
 				}	
 			} {{else}} 
-		if err = obj.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}).Error; err != nil { // {{$obj.Notes}} 
+		if err = obj.NewDB().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", result.{{$obj.ColStructName}}).Find(&result.{{$obj.ForeignkeyStructName}}).Error; err != nil { // {{$obj.Notes}} 
 				if err != gorm.ErrRecordNotFound { // 非 没找到
 					return
 				}
@@ -303,12 +308,12 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowe
 `
 	genPreloadMulti = `if err == nil && obj.isRelated {
 		for i := 0; i < len(results); i++ { {{range $obj := .}}{{if $obj.IsMulti}}
-		if err = obj.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&results[i].{{$obj.ForeignkeyStructName}}List).Error;err != nil { // {{$obj.Notes}}
+		if err = obj.NewDB().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&results[i].{{$obj.ForeignkeyStructName}}List).Error;err != nil { // {{$obj.Notes}}
 				if err != gorm.ErrRecordNotFound { // 非 没找到
 					return
 				}
 			} {{else}} 
-		if err = obj.New().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&results[i].{{$obj.ForeignkeyStructName}}).Error; err != nil { // {{$obj.Notes}} 
+		if err = obj.NewDB().Table("{{$obj.ForeignkeyTableName}}").Where("{{$obj.ForeignkeyCol}} = ?", results[i].{{$obj.ColStructName}}).Find(&results[i].{{$obj.ForeignkeyStructName}}).Error; err != nil { // {{$obj.Notes}} 
 				if err != gorm.ErrRecordNotFound { // 非 没找到
 					return
 				}
