@@ -195,6 +195,12 @@ func (obj *_{{$obj.StructName}}Mgr) GetTableName() string {
 	return "{{GetTablePrefixName $obj.TableName}}"
 }
 
+// Reset 重置gorm会话
+func (obj *_{{$obj.StructName}}Mgr) Reset() *_{{$obj.StructName}}Mgr {
+	obj.New()
+	return obj
+}
+
 // Get 获取 
 func (obj *_{{$obj.StructName}}Mgr) Get() (result {{$obj.StructName}}, err error) {
 	err = obj.DB.WithContext(obj.ctx).Model({{$obj.StructName}}{}).Find(&result).Error
