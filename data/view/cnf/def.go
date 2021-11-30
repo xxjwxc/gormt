@@ -46,7 +46,7 @@ var TypeMysqlDicMp = map[string]string{
 	"mediumblob":          "[]byte",
 	"longblob":            "[]byte",
 	"integer":             "int64",
-	"numeric":             "int64",
+	"numeric":             "float64",
 	"smalldatetime":       "time.Time", //sqlserver
 	"nvarchar":            "string",
 	"real":                "float32",
