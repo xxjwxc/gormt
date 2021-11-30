@@ -46,6 +46,11 @@ var TypeMysqlDicMp = map[string]string{
 	"mediumblob":          "[]byte",
 	"longblob":            "[]byte",
 	"integer":             "int64",
+	"numeric":             "int64",
+	"smalldatetime":       "time.Time", //sqlserver
+	"nvarchar":            "string",
+	"real":                "float32",
+	"binary":              "[]byte",
 }
 
 // TypeMysqlMatchList Fuzzy Matching Types.模糊匹配类型

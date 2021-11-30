@@ -159,7 +159,7 @@ on
 where 
     d.name='%v' 
 order by 
-    a.id,a.colorder`, tab)
+    a.colorder`, tab)
 
 	lenPk := 0
 	// get keys
