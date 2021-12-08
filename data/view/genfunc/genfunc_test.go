@@ -142,8 +142,8 @@ func TestFuncFetchBy(t *testing.T) {
 func TestCondition(t *testing.T) {
 	condition := model.Condition{}
 	condition.And(model.AccountColumns.AccountID, ">=", "1")
-	condition.And(model.AccountColumns.UserID, "in", "1", "2", "3")
-	condition.Or(model.AccountColumns.Type, "in", "1", "2", "3")
+	condition.And(model.AccountColumns.UserID, "in", []string{"1", "2", "3"})
+	condition.Or(model.AccountColumns.Type, "in", []string{"1", "2", "3"})
 
 	where, obj := condition.Get()
 	fmt.Println(where)
