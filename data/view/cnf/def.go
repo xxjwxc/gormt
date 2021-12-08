@@ -85,4 +85,5 @@ var TypeMysqlMatchList = []struct {
 	{`^(integer)[(]\d+[)]`, "int"},
 	{`^(timestamp)[(]\d+[)]`, "time.Time"},
 	{`^(geometry)[(]\d+[)]`, "[]byte"},
+	{`^(set)[(][\s\S]+[)]`, "string"},
 }
