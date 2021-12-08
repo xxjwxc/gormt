@@ -10,7 +10,7 @@ import (
 
 // filterModel filter.过滤 gorm.Model
 func filterModel(list *[]genColumns) bool {
-	if config.GetDBTag() != "gorm" {
+	if config.GetDBTag() != "gorm" || !config.GetUserGormModel() {
 		return false
 	}
 
