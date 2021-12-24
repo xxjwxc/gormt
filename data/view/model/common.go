@@ -51,11 +51,11 @@ func CapLowercase(name string) string { // IDAPIID == > idAPIID
 func GetTablePrefixName(name string) string { //
 	tablePrefix := config.GetTablePrefix()
 	//如果设置了表前缀
-	if tablePrefix != "" {
-		name = tablePrefix + name
+	if tablePrefix == "" || strings.HasPrefix(tablePrefix, "-") {
+		return name
 	}
 
-	return name
+	return tablePrefix + name
 }
 
 func FilterKeywords(src string) string {

@@ -51,24 +51,36 @@ func Generate(info DBInfo) (out []GenOutInfo, m _Model) {
 	return
 }
 
+// getTableNameWithPrefix get table name with prefix
+func getTableNameWithPrefix(tableName string) string {
+	tablePrefix := config.GetTablePrefix()
+	if tablePrefix == "" {
+		return tableName
+	}
+
+	if strings.HasPrefix(tablePrefix, "-") {
+		trimPrefix := strings.TrimLeft(tablePrefix, "-")
+		tableName = strings.TrimLeft(tableName, trimPrefix)
+	} else {
+		tableName = tablePrefix + tableName
+	}
+
+	return tableName
+}
+
 // GetPackage gen struct on table
 func (m *_Model) GetPackage() genstruct.GenPackage {
 	if m.pkg == nil {
 		var pkg genstruct.GenPackage
 		pkg.SetPackage(m.info.PackageName) //package name
 
-		tablePrefix := config.GetTablePrefix()
-
 		for _, tab := range m.info.TabList {
 			var sct genstruct.GenStruct
 
-			sct.SetTableName(tablePrefix + tab.Name)
+			sct.SetTableName(tab.Name)
 
-			//如果设置了表前缀
-			// if tablePrefix != "" {
-			// 	tab.Name = strings.TrimLeft(tab.Name, tablePrefix)
-			// }
-
+			tab.Name = getTableNameWithPrefix(tab.Name)
+			fmt.Println(tab.Name)
 			sct.SetStructName(getCamelName(tab.Name)) // Big hump.大驼峰
 			sct.SetNotes(tab.Notes)
 			sct.AddElement(m.genTableElement(tab.Em)...) // build element.构造元素
@@ -88,11 +100,12 @@ func (m *_Model) GenerateByTableName() (out []GenOutInfo) {
 			var pkg genstruct.GenPackage
 			pkg.SetPackage(m.info.PackageName) //package name
 			var sct genstruct.GenStruct
+			sct.SetTableName(tab.Name)
+			tab.Name = getTableNameWithPrefix(tab.Name)
 			sct.SetStructName(getCamelName(tab.Name)) // Big hump.大驼峰
 			sct.SetNotes(tab.Notes)
 			sct.AddElement(m.genTableElement(tab.Em)...) // build element.构造元素
 			sct.SetCreatTableStr(tab.SQLBuildStr)
-			sct.SetTableName(tab.Name)
 			pkg.AddStruct(sct)
 			var stt GenOutInfo
 			stt.FileCtx = pkg.Generate()
@@ -320,11 +333,8 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 		// wxw 2021.2.26 17:17
 		var data funDef
 		data.TableName = tab.Name
-		// tablePrefix := config.GetTablePrefix()
-		// //如果设置了表前缀
-		// if tablePrefix != "" {
-		// 	tab.Name = strings.TrimLeft(tab.Name, tablePrefix)
-		// }
+		tab.Name = getTableNameWithPrefix(tab.Name)
+
 		data.StructName = getCamelName(tab.Name)
 
 		var primary, unique, uniqueIndex, index []FList
