@@ -258,6 +258,7 @@ func (obj *_{{$obj.StructName}}Mgr) GetByOptions(opts ...Option) (results []*{{$
 	return
 }
 
+{{if $obj.IsOutPage}}
 // SelectPage 分页查询
 func (obj *_{{$obj.StructName}}Mgr) SelectPage(page IPage,opts ...Option) (resultPage IPage, err error) {
 	options := options{
@@ -280,6 +281,7 @@ func (obj *_{{$obj.StructName}}Mgr) SelectPage(page IPage,opts ...Option) (resul
 	resultPage.SetRecords(results)
 	return
 }
+{{end}}
 
 //////////////////////////enume case ////////////////////////////////////////////
 
@@ -350,7 +352,7 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowe
 			} {{end}} {{end}}
 	}
 }`
-genPage = `package {{.PackageName}}
+	genPage = `package {{.PackageName}}
 
 import (
 	"fmt"

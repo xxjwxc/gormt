@@ -117,6 +117,7 @@ type funDef struct {
 	Em          []EmInfo      // index 列表
 	Primary     []FList       // primary unique
 	Index       []FList       // index
+	IsOutPage   bool		  // 是否开启分页
 }
 
 //
