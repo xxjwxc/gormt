@@ -349,6 +349,7 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 		// wxw 2021.2.26 17:17
 		var data funDef
 		data.TableName = tab.Name
+		data.IsOutPage = config.GetIsOutPage() // 添加分页开关
 		tab.Name = getTableNameWithPrefix(tab.Name)
 
 		data.StructName = getCamelName(tab.Name)
