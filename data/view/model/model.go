@@ -324,20 +324,20 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 	// -------end------
 
 	// gen page 分页查询的基础
-	genPage, err := template.New("gen_page").Parse(genfunc.GetGenPageTemp())
-	if err != nil {
-		panic(err)
+	if config.GetIsOutPage() {
+		genPage, err := template.New("gen_page").Parse(genfunc.GetGenPageTemp())
+		if err != nil {
+			panic(err)
+		}
+
+		var bufPage bytes.Buffer
+		genPage.Execute(&bufPage, m.info)
+		genOut = append(genOut, GenOutInfo{
+			FileName: "gen.page.go",
+			FileCtx:  bufPage.String(),
+		})
 	}
-
-	var bufPage bytes.Buffer
-	genPage.Execute(&bufPage, m.info)
-	genOut = append(genOut, GenOutInfo{
-		FileName: "gen.page.go",
-		FileCtx:  bufPage.String(),
-	})
-
 	// -------end------
-
 
 	for _, tab := range m.info.TabList {
 		var pkg genstruct.GenPackage

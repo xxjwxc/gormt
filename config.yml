@@ -19,6 +19,7 @@ is_null_to_point : false # 数据库默认 'DEFAULT NULL' 时设置结构为指�
 table_prefix : "" # 表前缀, 如果有则使用, 没有留空(如果表前缀以"-"开头，则表示去掉该前缀，struct、文件名都会去掉该前缀)
 table_names: "" # 指定表生成，多个表用,隔开
 is_out_file_by_table_name: false # 是否根据表名生成多个model
+is_out_page: true # 是否输出分页函数 
 
 db_info:
     host : 127.0.0.1 # type=1的时候，host为yml文件全路径

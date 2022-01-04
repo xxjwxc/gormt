@@ -32,6 +32,7 @@ type Config struct {
 	TableNames           string            `yaml:"table_names"`               // 表名（多个表名用","隔开）
 	IsColumnName         bool              `yaml:"is_column_name"`            //是否输出列名
 	IsOutFileByTableName bool              `yaml:"is_out_file_by_table_name"` //是否根据表名生成文件(多个表名生成多个文件)
+	IsOutPage            bool              `yaml:"is_out_page"`               // 是否输出分页支持
 }
 
 // DBInfo mysql database information. mysql 数据库信息
@@ -315,4 +316,9 @@ func SetIsColumnName(isColumnName bool) {
 //GetIsOutFileByTableName get  gen columnName config . 设置是否根据表名生成文件
 func GetIsOutFileByTableName() bool {
 	return _map.IsOutFileByTableName
+}
+
+// GetIsOutPage  是否输出分页函数支持
+func GetIsOutPage() bool {
+	return _map.IsOutPage
 }
