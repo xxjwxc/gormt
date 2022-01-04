@@ -323,6 +323,22 @@ func (m *_Model) generateFunc() (genOut []GenOutInfo) {
 	//tools.WriteFile(outDir+"gen_router.go", []string{buf.String()}, true)
 	// -------end------
 
+	// gen page 分页查询的基础
+	genPage, err := template.New("gen_page").Parse(genfunc.GetGenPageTemp())
+	if err != nil {
+		panic(err)
+	}
+
+	var bufPage bytes.Buffer
+	genPage.Execute(&bufPage, m.info)
+	genOut = append(genOut, GenOutInfo{
+		FileName: "gen.page.go",
+		FileCtx:  bufPage.String(),
+	})
+
+	// -------end------
+
+
 	for _, tab := range m.info.TabList {
 		var pkg genstruct.GenPackage
 		pkg.SetPackage(m.info.PackageName) //package name

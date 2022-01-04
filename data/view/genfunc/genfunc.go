@@ -27,3 +27,7 @@ func GetGenPreloadTemp(multi bool) string {
 	}
 	return genPreload
 }
+
+func GetGenPageTemp() string {
+	return genPage
+}
