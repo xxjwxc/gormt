@@ -195,7 +195,10 @@ func (obj *_UserAccountTblMgr) FetchByPrimaryKey(ID int) (result UserAccountTbl,
 
 ### [函数调用示例>>>](https://github.com/xxjwxc/gormt/blob/master/data/view/genfunc/genfunc_test.go)
 
-## 7. 构建
+## 7. 分页展示 
+### [gormt中分页查询的使用](https://xiaojujiang.blog.csdn.net/article/details/122315454?spm=1001.2014.3001.5502)
+
+## 8. 构建
 ```
 make windows
 make linux
@@ -220,11 +223,6 @@ CHCP 65001
 - 比如`[@gorm default:'test';->;<-:create]这是注释内容` 表示默认值为'test',允许读，更新创建
 - 外键注释使用`[@fk tableName.columnName]这是注释内容` 表示关联到`tableName`的`columnName`列
 
-
-## 8. 下一步计划
-
-- 更新，删除功能函数添加
-- 优化
 
 ## 9. 提供一个windows 可视化工具
 

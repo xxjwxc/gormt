@@ -185,7 +185,10 @@ func (obj *_UserAccountTblMgr) FetchByPrimaryKey(ID int) (result UserAccountTbl,
 ### [more>>>](https://github.com/xxjwxc/gormt/tree/master/doc/func.md)
 ### [how to use call style>>>](https://github.com/xxjwxc/gormt/blob/master/data/view/genfunc/genfunc_test.go)
 
-## 7. build
+## 7. page 
+### [Use of paging query in gormt](https://xiaojujiang.blog.csdn.net/article/details/122315454?spm=1001.2014.3001.5502)
+
+## 8. build
 ```
 make windows
 make linux
@@ -197,7 +200,7 @@ or
 go generate
 ```
 
-### 8 note : in windows not support utf-8 style . ASCALL model
+### note : in windows not support utf-8 style . ASCALL model
 - Switch encoding mode
 ```
 CHCP 65001 
