@@ -100,6 +100,9 @@ func fixNullToPorint(name string, isNull bool) string {
 		if strings.HasPrefix(name, "float") {
 			return "*" + name
 		}
+		if strings.HasPrefix(name, "date") {
+			return "*" + name
+		}
 		if strings.HasPrefix(name, "time") {
 			return "*" + name
 		}
