@@ -117,31 +117,45 @@ func CloseRelated() {
 
 
 // 自定义sql查询
-type Condition struct {
-	list []*conditionInfo
+type Query struct {
+	list []*queryInfo
 }
 
-// And a condition by and .and 一个条件
-func (c *Condition) And(column string, cases string, value interface{}) {
-	c.list = append(c.list, &conditionInfo{
-		andor:  "and",
-		column: column, // 列名
-		case_:  cases,  // 条件(and,or,in,>=,<=)
-		value:  value,
-	})
+func (c *Query) AndOnCondition(condition bool,column string, cases string, value interface{}) {
+	if condition {
+		c.list = append(c.list, &queryInfo{
+			andor:  "and",
+			column: column, // 列名
+			case_:  cases,  // 条件(and,or,in,>=,<=)
+			value:  value,
+		})
+	}
 }
 
-// Or a condition by or .or 一个条件
-func (c *Condition) Or(column string, cases string, value interface{}) {
-	c.list = append(c.list, &conditionInfo{
-		andor:  "or",
-		column: column, // 列名
-		case_:  cases,  // 条件(and,or,in,>=,<=)
-		value:  value,
-	})
+
+// And a Condition by and .and 一个条件
+func (c *Query) And(column string, cases string, value interface{}) {
+	c.AndOnCondition(true,column,cases,value)
 }
 
-func (c *Condition) Get() (where string, out []interface{}) {
+
+func (c *Query) OrOnCondition(condition bool,column string, cases string, value interface{}) {
+	if condition {
+		c.list = append(c.list, &queryInfo{
+			andor:  "or",
+			column: column, // 列名
+			case_:  cases,  // 条件(and,or,in,>=,<=)
+			value:  value,
+		})
+	}
+}
+
+// Or a Condition by or .or 一个条件
+func (c *Query) Or(column string, cases string, value interface{}) {
+	c.OrOnCondition(true,column,cases,value)
+}
+
+func (c *Query) Get() (where string, out []interface{}) {
 	firstAnd := -1
 	for i := 0; i < len(c.list); i++ { // 查找第一个and
 		if c.list[i].andor == "and" {
@@ -168,7 +182,7 @@ func (c *Condition) Get() (where string, out []interface{}) {
 	return
 }
 
-type conditionInfo struct {
+type queryInfo struct {
 	andor  string
 	column string // 列名
 	case_  string // 条件(in,>=,<=)
