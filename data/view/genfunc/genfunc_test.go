@@ -156,6 +156,6 @@ func TestCondition(t *testing.T) {
 		sqldb.Close()
 	}()
 
-	accountMgr := model.AccountMgr(db.Where(where, obj))
+	accountMgr := model.AccountMgr(db.Where(where, obj...))
 	accountMgr.Gets()
 }
