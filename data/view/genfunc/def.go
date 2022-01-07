@@ -121,24 +121,40 @@ type Condition struct {
 	list []*conditionInfo
 }
 
-// And a condition by and .and 一个条件
-func (c *Condition) And(column string, cases string, value interface{}) {
-	c.list = append(c.list, &conditionInfo{
-		andor:  "and",
-		column: column, // 列名
-		case_:  cases,  // 条件(and,or,in,>=,<=)
-		value:  value,
-	})
+func (c *Condition) AndWithCondition(condition bool,column string, cases string, value interface{}) (*Condition) {
+	if condition {
+		c.list = append(c.list, &conditionInfo{
+			andor:  "and",
+			column: column, // 列名
+			case_:  cases,  // 条件(and,or,in,>=,<=)
+			value:  value,
+		})
+	}
+	return c
 }
 
-// Or a condition by or .or 一个条件
-func (c *Condition) Or(column string, cases string, value interface{}) {
-	c.list = append(c.list, &conditionInfo{
-		andor:  "or",
-		column: column, // 列名
-		case_:  cases,  // 条件(and,or,in,>=,<=)
-		value:  value,
-	})
+
+// And a Condition by and .and 一个条件
+func (c *Condition) And(column string, cases string, value interface{}) (*Condition) {
+	return c.AndWithCondition(true,column,cases,value)
+}
+
+
+func (c *Condition) OrWithCondition(condition bool,column string, cases string, value interface{}) (*Condition)  {
+	if condition {
+		c.list = append(c.list, &conditionInfo{
+			andor:  "or",
+			column: column, // 列名
+			case_:  cases,  // 条件(and,or,in,>=,<=)
+			value:  value,
+		})
+	}
+	return c
+}
+
+// Or a Condition by or .or 一个条件
+func (c *Condition) Or(column string, cases string, value interface{}) (*Condition) {
+	return c.OrWithCondition(true,column,cases,value)
 }
 
 func (c *Condition) Get() (where string, out []interface{}) {

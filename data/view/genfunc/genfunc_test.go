@@ -143,6 +143,7 @@ func TestCondition(t *testing.T) {
 	condition := model.Condition{}
 	condition.And(model.AccountColumns.AccountID, ">=", "1")
 	condition.And(model.AccountColumns.UserID, "in", []string{"1", "2", "3"})
+	condition.AndWithCondition(false, model.AccountColumns.AccountID, "in", []string{"5"})
 	condition.Or(model.AccountColumns.Type, "in", []string{"1", "2", "3"})
 
 	where, obj := condition.Get()
@@ -155,6 +156,6 @@ func TestCondition(t *testing.T) {
 		sqldb.Close()
 	}()
 
-	accountMgr := model.AccountMgr(db.Where(condition.Get()))
+	accountMgr := model.AccountMgr(db.Where(where, obj...))
 	accountMgr.Gets()
 }
