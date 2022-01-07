@@ -140,13 +140,13 @@ func TestFuncFetchBy(t *testing.T) {
 
 // TestCondition 测试sql构建
 func TestCondition(t *testing.T) {
-	query := model.Query{}
-	query.And(model.AccountColumns.AccountID, ">=", "1")
-	query.And(model.AccountColumns.UserID, "in", []string{"1", "2", "3"})
-	query.AndOnCondition(false, model.AccountColumns.AccountID, "in", []string{"5"})
-	query.Or(model.AccountColumns.Type, "in", []string{"1", "2", "3"})
+	condition := model.Condition{}
+	condition.And(model.AccountColumns.AccountID, ">=", "1")
+	condition.And(model.AccountColumns.UserID, "in", []string{"1", "2", "3"})
+	condition.AndWithCondition(false, model.AccountColumns.AccountID, "in", []string{"5"})
+	condition.Or(model.AccountColumns.Type, "in", []string{"1", "2", "3"})
 
-	where, obj := query.Get()
+	where, obj := condition.Get()
 	fmt.Println(where)
 	fmt.Println(obj...)
 

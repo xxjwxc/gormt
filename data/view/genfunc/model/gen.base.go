@@ -93,43 +93,45 @@ func CloseRelated() {
 }
 
 // 自定义sql查询
-type Query struct {
-	list []*queryInfo
+type Condition struct {
+	list []*conditionInfo
 }
 
-func (c *Query) AndOnCondition(condition bool, column string, cases string, value interface{}) {
+func (c *Condition) AndWithCondition(condition bool, column string, cases string, value interface{}) (*Condition) {
 	if condition {
-		c.list = append(c.list, &queryInfo{
+		c.list = append(c.list, &conditionInfo{
 			andor:  "and",
 			column: column, // 列名
 			case_:  cases,  // 条件(and,or,in,>=,<=)
 			value:  value,
 		})
 	}
+	return c
 }
 
 // And a Condition by and .and 一个条件
-func (c *Query) And(column string, cases string, value interface{}) {
-	c.AndOnCondition(true, column, cases, value)
+func (c *Condition) And(column string, cases string, value interface{})(*Condition) {
+	return c.AndWithCondition(true, column, cases, value)
 }
 
-func (c *Query) OrOnCondition(condition bool, column string, cases string, value interface{}) {
+func (c *Condition) OrWithCondition(condition bool, column string, cases string, value interface{}) (*Condition){
 	if condition {
-		c.list = append(c.list, &queryInfo{
+		c.list = append(c.list, &conditionInfo{
 			andor:  "or",
 			column: column, // 列名
 			case_:  cases,  // 条件(and,or,in,>=,<=)
 			value:  value,
 		})
 	}
+	return c
 }
 
 // Or a Condition by or .or 一个条件
-func (c *Query) Or(column string, cases string, value interface{}) {
-	c.OrOnCondition(true, column, cases, value)
+func (c *Condition) Or(column string, cases string, value interface{})(*Condition) {
+	return c.OrWithCondition(true, column, cases, value)
 }
 
-func (c *Query) Get() (where string, out []interface{}) {
+func (c *Condition) Get() (where string, out []interface{}) {
 	firstAnd := -1
 	for i := 0; i < len(c.list); i++ { // 查找第一个and
 		if c.list[i].andor == "and" {
@@ -156,7 +158,7 @@ func (c *Query) Get() (where string, out []interface{}) {
 	return
 }
 
-type queryInfo struct {
+type conditionInfo struct {
 	andor  string
 	column string // 列名
 	case_  string // 条件(in,>=,<=)
