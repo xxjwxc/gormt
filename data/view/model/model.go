@@ -186,8 +186,8 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 						tmp.AddTag(_tagGorm, "not null")
 					} else if v.IsNull && !config.GetIsNullToPoint() {
 						// 当该字段默认值为null，并且结构不用指针类型时，添加default:null的tag
-						tmp.AddTag(_tagGorm,"default:null")
-					}					
+						tmp.AddTag(_tagGorm, "default:null")
+					}
 					// default tag
 					if len(v.Gormt) > 0 {
 						tmp.AddTag(_tagGorm, v.Gormt)
@@ -246,6 +246,7 @@ func (m *_Model) genForeignKey(col ColumnsInfo) (fklist []genstruct.GenElement) 
 
 			tmp.AddTag(_tagGorm, "joinForeignKey:"+col.Name) // association_foreignkey
 			tmp.AddTag(_tagGorm, "foreignKey:"+v.ColumnName)
+			tmp.AddTag(_tagGorm, "references:"+getCamelName(col.Name))
 
 			// json tag
 			if config.GetIsWEBTag() {
