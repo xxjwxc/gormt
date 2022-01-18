@@ -125,7 +125,7 @@ func (s *GenStruct) SetNotes(notes string) {
 		text = append(text, "// "+v)
 		// }
 	}
-	s.Notes = strings.Join(text, "\r\n")
+	s.Notes = strings.Join(text, ";")
 }
 
 // AddElement Add one or more elements.添加一个/或多个元素
