@@ -219,7 +219,7 @@ func (obj *_{{$obj.StructName}}Mgr) Reset() *_{{$obj.StructName}}Mgr {
 
 // Get 获取 
 func (obj *_{{$obj.StructName}}Mgr) Get() (result {{$obj.StructName}}, err error) {
-	err = obj.DB.WithContext(obj.ctx).Model({{$obj.StructName}}{}).Find(&result).Error
+	err = obj.DB.WithContext(obj.ctx).Model({{$obj.StructName}}{}).First(&result).Error
 	{{GenPreloadList $obj.PreloadList false}}
 	return
 }
@@ -255,7 +255,7 @@ func (obj *_{{$obj.StructName}}Mgr) GetByOption(opts ...Option) (result {{$obj.S
 		o.apply(&options)
 	}
 
-	err = obj.DB.WithContext(obj.ctx).Model({{$obj.StructName}}{}).Where(options.query).Find(&result).Error
+	err = obj.DB.WithContext(obj.ctx).Model({{$obj.StructName}}{}).Where(options.query).First(&result).Error
 	{{GenPreloadList $obj.PreloadList false}}
 	return
 }
@@ -326,7 +326,7 @@ func (obj *_{{$obj.StructName}}Mgr) GetBatchFrom{{$oem.ColStructName}}({{CapLowe
  {{range $ofm := $obj.Primary}}
  // {{GenFListIndex $ofm 1}} primary or index 获取唯一内容
  func (obj *_{{$obj.StructName}}Mgr) {{GenFListIndex $ofm 1}}({{GenFListIndex $ofm 2}}) (result {{$obj.StructName}}, err error) {
-	err = obj.DB.WithContext(obj.ctx).Model({{$obj.StructName}}{}).Where("{{GenFListIndex $ofm 3}}", {{GenFListIndex $ofm 4}}).Find(&result).Error
+	err = obj.DB.WithContext(obj.ctx).Model({{$obj.StructName}}{}).Where("{{GenFListIndex $ofm 3}}", {{GenFListIndex $ofm 4}}).First(&result).Error
 	{{GenPreloadList $obj.PreloadList false}}
 	return
 }
