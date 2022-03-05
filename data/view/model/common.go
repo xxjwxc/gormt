@@ -113,6 +113,30 @@ func fixNullToPorint(name string, isNull bool) string {
 			return "*" + name
 		}
 	}
+	if isNull && config.GetIsNullToSqlNull() {
+
+		if strings.HasPrefix(name, "uint") {
+			return "sql.NullInt64"
+		}
+		if strings.HasPrefix(name, "int") {
+			return "sql.NullInt32"
+		}
+		if strings.HasPrefix(name, "float") {
+			return "sql.NullFloat64"
+		}
+		if strings.HasPrefix(name, "date") {
+			return "sql.NullTime"
+		}
+		if strings.HasPrefix(name, "time") {
+			return "sql.NullTime"
+		}
+		if strings.HasPrefix(name, "bool") {
+			return "sql.NullBool"
+		}
+		if strings.HasPrefix(name, "string") {
+			return "sql.NullString"
+		}
+	}
 
 	return name
 }
