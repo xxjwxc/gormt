@@ -25,7 +25,8 @@ type Config struct {
 	IsGUI                bool              `yaml:"is_gui"` //
 	IsTableName          bool              `yaml:"is_table_name"`
 	IsNullToPoint        bool              `yaml:"is_null_to_point"` // null to porint
-	TablePrefix          string            `yaml:"table_prefix"`     // 表前缀
+	IsNullToSqlNull      bool              `yaml:"is_null_to_sql_null"`
+	TablePrefix          string            `yaml:"table_prefix"` // 表前缀
 	SelfTypeDef          map[string]string `yaml:"self_type_define"`
 	OutFileName          string            `yaml:"out_file_name"`
 	WebTagType           int               `yaml:"web_tag_type"`              // 默认小驼峰
@@ -224,6 +225,14 @@ func SetIsNullToPoint(b bool) {
 // GetIsNullToPoint get if with null to porint in sturct
 func GetIsNullToPoint() bool {
 	return _map.IsNullToPoint
+}
+
+func SetIsNullToSqlNull(b bool) {
+	_map.IsNullToSqlNull = b
+}
+
+func GetIsNullToSqlNull() bool {
+	return _map.IsNullToSqlNull
 }
 
 // SetTablePrefix set table prefix

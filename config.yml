@@ -16,6 +16,7 @@ is_gui : false # 是否ui模式显示
 is_table_name : true # 是否直接生成表名
 is_column_name : true # 是否直接生成列名
 is_null_to_point : false # 数据库默认 'DEFAULT NULL' 时设置结构为指针类型
+is_null_to_sql_null: false # 数据库默认 'DEFAULT NULL' 时设置结构为sql.NULL  is_null_to_point如果为true，则is_null_to_sql_null不生效
 table_prefix : "" # 表前缀, 如果有则使用, 没有留空(如果表前缀以"-"开头，则表示去掉该前缀，struct、文件名都会去掉该前缀)
 table_names: "" # 指定表生成，多个表用,隔开
 is_out_file_by_table_name: false # 是否根据表名生成多个model
