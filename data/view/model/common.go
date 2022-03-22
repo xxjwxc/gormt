@@ -181,7 +181,7 @@ func getGormModelElement() []EmInfo {
 	result = append(result, EmInfo{
 		IsMulti:       false,
 		Notes:         "deleted time",
-		Type:          "time.Time", // Type.类型标记
+		Type:          "gorm.DeletedAt", // Type.类型标记
 		ColName:       "deleted_at",
 		ColNameEx:     "deleted_at",
 		ColStructName: "DeletedAt",
