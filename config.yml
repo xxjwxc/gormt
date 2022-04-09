@@ -5,7 +5,7 @@ url_tag : json # web url tag(json,db(https://github.com/google/go-querystring))
 language :  # 语言(English,中 文)
 db_tag : gorm # 数据库标签名(gorm,db)
 simple : true # 简单输出(默认只输出gorm主键和字段标签)
-use_gorm_model : false # model是否使用gorm.Model
+user_gorm_model : false # model是否使用gorm.Model
 is_db_tag : true # 是否输出 数据库标签(gorm,db)
 is_out_sql : false # 是否输出 sql 原信息
 is_out_func : true # 是否输出 快捷函数
