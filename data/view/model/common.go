@@ -20,7 +20,7 @@ func getCamelName(name string) string {
 	// 	return mybigcamel.Marshal(strings.TrimSuffix(name, "s"))
 	// }
 
-	return mybigcamel.Marshal(name)
+	return mybigcamel.Marshal(strings.ToLower(name))
 }
 
 // titleCase title case.首字母大写
@@ -113,6 +113,30 @@ func fixNullToPorint(name string, isNull bool) string {
 			return "*" + name
 		}
 	}
+	if isNull && config.GetIsNullToSqlNull() {
+
+		if strings.HasPrefix(name, "uint") {
+			return "sql.NullInt64"
+		}
+		if strings.HasPrefix(name, "int") {
+			return "sql.NullInt32"
+		}
+		if strings.HasPrefix(name, "float") {
+			return "sql.NullFloat64"
+		}
+		if strings.HasPrefix(name, "date") {
+			return "sql.NullTime"
+		}
+		if strings.HasPrefix(name, "time") {
+			return "sql.NullTime"
+		}
+		if strings.HasPrefix(name, "bool") {
+			return "sql.NullBool"
+		}
+		if strings.HasPrefix(name, "string") {
+			return "sql.NullString"
+		}
+	}
 
 	return name
 }
@@ -157,7 +181,7 @@ func getGormModelElement() []EmInfo {
 	result = append(result, EmInfo{
 		IsMulti:       false,
 		Notes:         "deleted time",
-		Type:          "time.Time", // Type.类型标记
+		Type:          "gorm.DeletedAt", // Type.类型标记
 		ColName:       "deleted_at",
 		ColNameEx:     "deleted_at",
 		ColStructName: "DeletedAt",
