@@ -180,7 +180,7 @@ func buildFList(list *[]FList, key ColumnsKey, keyName, tp, colName string) {
 	*list = append(*list, FList{
 		Key:     key,
 		KeyName: keyName,
-		Kem: []FEm{FEm{
+		Kem: []FEm{{
 			Type:          tp,
 			ColName:       colName,
 			ColStructName: getCamelName(colName),

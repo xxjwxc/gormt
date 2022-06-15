@@ -192,6 +192,9 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 					if len(v.Gormt) > 0 {
 						tmp.AddTag(_tagGorm, v.Gormt)
 					}
+					if len(v.Notes) > 0 {
+						tmp.AddTag(_tagGorm, fmt.Sprintf("comment:'%v'", v.Notes))
+					}
 				} else {
 					tmp.AddTag(_tagGorm, "column:"+v.Name)
 				}
