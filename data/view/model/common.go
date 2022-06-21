@@ -73,6 +73,13 @@ func getTypeName(name string, isNull bool) string {
 		return fixNullToPorint(v, isNull)
 	}
 
+	// Fuzzy Regular Matching.模糊正则匹配自定义类型
+	for selfKey, selfVal := range selfDefineTypeMqlDicMap {
+		if ok, _ := regexp.MatchString(selfKey, name); ok {
+			return fixNullToPorint(selfVal, isNull)
+		}
+	}
+
 	// Precise matching first.先精确匹配
 	if v, ok := cnf.TypeMysqlDicMp[name]; ok {
 		return fixNullToPorint(v, isNull)
