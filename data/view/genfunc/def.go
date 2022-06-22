@@ -19,6 +19,7 @@ var {{.StructName}}Columns = struct { {{range $em := .Em}}
 package {{.PackageName}}
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -26,6 +27,11 @@ import (
 )
 
 var globalIsRelated bool = true  // 全局预加载
+
+// IsNotFound ErrRecordNotFound
+func IsNotFound(err error) bool {
+	return errors.Is(err, gorm.ErrRecordNotFound)
+}
 
 // prepare for other
 type _BaseMgr struct {
@@ -87,6 +93,11 @@ func (obj *_BaseMgr) New() {
 // NewDB new gorm.新gorm
 func (obj *_BaseMgr) NewDB() *gorm.DB {
 	return obj.DB.Session(&gorm.Session{NewDB: true, Context: obj.ctx})
+}
+
+// IsNotFound ErrRecordNotFound
+func (obj *_BaseMgr) IsNotFound(err error) bool {
+	return errors.Is(err, gorm.ErrRecordNotFound)
 }
 
 type options struct {
