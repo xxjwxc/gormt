@@ -39,7 +39,6 @@ type TabInfo struct {
 type ColumnsInfo struct {
 	BaseInfo
 	IsNull         bool         // null if db is set null
-	Extra          string       // Extra (AUTO_INCREMENT 自增加)
 	Type           string       // Type.类型标记
 	Gormt          string       // 默认值
 	Index          []KList      // index list.index列表
@@ -118,7 +117,7 @@ type funDef struct {
 	Em          []EmInfo      // index 列表
 	Primary     []FList       // primary unique
 	Index       []FList       // index
-	IsOutPage   bool          // 是否开启分页
+	IsOutPage   bool		  // 是否开启分页
 }
 
 //

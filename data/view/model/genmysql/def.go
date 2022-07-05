@@ -16,7 +16,6 @@ type genColumns struct {
 	Key     string  `gorm:"column:Key"`
 	Desc    string  `gorm:"column:Comment"`
 	Null    string  `gorm:"column:Null"`
-	Extra   string  `gorm:"Extra"`
 	Default *string `gorm:"column:Default"`
 }
 
