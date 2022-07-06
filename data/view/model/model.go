@@ -140,6 +140,9 @@ func (m *_Model) genTableElement(cols []ColumnsInfo) (el []genstruct.GenElement)
 			if len(_tagGorm) > 0 {
 				// not simple output. 默认只输出gorm主键和字段标签
 				if !config.GetSimple() {
+					if strings.EqualFold(v.Extra, "auto_increment") {
+						tmp.AddTag(_tagGorm, "autoIncrement:true")
+					}
 					for _, v1 := range v.Index {
 						switch v1.Key {
 						// case ColumnsKeyDefault:
