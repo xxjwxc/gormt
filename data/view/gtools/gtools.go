@@ -57,8 +57,12 @@ func showCmd() {
 		path := config.GetOutDir() + "/" + v.FileName
 		tools.WriteFile(path, []string{v.FileCtx}, true)
 
+		mylog.Info("fix structure fields for memory alignment")
+		cmd, _ := exec.Command("fieldalignment", "-fix", path).Output()
+		mylog.Info(string(cmd))
+
 		mylog.Info("formatting differs from goimport's:")
-		cmd, _ := exec.Command("goimports", "-l", "-w", path).Output()
+		cmd, _ = exec.Command("goimports", "-l", "-w", path).Output()
 		mylog.Info(string(cmd))
 
 		mylog.Info("formatting differs from gofmt's:")
