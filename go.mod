@@ -9,7 +9,7 @@ require (
 	github.com/nicksnyder/go-i18n/v2 v2.0.3
 	github.com/spf13/cobra v1.0.0
 	github.com/xxjwxc/public v0.0.0-20210709073023-f6ec6fb9bcb4
-	golang.org/x/text v0.3.3
+	golang.org/x/text v0.3.8
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v9 v9.30.2
 	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c
