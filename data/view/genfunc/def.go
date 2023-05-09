@@ -70,6 +70,12 @@ func (obj *_BaseMgr) GetDB() *gorm.DB {
 	return obj.DB
 }
 
+// Debug open debug
+func (obj *_BaseMgr) Debug() *gorm.DB {
+    obj.DB = obj.DB.Debug()
+	return obj.DB
+}
+
 // UpdateDB update gorm.DB info
 func (obj *_BaseMgr) UpdateDB(db *gorm.DB) {
 	obj.DB = db
