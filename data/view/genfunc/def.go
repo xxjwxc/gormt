@@ -70,6 +70,12 @@ func (obj *_BaseMgr) GetDB() *gorm.DB {
 	return obj.DB
 }
 
+// Debug open debug
+func (obj *_BaseMgr) Debug() *gorm.DB {
+    obj.DB = obj.DB.Debug()
+	return obj.DB
+}
+
 // UpdateDB update gorm.DB info
 func (obj *_BaseMgr) UpdateDB(db *gorm.DB) {
 	obj.DB = db
@@ -215,6 +221,12 @@ func {{$obj.StructName}}Mgr(db *gorm.DB) *_{{$obj.StructName}}Mgr {
 	}
 	ctx, cancel := context.WithCancel(context.Background())
 	return &_{{$obj.StructName}}Mgr{_BaseMgr: &_BaseMgr{DB: db.Table("{{GetTablePrefixName $obj.TableName}}"), isRelated: globalIsRelated,ctx:ctx,cancel:cancel,timeout:-1}}
+}
+
+// Debug open debug.打开debug模式查看sql语句
+func (obj *_{{$obj.StructName}}Mgr) Debug() *_{{$obj.StructName}}Mgr {
+	obj._BaseMgr.DB = obj._BaseMgr.DB.Debug()
+	return obj
 }
 
 // GetTableName get sql table name.获取数据库名字
