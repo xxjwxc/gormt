@@ -21,4 +21,8 @@ clear:
 	test ! -f gormt_linux.zip || rm gormt_linux.zip
 	test ! -f gormt_mac.zip || rm gormt_mac.zip
 	test ! -f gormt_windows.zip || rm gormt_windows.zip
-	
+master:
+	go get -u github.com/xxjwxc/public@master
+	go get -u gorm.io/gorm@master
+	go get -u gorm.io/driver/sqlserver@master
+	go get -u gorm.io/driver/sqlite@master
