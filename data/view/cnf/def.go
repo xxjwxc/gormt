@@ -51,6 +51,7 @@ var TypeMysqlDicMp = map[string]string{
 	"nvarchar":            "string",
 	"real":                "float32",
 	"binary":              "[]byte",
+	"geometry":            "[]byte",
 }
 
 // TypeMysqlMatchList Fuzzy Matching Types.模糊匹配类型
