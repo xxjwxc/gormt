@@ -2,7 +2,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/xxjwxc/gormt)](https://goreportcard.com/report/github.com/xxjwxc/gormt)
 [![GoDoc](https://godoc.org/github.com/xxjwxc/gormt?status.svg)](https://godoc.org/github.com/xxjwxc/gormt)
 [![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go) 
-<a href="https://hellogithub.com/repository/1d5e3365a5084198aa1c79fb7953f6e7" target="_blank"><img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=1d5e3365a5084198aa1c79fb7953f6e7&claim_uid=6IkmGoxiuN4LWFn" alt="Featured｜HelloGitHub" style="width: 125px; height: 27px;" width="125" height="27" /></a>
+<a href="https://hellogithub.com/repository/1d5e3365a5084198aa1c79fb7953f6e7" target="_blank"><img src="https://abroad.hellogithub.com/v1/widgets/recommend.svg?rid=1d5e3365a5084198aa1c79fb7953f6e7&claim_uid=6IkmGoxiuN4LWFn&theme=small" alt="Featured｜HelloGitHub" /></a>
  
 ## [中文文档](README_zh_cn.md)
 
