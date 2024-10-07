@@ -63,16 +63,21 @@ func init() {
 		}
 	}
 
-	onInit()
+	err := onInit()
+	if err != nil {
+		fmt.Println("Load config file error: ", err.Error())
+		panic(err)
+	}	
 	dev.OnSetDev(_map.IsDev)
 }
 
-func onInit() {
+func onInit() error {
 	err := InitFile(configPath)
 	if err != nil {
 		fmt.Println("Load config file error: ", err.Error())
-		return
+		return err
 	}
+	return nil
 }
 
 // InitFile default value from file .
