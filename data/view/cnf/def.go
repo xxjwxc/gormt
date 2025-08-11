@@ -52,6 +52,7 @@ var TypeMysqlDicMp = map[string]string{
 	"real":                "float32",
 	"binary":              "[]byte",
 	"geometry":            "[]byte",
+	"point":               "[]byte",
 }
 
 // TypeMysqlMatchList Fuzzy Matching Types.模糊匹配类型
@@ -87,4 +88,5 @@ var TypeMysqlMatchList = []struct {
 	{`^(timestamp)[(]\d+[)]`, "time.Time"},
 	{`^(geometry)[(]\d+[)]`, "[]byte"},
 	{`^(set)[(][\s\S]+[)]`, "string"},
+	{`^(point)[(]\d+[)]`, "[]byte"},
 }
