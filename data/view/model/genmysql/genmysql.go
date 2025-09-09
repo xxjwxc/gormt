@@ -20,7 +20,7 @@ type mysqlModel struct {
 
 // GenModel get model.DBInfo info.获取数据库相关属性
 func (m *mysqlModel) GenModel() model.DBInfo {
-	orm := mysqldb.OnInitDBOrm(config.GetMysqlConStr(), true)
+	orm := mysqldb.OnInitDBOrm(config.GetMysqlConStr(), 5, 20, true)
 	defer orm.OnDestoryDB()
 
 	var dbInfo model.DBInfo

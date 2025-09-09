@@ -62,7 +62,7 @@ func getTableNameWithPrefix(tableName string) string {
 		trimPrefix := strings.TrimPrefix(tablePrefix, "-")
 		tableName = strings.TrimPrefix(tableName, trimPrefix)
 	} else {
-		tableName = tablePrefix + tableName
+		tableName = tablePrefix + "_" + tableName
 	}
 
 	return tableName
@@ -244,10 +244,10 @@ func (m *_Model) genForeignKey(col ColumnsInfo) (fklist []genstruct.GenElement) 
 			tmp.SetNotes(notes)
 			if isMulti {
 				tmp.SetName(getCamelName(v.TableName) + "List")
-				tmp.SetType("[]" + getCamelName(v.TableName))
+				tmp.SetType("[]" + getCamelTablePrefixName(v.TableName))
 			} else {
 				tmp.SetName(getCamelName(v.TableName))
-				tmp.SetType(getCamelName(v.TableName))
+				tmp.SetType(getCamelTablePrefixName(v.TableName))
 			}
 
 			tmp.AddTag(_tagGorm, "joinForeignKey:"+col.Name) // association_foreignkey

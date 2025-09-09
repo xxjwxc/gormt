@@ -23,6 +23,15 @@ func getCamelName(name string) string {
 	return mybigcamel.Marshal(strings.ToLower(name))
 }
 
+// getCamelName Big Hump or Capital Letter.大驼峰或者首字母大写
+func getCamelTablePrefixName(name string) string {
+	tablePrefix := config.GetTablePrefix()
+	if tablePrefix == "" {
+		return mybigcamel.Marshal(strings.ToLower(name))
+	}
+	return mybigcamel.Marshal(strings.ToLower(tablePrefix + "_" + name))
+}
+
 // titleCase title case.首字母大写
 func titleCase(name string) string {
 	vv := []rune(name)
