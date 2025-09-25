@@ -79,7 +79,7 @@ func TestFuncOption(t *testing.T) {
 	// 	sqldb, _ := db.DB()
 	// 	sqldb.Close()
 	// }()
-	orm := mysqldb.OnInitDBOrm("root:123456@tcp(127.0.0.1:3306)/matrix?charset=utf8&parseTime=True&loc=Local&interpolateParams=True", true) // 推荐方式
+	orm := mysqldb.OnInitDBOrm("root:123456@tcp(127.0.0.1:3306)/matrix?charset=utf8&parseTime=True&loc=Local&interpolateParams=True", 5, 20, true) // 推荐方式
 	defer orm.OnDestoryDB()
 	db := orm.DB
 
