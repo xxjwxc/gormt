@@ -9,7 +9,7 @@ require (
 	github.com/nicksnyder/go-i18n/v2 v2.0.3
 	github.com/spf13/cobra v1.1.3
 	github.com/xxjwxc/public v0.0.0-20250718034244-ce9ce4f572ac
-	golang.org/x/text v0.29.0
+	golang.org/x/text v0.31.0
 	gopkg.in/go-playground/validator.v9 v9.30.2
 	gopkg.in/yaml.v3 v3.0.1
 	gorm.io/driver/mysql v1.0.1
@@ -55,8 +55,8 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
-	golang.org/x/crypto v0.42.0 // indirect
-	golang.org/x/sys v0.36.0 // indirect
+	golang.org/x/crypto v0.45.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 )
