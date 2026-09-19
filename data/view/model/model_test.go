@@ -9,6 +9,17 @@ import (
 
 func TestTypeName(t *testing.T) {
 	fmt.Println(getTypeName("tinyint", true))
+
+	cases := map[string]string{
+		"double unsigned zerofill":     "float64",
+		"bigint(20) unsigned zerofill": "uint64",
+		"decimal(10,2) zerofill":       "float64",
+	}
+	for in, want := range cases {
+		if got := getTypeName(in, false); got != want {
+			t.Errorf("getTypeName(%q) = %q, want %q", in, got, want)
+		}
+	}
 }
 
 func TestTools(t *testing.T) {

@@ -76,6 +76,7 @@ func FilterKeywords(src string) string {
 
 // getTypeName Type acquisition filtering.类型获取过滤
 func getTypeName(name string, isNull bool) string {
+	name = strings.TrimSuffix(name, " zerofill")
 	// 优先匹配自定义类型
 	selfDefineTypeMqlDicMap := config.GetSelfTypeDefine()
 	if v, ok := selfDefineTypeMqlDicMap[name]; ok {
